@@ -3,8 +3,8 @@ import Modal from "@/components/Modal";
 import { ALPHABETS_EXTENDED } from "@/data";
 
 export default function CharModal({ params: { char } }: { params: { char: string } }) {
-	const requestedChar = decodeURIComponent(char).toUpperCase()
-	const charData = ALPHABETS_EXTENDED.find(letter => letter.char.toUpperCase() === requestedChar)
+	const requestedChar = decodeURIComponent(char)
+	const charData = ALPHABETS_EXTENDED.find(letter => letter.char === requestedChar)
 
 	if (!charData) {
 		throw new Error(`Char ${char} does not exist`)
