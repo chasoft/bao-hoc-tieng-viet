@@ -1,12 +1,13 @@
 "user client"
 
-import { ALPHABET_CHAR_VALUE } from "@/data"
+import { TChar } from "@/data"
 
 type CharProps = {
-	value: ALPHABET_CHAR_VALUE
+	value: TChar
 }
 
 export default function Char({ value: { char, reading } }: CharProps) {
+	const hasReading = char !== reading
 	return (
 		<div className="aspect-square">
 			<div className="grid p-8 text-center transition-all border-8 border-black cursor-pointer lg:p-12 aspect-square hover:border-orange-800 lg:border-4 rounded-3xl hover:bg-orange-300 bg-slate-300">
@@ -15,7 +16,7 @@ export default function Char({ value: { char, reading } }: CharProps) {
 				</div>
 				<div className="flex items-end text-2xl leading-normal md:text-3xl lg:text-4xl">
 					<div className="font-semibold text-orange-900">{char}</div>
-					<div className="ml-auto">{reading}</div>
+					<div className="ml-auto">{hasReading ? reading : ""}</div>
 				</div>
 			</div>
 		</div>

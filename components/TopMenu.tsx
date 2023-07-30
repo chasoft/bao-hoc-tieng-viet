@@ -7,7 +7,7 @@ export default function TopMenu() {
 	const pathname = usePathname()
 	return (
 		<nav className="flex p-4">
-			{pathname === "/" && <div className="flex gap-6">
+			{pathname !== "/" && <div className="flex gap-6">
 				<Link href="/" className="hover:text-blue-500">Home</Link>
 				<Link href="/alphabets" className="hover:text-blue-500">Alphabets</Link>
 				<Link href="/consonants" className="hover:text-blue-500">Consonants</Link>
