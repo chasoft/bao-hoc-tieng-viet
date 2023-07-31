@@ -6,7 +6,7 @@ export default function ConsonantsLayout({
 	modal: React.ReactNode
 }) {
 	return (
-		<div className="w-full">
+		<div>
 			{children}
 			{modal}
 		</div>

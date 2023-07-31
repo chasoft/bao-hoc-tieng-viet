@@ -28,8 +28,8 @@ export const COMPOUND_VOWELS: Array<TChar> = [
 	{ char: "th", reading: "thờ" },
 	{ char: "ph", reading: "pờ" },
 	{ char: "gh", reading: "gờ" },
-	{ char: "ng", reading: "ngờ (đơn)" },
-	{ char: "ngh", reading: "ngờ (ghép)" },
+	{ char: "ng", reading: "ngờ đơn" },
+	{ char: "ngh", reading: "ngờ ghép" },
 	{ char: "tr", reading: "trờ" },
 	{ char: "gi", reading: "gờ" }
 ]
@@ -91,6 +91,7 @@ export const ALPHABETS_EXTENDED: Array<TChar> = [
 	...ALPHABETS,
 	...COMPOUND_VOWELS,
 	...CONSONANTS.map((vowel) => ({ char: vowel, reading: vowel })),
+	...COMPOUND_CONSONANTS.map((vowel) => ({ char: vowel, reading: vowel })),
 ]
 
 export type TMarkData = { char: TMark, reading: string }
@@ -111,5 +112,7 @@ export const WORDS: Array<TWord> = [
 	{ text: "khế", desc: "" },
 	{ text: "tủ", desc: "" },
 	{ text: "thỏ", desc: "" },
+	{ text: "nhà", desc: "" },
+	{ text: "nhà", desc: "" },
 	{ text: "nhà", desc: "" },
 ]
