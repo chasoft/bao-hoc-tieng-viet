@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from 'next/navigation'
+import { IconMenu, IconSettings } from "./Icons";
 
 function PcMenu() {
 	return (
@@ -18,7 +19,11 @@ function PcMenu() {
 function MobileMenu() {
 	return (
 		<div className="flex gap-6 border-2 md:hidden bg-slate-300">
-			MOBI
+			<button
+				className="block px-2 text-black bg-transparent border-0 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square"
+			>
+				<IconMenu className="w-7 h-7" />
+			</button>
 		</div>
 	)
 }
@@ -29,7 +34,11 @@ export default function TopMenu() {
 		<nav className="fixed top-0 left-0 right-0 flex p-4">
 			{pathname !== "/" && <><PcMenu /><MobileMenu /></>}
 			<div className="ml-auto">
-				Font
+				<button
+					className="block px-2 text-black bg-transparent border-0 hover:no-underline hover:text-orange-900 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square"
+				>
+					<IconSettings className="w-7 h-7" />
+				</button>
 			</div>
 		</nav>
 	)

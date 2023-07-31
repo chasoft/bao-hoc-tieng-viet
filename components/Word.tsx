@@ -21,7 +21,6 @@ const getSumLength = (arr: Array<string>): number =>
 
 export default function Word({ word }: WordProps) {
 	const [mod, setMod] = React.useState(Math.floor(Math.random() * 2));
-	// const [mod, setMod] = React.useState(0);
 	switch (mod) {
 		case 0:
 			const elements: Array<string> = []
