@@ -3,14 +3,16 @@
 import { TWord, WORDS } from "@/data";
 import React from "react";
 import Word from "./Word";
+import clsx from "clsx";
 
 const generateRandomWord = () => WORDS[Math.floor(Math.random() * WORDS.length)]
 
 type RandomWordProps = {
-	init: TWord
+	init: TWord,
+	className?: string
 }
 
-export default function RandomWord({ init }: RandomWordProps) {
+export default function RandomWord({ init, className }: RandomWordProps) {
 	const [randomWord, setRandomWord] = React.useState(init);
 
 	const newRandomWord = () => {
@@ -18,8 +20,8 @@ export default function RandomWord({ init }: RandomWordProps) {
 	}
 
 	return (
-		<div className="">
-			<div className="text-[20rem]">
+		<div className="mx-auto	">
+			<div className={clsx(className)}>
 				<Word word={randomWord.text} />
 			</div>
 			<button onClick={newRandomWord}>

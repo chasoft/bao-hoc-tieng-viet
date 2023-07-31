@@ -22,7 +22,7 @@ export default function RootLayout({ children, modal }: RootLayoutProps) {
     <html lang="en">
       <body className={inter.className}>
         <TopMenu />
-        <div className="flex flex-col items-center justify-between min-h-screen gap-6 p-24 px-3 lg:px-8">
+        <div className="flex flex-col items-center justify-between min-h-screen gap-6 p-24 px-3 mx-auto lg:px-8 max-w-7xl">
           {children}
           {modal}
         </div>
