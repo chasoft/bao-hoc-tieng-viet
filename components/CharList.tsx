@@ -13,14 +13,15 @@ export default function CharList({ list, hasCompoundChar }: CharListProps) {
 	return (
 		<>
 			{list.map((letter, index) => (
-				<Link key={letter.char} href={`/char/${letter.char}`} >
+				<Link prefetch key={letter.char} href={`/char/${letter.char}`}>
 					<Char
 						value={letter}
 						standaloneChar={false}
 						hasCompoundChar={hasCompoundChar}
 					/>
-				</Link>
-			))}
+				</Link >
+			))
+			}
 		</>
 	)
 }

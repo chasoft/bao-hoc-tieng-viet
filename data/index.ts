@@ -1,4 +1,4 @@
-type TMark = "´" | "`" | "ˀ" | "~" | ".";
+type TMark = "´" | "`" | "ˀ" | "~" | "."
 
 export const VOWELS = [
 	"b",
@@ -31,7 +31,8 @@ export const COMPOUND_VOWELS: Array<TChar> = [
 	{ char: "ng", reading: "ngờ đơn" },
 	{ char: "ngh", reading: "ngờ ghép" },
 	{ char: "tr", reading: "trờ" },
-	{ char: "gi", reading: "gờ" }
+	{ char: "gi", reading: "gờ" },
+	{ char: "qu", reading: "quờ" }
 ]
 
 export const CONSONANTS = [

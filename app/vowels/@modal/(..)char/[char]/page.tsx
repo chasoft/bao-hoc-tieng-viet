@@ -1,6 +1,6 @@
-import Char from "@/components/Char";
-import Modal from "@/components/Modal";
-import { ALPHABETS_EXTENDED } from "@/data";
+import Char from "@/components/Char"
+import Modal from "@/components/Modal"
+import { ALPHABETS_EXTENDED } from "@/data"
 
 export default function CharModal({ params: { char } }: { params: { char: string } }) {
 	const requestedChar = decodeURIComponent(char)

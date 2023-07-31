@@ -1,5 +1,5 @@
-import CharList from "@/components/CharList";
-import { COMPOUND_VOWELS } from "@/data";
+import CharList from "@/components/CharList"
+import { COMPOUND_VOWELS } from "@/data"
 
 export default function VowelsPage() {
 	return (

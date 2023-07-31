@@ -2,7 +2,6 @@ import TopMenu from '@/components/TopMenu'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,7 +16,6 @@ type RootLayoutProps = {
 }
 
 export default function RootLayout({ children, modal }: RootLayoutProps) {
-  const isHome = false;
   return (
     <html lang="en">
       <body className={inter.className}>

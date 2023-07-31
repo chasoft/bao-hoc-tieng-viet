@@ -1,5 +1,5 @@
-import CharList from "@/components/CharList";
-import { COMPOUND_CONSONANTS } from "@/data";
+import CharList from "@/components/CharList"
+import { COMPOUND_CONSONANTS } from "@/data"
 
 export default function ConsonantsPage() {
 	return (
