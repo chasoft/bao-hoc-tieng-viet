@@ -5,7 +5,7 @@ import clsx from "clsx"
 
 function StandaloneChar({ char }: { char: string }) {
 	return (
-		<div className="font-bold text-blue-900 text-[60vw] sm:text[50vw] md:text-[18rem] lg:text-[24rem] leading-none grid place-content-center">
+		<div className="font-bold text-blue-900 text-[35vw] sm:text[50vw] md:text-[18rem] lg:text-[24rem] leading-none grid place-content-center">
 			{char.toUpperCase()}
 		</div>
 	)
@@ -14,9 +14,9 @@ function StandaloneChar({ char }: { char: string }) {
 function GridItemChar({ char }: { char: string }) {
 	return (
 		<div className={clsx(
-			{ "text-[45vw]": char.length === 1 },
-			{ "text-[45vw]": char.length === 2 },
-			{ "text-[40vw]": char.length === 3 },
+			{ "text-[25vw]": char.length === 1 },
+			{ "text-[25vw]": char.length === 2 },
+			{ "text-[20vw]": char.length === 3 },
 			"sm:text-[28vw] md:text-[6.5rem] lg:text-[6rem] font-bold text-blue-900 w-full text-center overflow-hidden leading-none",
 			"grid place-content-center pb-6",
 			{ "col-span-2": char.length > 2 }
@@ -41,12 +41,12 @@ export default function Char({
 
 	const CharContent = (
 		<div className={clsx(
-			"relative grid p-1 text-center transition-all border-4 border-black cursor-pointer hover:border-orange-800 rounded-3xl hover:bg-orange-300 bg-slate-300 aspect-square"
+			"relative grid p-1 text-center transition-all border-2 sm:border-4 border-black cursor-pointer hover:border-orange-800 rounded-lg sm:rounded-3xl hover:bg-orange-300 bg-slate-300 aspect-square"
 		)}>
 			{standaloneChar
 				? <StandaloneChar char={char} />
 				: <GridItemChar char={char} />}
-			<div className="absolute bottom-0 left-0 right-0 flex items-end px-3 pb-3 text-2xl leading-normal md:px-6 lg:px-2 md:text-3xl">
+			<div className="absolute bottom-0 left-0 right-0 flex items-end px-3 pb-1 text-2xl leading-none sm:pb-3 md:px-6 lg:px-3 md:text-3xl">
 				<div className="font-semibold text-orange-900">
 					{char}
 				</div>
