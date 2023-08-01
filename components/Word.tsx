@@ -1,124 +1,125 @@
 "use client"
 
-import { COMPOUND_CONSONANTS, COMPOUND_VOWELS, CONSONANTS, VOWELS } from "@/data"
 import Link from "next/link"
 import React from "react"
+import clsx from "clsx"
+import { COMPOUND_VOWELS, WORD_COMPOSITION } from "@/data"
+import { TWordCase } from "@/types"
+import { caseFunctions, getStringArrayCharLength, randomRgbColor } from "@/utils"
+import { displaySettings } from "@/data/settings"
+import { useReadLocalStorage } from "usehooks-ts"
+import { TSupportFont, fonts } from "@/app/fonts"
 
 type WordProps = {
 	word: string
 }
 
-/**
- * mode 1: no highlighting
- * mode 2: highlighting compound vowels and consonants
- * mode 3: highlighting each character in the word
- */
+function Text({ value, caseIndex }: { value: string, caseIndex?: TWordCase }) {
+	const wordBold = useReadLocalStorage("wordBold") ?? displaySettings.wordBold
+	const wordItalic = useReadLocalStorage("wordItalic") ?? displaySettings.wordItalic
+	const selectedFont = useReadLocalStorage<TSupportFont>("selectedFont") ?? "inter";
 
-const random256 = () => Math.floor(Math.random() * 256)
-const randomRgbColor = () => `rgb(${random256()}, ${random256()}, ${random256()})`
-const getSumLength = (arr: Array<string>): number =>
-	arr.reduce((acc, cur) => acc + cur.length, 0)
+	return (
+		<span className={clsx(
+			{ "font-bold": wordBold },
+			{ "italic": wordItalic },
+			fonts[selectedFont].className
+		)}>
+			{caseIndex
+				? caseFunctions[caseIndex](value)
+				: value}
+		</span>
+	)
+}
+
+/**
+ * mode 0: highlighting compound vowels and consonants
+ * mode 1: highlighting each character in the word
+ * mode 2: no highlighting
+*/
+
+export const WORD_HIGHLIGHT = {
+	COMPOUND: 0,
+	CHAR: 1,
+	NONE: 2,
+}
+
+function extractCompoundChars(str: string): string[] {
+	const extractedCompoundChars: Array<string> = []
+
+	COMPOUND_VOWELS.map(({ char }) => char).every(i => {
+		if (str.startsWith(i)) {
+			extractedCompoundChars.push(i)
+			return false
+		}
+		return true
+	})
+
+	WORD_COMPOSITION.forEach((COMPOUND) => {
+		if (getStringArrayCharLength(extractedCompoundChars) >= str.length) return
+
+		COMPOUND.every(i => {
+			if (str.slice(getStringArrayCharLength(extractedCompoundChars)).startsWith(i)) {
+				extractedCompoundChars.push(i)
+				return false
+			}
+			return true
+		})
+	})
+
+	return extractedCompoundChars
+}
 
 export default function Word({ word }: WordProps) {
-	const [mod, setMod] = React.useState(Math.floor(Math.random() * 2))
-	switch (mod) {
-		case 0:
-			const elements: Array<string> = []
+	const [mode, setMode] = React.useState(Math.floor(Math.random() * 2))
+	const caseIndex = useReadLocalStorage<TWordCase>("wordCaseToolbarIcons") ?? "capitalize"
 
-			COMPOUND_VOWELS.map(({ char }) => char).every(i => {
-				if (word.startsWith(i)) {
-					elements.push(i)
-					return false
-				}
-				return true
-			})
+	if (mode === WORD_HIGHLIGHT.COMPOUND) {
+		return (
+			<div className="flex justify-center lg:pr-16">
+				{extractCompoundChars(word).map((el, idx) =>
+					<Link
+						prefetch
+						key={idx}
+						href={`/char/${el}`}
+						style={{ color: randomRgbColor() }}
+						className="hover:underline"
+					>
+						{caseIndex === "lowercase" && <Text value={el} caseIndex="lowercase" />}
+						{caseIndex === "uppercase" && <Text value={el} caseIndex="uppercase" />}
+						{caseIndex === "capitalize" && idx === 0 && <Text value={el} caseIndex="capitalize" />}
+						{caseIndex === "capitalize" && idx > 0 && <Text value={el} caseIndex="lowercase" />}
+					</Link>
+				)}
+			</div>
+		)
+	}
 
-			getSumLength(elements) < word.length &&
-				VOWELS.every(i => {
-					if (word.slice(getSumLength(elements)).startsWith(i)) {
-						elements.push(i)
-						return false
-					}
-					return true
-				})
+	if (mode === WORD_HIGHLIGHT.CHAR) {
+		return (
+			<div className="flex justify-center lg:pr-16">
+				{word.split("").map((letter, idx) =>
+					<Link
+						prefetch
+						key={idx}
+						href={`/char/${letter}`}
+						style={{ color: randomRgbColor() }}
+						className="hover:underline"
+					>
+						<Text value={letter} />
+					</Link>
+				)}
+			</div>
+		)
+	}
 
-			getSumLength(elements) < word.length &&
-				CONSONANTS.every(i => {
-					if (word.slice(getSumLength(elements)).startsWith(i)) {
-						elements.push(i)
-						return false
-					}
-					return true
-				})
-
-			getSumLength(elements) < word.length &&
-				COMPOUND_CONSONANTS.every(i => {
-					if (word.slice(getSumLength(elements)).startsWith(i)) {
-						elements.push(i)
-						return false
-					}
-					return true
-				})
-
-			getSumLength(elements) < word.length &&
-				CONSONANTS.every(i => {
-					if (word.slice(getSumLength(elements)).startsWith(i)) {
-						elements.push(i)
-						return false
-					}
-					return true
-				})
-
-			getSumLength(elements) < word.length &&
-				COMPOUND_VOWELS.map(({ char }) => char).every(i => {
-					if (word.slice(getSumLength(elements)).startsWith(i)) {
-						elements.push(i)
-						return false
-					}
-					return true
-				})
-
-			getSumLength(elements) < word.length &&
-				VOWELS.every(i => {
-					if (word.slice(getSumLength(elements)).startsWith(i)) {
-						elements.push(i)
-						return false
-					}
-					return true
-				})
-
-			return (
-				<div className="flex justify-center">
-					{elements.map((el, idx) =>
-						<Link
-							prefetch
-							key={idx}
-							href={`/char/${el}`}
-							style={{ color: randomRgbColor() }}
-							className="leading-none hover:underline"
-						>
-							{el}
-						</Link>
-					)}
-				</div>
-			)
-		case 1:
-			return (
-				<div className="flex justify-center">
-					{word.split("").map((char, idx) =>
-						<Link
-							prefetch
-							key={idx}
-							href={`/char/${char}`}
-							style={{ color: randomRgbColor() }}
-							className="leading-none hover:underline"
-						>
-							{char}
-						</Link>
-					)}
-				</div>
-			)
-		default:
-			return <div><span>{word}</span></div>
+	if (mode === WORD_HIGHLIGHT.NONE) {
+		return (
+			<div>
+				<span style={{ color: randomRgbColor() }}>
+					<Text value={word} />
+				</span>
+			</div>
+		)
 	}
 }

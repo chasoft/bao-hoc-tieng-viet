@@ -1,13 +1,12 @@
 import Char from "@/components/Char"
 import Modal from "@/components/Modal"
-import { ALPHABETS_EXTENDED } from "@/data"
+import { findCharData } from "@/utils"
 
 export default function CharModal({ params: { char } }: { params: { char: string } }) {
-	const requestedChar = decodeURIComponent(char)
-	const charData = ALPHABETS_EXTENDED.find(letter => letter.char === requestedChar)
+	const charData = findCharData(char)
 
 	if (!charData) {
-		throw new Error(`Char ${char} does not exist`)
+		throw new Error(`Char ${decodeURIComponent(char)} does not exist`)
 	}
 
 	return (

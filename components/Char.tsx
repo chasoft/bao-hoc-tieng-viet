@@ -6,6 +6,8 @@ import { TChar } from "@/data"
 import { TWordCase } from "@/types"
 import { caseFunctions, swapCaseFunctions } from "@/utils"
 import { useReadLocalStorage } from "usehooks-ts"
+import { displaySettings } from "@/data/settings"
+import { TSupportFont, fonts } from "@/app/fonts"
 
 function StandaloneChar({ char }: { char: string }) {
 	return (
@@ -16,12 +18,17 @@ function StandaloneChar({ char }: { char: string }) {
 }
 
 function GridItemChar({ char }: { char: string }) {
+	const wordBold = useReadLocalStorage("wordBold") ?? displaySettings.wordBold
+	const wordItalic = useReadLocalStorage("wordItalic") ?? displaySettings.wordItalic
 	return (
 		<div className={clsx(
 			{ "text-[25vw] sm:text-[28vw] ": char.length === 1 },
 			{ "text-[25vw] sm:text-[28vw] ": char.length === 2 },
 			{ "text-[20vw] sm:text-[20vw] ": char.length === 3 },
-			"md:text-[6.5rem] lg:text-[6rem] font-bold text-blue-900 w-full text-center overflow-hidden leading-none",
+			{ "text-[20vw] sm:text-[20vw] ": char.length === 3 },
+			{ "font-bold": wordBold },
+			{ "italic": wordItalic },
+			"md:text-[6.5rem] lg:text-[6rem] text-blue-900 w-full text-center overflow-hidden leading-none",
 			"grid place-content-center pb-6",
 			{ "col-span-2": char.length > 2 }
 		)}>
@@ -45,11 +52,13 @@ export default function Char({
 	const formattedChar = caseFunctions[caseIndex](char)
 	const swapFormattedSChar = swapCaseFunctions[caseIndex](char)
 	const hasReading = char !== reading
+	const selectedFont = useReadLocalStorage<TSupportFont>("selectedFont") ?? "inter";
 
 	// TODO: làm hiệu ứng cho chữ cái, on-hover
 	const CharContent = (
 		<div className={clsx(
-			"relative grid p-1 text-center transition-all border-2 border-black cursor-pointer hover:border-orange-800 rounded-lg sm:rounded-3xl hover:bg-orange-300 bg-slate-300 aspect-square"
+			"relative grid p-1 text-center transition-all border-2 border-black cursor-pointer hover:border-orange-800 rounded-lg sm:rounded-3xl hover:bg-orange-300 bg-slate-300 aspect-square",
+			fonts[selectedFont].className
 		)}>
 			{standaloneChar
 				? <StandaloneChar char={formattedChar} />

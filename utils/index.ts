@@ -27,3 +27,8 @@ export const swapCaseFunctions: Record<TWordCase, Function> = {
 	"lowercase": (str: string) => str.toUpperCase(),
 	"capitalize": (str: string) => str.toLowerCase(),
 }
+
+export const random256 = () => Math.floor(Math.random() * 256)
+export const randomRgbColor = () => `rgb(${random256()}, ${random256()}, ${random256()})`
+export const getStringArrayCharLength = (arr: Array<string>): number =>
+	arr.reduce((acc, cur) => acc + cur.length, 0)

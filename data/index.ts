@@ -95,6 +95,15 @@ export const ALPHABETS_EXTENDED: Array<TChar> = [
 	...COMPOUND_CONSONANTS.map((vowel) => ({ char: vowel, reading: vowel })),
 ]
 
+export const WORD_COMPOSITION = [
+	VOWELS,
+	CONSONANTS,
+	COMPOUND_CONSONANTS,
+	CONSONANTS,
+	COMPOUND_VOWELS.map(({ char }) => char),
+	VOWELS
+]
+
 export type TMarkData = { char: TMark, reading: string }
 
 export const MARKS: Array<TMarkData> = [

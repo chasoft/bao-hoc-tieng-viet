@@ -22,7 +22,7 @@ export default function RandomWord({ init, className }: RandomWordProps) {
 	// TODO: Count down to auto generate word.
 
 	return (
-		<div className="mx-auto">
+		<div className="mx-auto bg-red-200">
 			<div className={clsx(className)}>
 				<Word word={randomWord.text} />
 			</div>

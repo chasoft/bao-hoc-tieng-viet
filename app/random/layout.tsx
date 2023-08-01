@@ -1,14 +1,17 @@
 export default function RandomLayout({
 	children,
-	modal,
+	details,
+	settings,
 }: {
 	children: React.ReactNode
-	modal: React.ReactNode
+	details: React.ReactNode
+	settings: React.ReactNode
 }) {
 	return (
 		<div className="w-full">
 			{children}
-			{modal}
+			{details}
+			{settings}
 		</div>
 	)
 }
