@@ -18,14 +18,14 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children, settings, modal }: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <body className={inter.className}>
         <div className="drawer">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content">
+          <div className="bg-red-300 drawer-content">
             {/* Content of the Site goes here */}
             <TopMenu />
-            <div className="flex flex-col items-center justify-between min-h-screen gap-6 p-24 px-3 mx-auto lg:px-8 max-w-7xl">
+            <div className="flex flex-col items-center justify-between min-h-screen">
               {children}
               {settings}
               {modal}

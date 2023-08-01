@@ -8,7 +8,7 @@ export default function RandomLayout({
 	settings: React.ReactNode
 }) {
 	return (
-		<div className="w-full">
+		<div className="w-full py-28">
 			{children}
 			{details}
 			{settings}

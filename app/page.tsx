@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="grid gap-6 px-3 place-content-center lg:px-8">
+    <main className="grid place-content-center">
       <HomeGrid />
     </main>
   )

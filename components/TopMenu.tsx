@@ -10,10 +10,10 @@ import Link from "next/link"
 import React from "react"
 import { fonts } from "@/app/fonts"
 
-const wordCaseToolbarIcons: Record<TWordCase, any> = {
-	"lowercase": <IconLetterCaseLowercase className="w-7 h-7" />,
-	"uppercase": <IconLetterCaseUppercase className="w-7 h-7" />,
-	"capitalize": <IconLetterCaseCapitalize className="w-7 h-7" />,
+const wordCaseToolbarIcons: Record<TWordCase, { icon: any, tooltip: string }> = {
+	"lowercase": { icon: <IconLetterCaseLowercase className="w-7 h-7" />, tooltip: "chữ thường" },
+	"uppercase": { icon: <IconLetterCaseUppercase className="w-7 h-7" />, tooltip: "CHỮ HOA" },
+	"capitalize": { icon: <IconLetterCaseCapitalize className="w-7 h-7" />, tooltip: "Viết Hoa Đầu Chữ" },
 }
 
 /**
@@ -21,29 +21,30 @@ const wordCaseToolbarIcons: Record<TWordCase, any> = {
  * Like Radio Components
  */
 function WordCaseButtons() {
-	//BUG: caseIndex not reflected the local storage value
 	const [caseIndex, setCaseIndex] = useLocalStorage<TWordCase>("wordCaseToolbarIcons", "uppercase");
+	const pathname = usePathname();
 	return (
-		<div className="flex items-center">
+		<div className="flex items-center border-r-[1px] border-gray-200">
 			{Object.entries(wordCaseToolbarIcons).map(([key, icon]) => (
 				<div
 					key={key}
 					className={clsx(
 						"cursor-pointer p-2 sm:p-4 aspect-square hover:text-blue-800 hover:bg-blue-200 active:bg-blue-100",
-						{ "bg-blue-100": caseIndex == key }
+						{ "bg-blue-100": caseIndex == key },
+						{ "hidden": key === "capitalize" && pathname !== urls.random.url }
 					)}
 					onClick={() => setCaseIndex(key as TWordCase)}
 				>
-					{icon}
+					{icon.icon}
 				</div>
 			))}
 		</div>
 	)
 }
 
-const wordStyleToolbarIcons: Record<string, any> = {
-	"B": <IconBold className="w-7 h-7" />,
-	"I": <IconItalic className="w-7 h-7" />,
+const wordStyleToolbarIcons: Record<string, { icon: any, tooltip: string }> = {
+	"B": { icon: <IconBold className="w-7 h-7" />, tooltip: "In đậm" },
+	"I": { icon: <IconItalic className="w-7 h-7" />, tooltip: "In nghiêng" },
 }
 
 /**
@@ -54,28 +55,23 @@ function WordStyleButtons() {
 	const [wordBold, setWordBold] = useLocalStorage<boolean>("wordBold", displaySettings.wordBold);
 	const [wordItalic, setWordItalic] = useLocalStorage<boolean>("wordItalic", displaySettings.wordItalic);
 
-	const wordStyleValue: Record<string, any> = {
-		"B": wordBold,
-		"I": wordItalic
-	}
-
-	const wordStyleAction: Record<string, any> = {
-		"B": () => setWordBold(v => !v),
-		"I": () => setWordItalic(v => !v)
+	const wordStyleState: Record<string, { value: boolean, action: Function }> = {
+		"B": { value: wordBold, action: () => setWordBold(v => !v) },
+		"I": { value: wordItalic, action: () => setWordItalic(v => !v) },
 	}
 
 	return (
-		<div className="flex items-center">
-			{Object.entries(wordStyleToolbarIcons).map(([key, icon]) => (
+		<div className="flex items-center border-r-[1px] border-gray-200">
+			{Object.entries(wordStyleToolbarIcons).map(([key, btnData]) => (
 				<div
 					key={key}
 					className={clsx(
 						"cursor-pointer p-2 sm:p-4 aspect-square hover:text-blue-800 hover:bg-blue-200 active:bg-slate-400",
-						{ "bg-slate-400": wordStyleValue[key] }
+						{ "bg-slate-400": wordStyleState[key].value }
 					)}
-					onClick={() => { wordStyleAction[key]() }}
+					onClick={() => { wordStyleState[key].action() }}
 				>
-					{icon}
+					{btnData.icon}
 				</div>
 			))}
 		</div>
@@ -133,7 +129,7 @@ function FontButton() {
 					))}
 				</ul>
 			</div>
-		</div >
+		</div>
 	)
 }
 
@@ -145,7 +141,7 @@ function MenuButton() {
 	return (
 		<label
 			htmlFor="my-drawer"
-			className="grid px-2 text-black bg-transparent border-0 cursor-pointer place-content-center sm:px-4 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100"
+			className="grid px-2 text-black bg-transparent border-0 border-r-2 border-black cursor-pointer place-content-center sm:px-4 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100"
 		>
 			<IconMenu className="w-7 h-7" />
 		</label>
@@ -168,7 +164,7 @@ function SettingsButton() {
 
 export default function TopMenu() {
 	return (
-		<nav className="fixed top-0 left-0 right-0 z-10 flex items-center bg-white border-b-2 border-black">
+		<nav className="fixed top-0 left-0 right-0 z-10 flex items-center overflow-hidden bg-white border-b-2 border-black">
 			<MenuButton />
 			<Toolbar />
 			<div className="ml-auto">

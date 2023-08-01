@@ -29,7 +29,12 @@ export const urls = {
 	random: {
 		url: "/random",
 		desc: "",
-		title: "Đọc chữ ngẫu nhiên"
+		title: "Chữ ngẫu nhiên"
+	},
+	stories: {
+		url: "/stories",
+		desc: "",
+		title: "Truyện ngắn"
 	},
 }
 
@@ -60,4 +65,9 @@ export const fontsList: Array<{ family: TSupportFont, name: string}> = [
 	{ family: "pacifico" , name: "Pacifico"},
    { family: "varela_round", name: "Varela Round" },
    { family: "ysabeau" , name: "Ysabeau"},
+   { family: "space_grotesk" , name: "Space Grotesk"},
+   { family: "great_vibes" , name: "Great Vibes"},
+   { family: "alegreya_Sans_SC" , name: "Alegreya Sans SC"},
+   { family: "patrick_Hand" , name: "Patrick Hand"},
+   { family: "mynerve" , name: "Mynerve"},
 ]

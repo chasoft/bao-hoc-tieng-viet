@@ -3,16 +3,12 @@
 import Link from "next/link"
 import React from "react"
 import clsx from "clsx"
-import { COMPOUND_VOWELS, WORD_COMPOSITION } from "@/data"
-import { TWordCase } from "@/types"
 import { caseFunctions, getStringArrayCharLength, randomRgbColor } from "@/utils"
+import { COMPOUND_VOWELS, WORD_COMPOSITION } from "@/data"
 import { displaySettings } from "@/data/settings"
-import { useReadLocalStorage } from "usehooks-ts"
 import { TSupportFont, fonts } from "@/app/fonts"
-
-type WordProps = {
-	word: string
-}
+import { TWordCase } from "@/types"
+import { useReadLocalStorage } from "usehooks-ts"
 
 function Text({ value, caseIndex }: { value: string, caseIndex?: TWordCase }) {
 	const wordBold = useReadLocalStorage("wordBold") ?? displaySettings.wordBold
@@ -21,9 +17,12 @@ function Text({ value, caseIndex }: { value: string, caseIndex?: TWordCase }) {
 
 	return (
 		<span className={clsx(
+			"whitespace-break-spaces",
 			{ "font-bold": wordBold },
 			{ "italic": wordItalic },
-			fonts[selectedFont].className
+			fonts[selectedFont].className,
+			"drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,1)]",
+			"lg:drop-shadow-[0_2.5px_2.5px_rgba(0,0,0,1)]",
 		)}>
 			{caseIndex
 				? caseFunctions[caseIndex](value)
@@ -37,7 +36,6 @@ function Text({ value, caseIndex }: { value: string, caseIndex?: TWordCase }) {
  * mode 1: highlighting each character in the word
  * mode 2: no highlighting
 */
-
 export const WORD_HIGHLIGHT = {
 	COMPOUND: 0,
 	CHAR: 1,
@@ -70,13 +68,17 @@ function extractCompoundChars(str: string): string[] {
 	return extractedCompoundChars
 }
 
+type WordProps = {
+	word: string
+}
+
 export default function Word({ word }: WordProps) {
 	const [mode, setMode] = React.useState(Math.floor(Math.random() * 2))
 	const caseIndex = useReadLocalStorage<TWordCase>("wordCaseToolbarIcons") ?? "capitalize"
 
 	if (mode === WORD_HIGHLIGHT.COMPOUND) {
 		return (
-			<div className="flex justify-center lg:pr-16">
+			<div className="flex justify-center">
 				{extractCompoundChars(word).map((el, idx) =>
 					<Link
 						prefetch
@@ -97,7 +99,7 @@ export default function Word({ word }: WordProps) {
 
 	if (mode === WORD_HIGHLIGHT.CHAR) {
 		return (
-			<div className="flex justify-center lg:pr-16">
+			<div className="flex justify-center">
 				{word.split("").map((letter, idx) =>
 					<Link
 						prefetch

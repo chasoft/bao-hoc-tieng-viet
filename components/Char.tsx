@@ -11,7 +11,7 @@ import { TSupportFont, fonts } from "@/app/fonts"
 
 function StandaloneChar({ char }: { char: string }) {
 	return (
-		<div className="font-bold text-blue-900 text-[35vw] sm:text[50vw] md:text-[18rem] lg:text-[24rem] leading-none grid place-content-center">
+		<div className="font-bold text-blue-900 text-[35vw] sm:text[50vw] md:text-[18rem] lg:text-[24rem]   leading-none grid place-content-center xl:text-[22rem] drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,1)]">
 			{char}
 		</div>
 	)
@@ -30,7 +30,8 @@ function GridItemChar({ char }: { char: string }) {
 			{ "italic": wordItalic },
 			"md:text-[6.5rem] lg:text-[6rem] text-blue-900 w-full text-center overflow-hidden leading-none",
 			"grid place-content-center pb-6",
-			{ "col-span-2": char.length > 2 }
+			{ "col-span-2": char.length > 2 },
+			"drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,1)]"
 		)}>
 			{char}
 		</div>
@@ -68,12 +69,12 @@ export default function Char({
 				{ "text-4xl sm:text-5xl md:text-6xl lg:text-8xl": standaloneChar },
 				{ "text-2xl md:text-3xl": !standaloneChar }
 			)}>
-				<div className="font-semibold text-orange-900">
+				<div className="font-semibold text-orange-900 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
 					{swapFormattedSChar}
 				</div>
 				<div className={clsx(
 					"ml-auto",
-					{ "md:text-4xl": reading.length > 5 }
+					{ "md:text-3xl": reading.length > 5 }
 				)}>
 					{hasReading ? reading : ""}
 				</div>

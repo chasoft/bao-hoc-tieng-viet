@@ -8,7 +8,7 @@ export default function VowelsLayout({
 	settings: React.ReactNode
 }) {
 	return (
-		<div className="w-full">
+		<div className="w-full py-28 max-w-7xl">
 			{children}
 			{details}
 			{settings}

@@ -117,12 +117,12 @@ export const MARKS: Array<TMarkData> = [
 export type TWord = { text: string, desc: string }
 
 export const WORDS: Array<TWord> = [
-	{ text: "châu", desc: "" },
-	{ text: "khó", desc: "" },
-	{ text: "khế", desc: "" },
-	{ text: "tủ", desc: "" },
-	{ text: "thỏ", desc: "" },
-	{ text: "nhà", desc: "" },
-	{ text: "nhà", desc: "" },
-	{ text: "nhà", desc: "" },
+	// { text: "châu", desc: "" },
+	// { text: "khó", desc: "" },
+	// { text: "khế", desc: "" },
+	// { text: "tủ", desc: "" },
+	// { text: "thỏ", desc: "" },
+	{ text: "thăng chức", desc: "" },
+	{ text: "khó khăn", desc: "" },
+	{ text: "thắng cảnh", desc: "" },
 ]
