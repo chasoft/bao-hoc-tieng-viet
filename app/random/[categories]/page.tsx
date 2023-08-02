@@ -15,7 +15,7 @@ export default function RandomCategoryPage({ params: { categories } }: { params:
 	const validCategories = validCategoryFilter(requestCategories)
 
 	if (validCategories.length === 0) {
-		throw new Error(`All requested categories "${requestCategories.toString()}" not existed.`)
+		throw new Error(`Tất cả chủ đề "${requestCategories.toString()}" đều không tồn tại.`)
 	}
 
 	return (

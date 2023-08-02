@@ -9,8 +9,8 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main className="grid place-content-center">
+    <div className="max-w-6xl px-6 py-16 mx-auto sm:py-24 md:py-28 md:px-20">
       <HomeGrid />
-    </main>
+    </div>
   )
 }

@@ -42,8 +42,12 @@ export const getWordCategoryList = (data: TWordDataItem[]): TWordCategory[] => {
 	return []
 }
 
-export const validCategoryFilter = (rawCategories: string[]): TWordCategory[] => {
-	// TODO: >>> WORD_CATEGORY
-	return rawCategories as TWordCategory[] 
-}
+export const validCategoryFilter = (rawCategories: string[]): TWordCategory[] => 
+	(rawCategories as TWordCategory[]).reduce<TWordCategory[]>((validCats, cat) => {
+		if (WORD_CATEGORY[cat as TWordCategory]) {
+			validCats.push(cat)
+		}
+		return validCats
+	}, [])
+
 
