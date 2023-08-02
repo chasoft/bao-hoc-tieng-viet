@@ -5,7 +5,7 @@ import React from "react"
 import clsx from "clsx"
 import { caseFunctions, getStringArrayCharLength, randomRgbColor } from "@/utils"
 import { COMPOUND_VOWELS, WORD_COMPOSITION } from "@/data"
-import { displaySettings } from "@/data/settings"
+import { DEFAULT_SETTINGS, displaySettings } from "@/data/settings"
 import { TSupportFont, fonts } from "@/app/fonts"
 import { TWordCase } from "@/types"
 import { useReadLocalStorage } from "usehooks-ts"
@@ -13,7 +13,7 @@ import { useReadLocalStorage } from "usehooks-ts"
 function Text({ value, caseIndex }: { value: string, caseIndex?: TWordCase }) {
 	const wordBold = useReadLocalStorage("wordBold") ?? displaySettings.wordBold
 	const wordItalic = useReadLocalStorage("wordItalic") ?? displaySettings.wordItalic
-	const selectedFont = useReadLocalStorage<TSupportFont>("selectedFont") ?? "inter";
+	const selectedFont = useReadLocalStorage<TSupportFont>("selectedFont") ?? DEFAULT_SETTINGS.fontFamily
 
 	return (
 		<span className={clsx(
@@ -70,13 +70,17 @@ function extractCompoundChars(str: string): string[] {
 
 type WordProps = {
 	word: string
+	updateElementCounts: (n: number) => void
+	currentIndex: number,
 }
 
-export default function Word({ word }: WordProps) {
+export default function Word({ word, updateElementCounts, currentIndex }: WordProps) {
 	const [mode, setMode] = React.useState(Math.floor(Math.random() * 2))
 	const caseIndex = useReadLocalStorage<TWordCase>("wordCaseToolbarIcons") ?? "capitalize"
 
 	if (mode === WORD_HIGHLIGHT.COMPOUND) {
+		const els = extractCompoundChars(word)
+		updateElementCounts(els.length)
 		return (
 			<div className="flex justify-center">
 				{extractCompoundChars(word).map((el, idx) =>
@@ -85,7 +89,10 @@ export default function Word({ word }: WordProps) {
 						key={idx}
 						href={`/char/${el}`}
 						style={{ color: randomRgbColor() }}
-						className="hover:underline"
+						className={clsx(
+							"hover:underline",
+							{ "underline": currentIndex === idx },
+						)}
 					>
 						{caseIndex === "lowercase" && <Text value={el} caseIndex="lowercase" />}
 						{caseIndex === "uppercase" && <Text value={el} caseIndex="uppercase" />}

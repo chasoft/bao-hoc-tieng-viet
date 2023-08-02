@@ -1,14 +1,14 @@
 "use client"
 
-import { IconBold, IconFontFamily, IconItalic, IconLetterCaseCapitalize, IconLetterCaseLowercase, IconLetterCaseUppercase, IconMenu, IconSettings } from "./Icons"
-import { displaySettings, fontsList, urls } from "@/data/settings"
-import { TWordCase } from "@/types"
-import { useLocalStorage } from "usehooks-ts"
-import { usePathname } from "next/navigation"
+import React from "react"
 import clsx from "clsx"
 import Link from "next/link"
-import React from "react"
+import { useLocalStorage } from "usehooks-ts"
+import { usePathname } from "next/navigation"
+import { DEFAULT_SETTINGS, displaySettings, fontsList, urls } from "@/data/settings"
 import { fonts } from "@/app/fonts"
+import { IconBold, IconFontFamily, IconItalic, IconLetterCaseCapitalize, IconLetterCaseLowercase, IconLetterCaseUppercase, IconMenu, IconSettings } from "./Icons"
+import { TWordCase } from "@/types"
 
 const wordCaseToolbarIcons: Record<TWordCase, { icon: any, tooltip: string }> = {
 	"lowercase": { icon: <IconLetterCaseLowercase className="w-7 h-7" />, tooltip: "chữ thường" },
@@ -29,9 +29,9 @@ function WordCaseButtons() {
 				<div
 					key={key}
 					className={clsx(
-						"cursor-pointer p-2 sm:p-4 aspect-square hover:text-blue-800 hover:bg-blue-200 active:bg-blue-100",
+						"grid place-content-center cursor-pointer h-12 sm:h-16 aspect-square hover:text-blue-800 hover:bg-blue-200 active:bg-blue-100",
 						{ "bg-blue-100": caseIndex == key },
-						{ "hidden": key === "capitalize" && pathname !== urls.random.url }
+						{ "hidden": key === "capitalize" && !pathname.startsWith(urls.random.url) }
 					)}
 					onClick={() => setCaseIndex(key as TWordCase)}
 				>
@@ -43,8 +43,8 @@ function WordCaseButtons() {
 }
 
 const wordStyleToolbarIcons: Record<string, { icon: any, tooltip: string }> = {
-	"B": { icon: <IconBold className="w-7 h-7" />, tooltip: "In đậm" },
-	"I": { icon: <IconItalic className="w-7 h-7" />, tooltip: "In nghiêng" },
+	"B": { icon: <IconBold className="w-5 h-5" />, tooltip: "In đậm" },
+	"I": { icon: <IconItalic className="w-5 h-5" />, tooltip: "In nghiêng" },
 }
 
 /**
@@ -66,7 +66,7 @@ function WordStyleButtons() {
 				<div
 					key={key}
 					className={clsx(
-						"cursor-pointer p-2 sm:p-4 aspect-square hover:text-blue-800 hover:bg-blue-200 active:bg-slate-400",
+						"grid place-content-center cursor-pointer h-12 sm:h-16 aspect-square hover:text-blue-800 hover:bg-blue-200 active:bg-slate-400",
 						{ "bg-slate-400": wordStyleState[key].value }
 					)}
 					onClick={() => { wordStyleState[key].action() }}
@@ -93,14 +93,16 @@ function Toolbar() {
 }
 
 function FontButton() {
-	const [selectedFont, setSelectedFontsetOpen] = useLocalStorage("selectedFont", "inter");
+	const [selectedFont, setSelectedFontsetOpen] = useLocalStorage(
+		"selectedFont", DEFAULT_SETTINGS.fontFamily
+	);
 	return (
 		<div className="dropdown dropdown-end">
 			<label tabIndex={0}>
 				<button
 					title="Quick Font Family selector"
 					type="button"
-					className="block px-2 text-black bg-transparent border-0 sm:px-4 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100"
+					className="grid h-12 text-black bg-transparent border-0 place-content-center sm:h-16 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100"
 				>
 					<IconFontFamily className="w-7 h-7" />
 				</button>
@@ -141,7 +143,7 @@ function MenuButton() {
 	return (
 		<label
 			htmlFor="my-drawer"
-			className="grid px-2 text-black bg-transparent border-0 border-r-2 border-black cursor-pointer place-content-center sm:px-4 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100"
+			className="grid h-12 text-black bg-transparent border-0 border-r-2 border-black cursor-pointer place-content-center sm:h-16 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100"
 		>
 			<IconMenu className="w-7 h-7" />
 		</label>
@@ -154,7 +156,7 @@ function SettingsButton() {
 			<button
 				title="Settings"
 				type="button"
-				className="block px-2 text-black bg-transparent border-0 sm:px-4 hover:no-underline hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100"
+				className="block h-12 text-black bg-transparent border-0 sm:h-16 sm:px-4 hover:no-underline hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100"
 			>
 				<IconSettings className="w-7 h-7" />
 			</button>
@@ -164,7 +166,7 @@ function SettingsButton() {
 
 export default function TopMenu() {
 	return (
-		<nav className="fixed top-0 left-0 right-0 z-30 flex items-center bg-white border-b-2 border-black">
+		<nav className="fixed top-0 left-0 right-0 z-30 flex items-center h-[50px] bg-white border-b-2 border-black sm:h-[66px]">
 			<MenuButton />
 			<Toolbar />
 			<div className="ml-auto">

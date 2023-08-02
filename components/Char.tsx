@@ -5,9 +5,9 @@ import clsx from "clsx"
 import { TChar } from "@/data"
 import { TWordCase } from "@/types"
 import { caseFunctions, swapCaseFunctions } from "@/utils"
-import { useReadLocalStorage } from "usehooks-ts"
-import { displaySettings } from "@/data/settings"
+import { DEFAULT_SETTINGS, displaySettings } from "@/data/settings"
 import { TSupportFont, fonts } from "@/app/fonts"
+import { useReadLocalStorage } from "usehooks-ts"
 
 function StandaloneChar({ char }: { char: string }) {
 	return (
@@ -46,20 +46,19 @@ type CharProps = {
 
 export default function Char({
 	value: { char, reading },
-	hasCompoundChar,
 	standaloneChar = true
 }: CharProps) {
 	const caseIndex = useReadLocalStorage<TWordCase>("wordCaseToolbarIcons") ?? "capitalize"
 	const formattedChar = caseFunctions[caseIndex](char)
 	const swapFormattedSChar = swapCaseFunctions[caseIndex](char)
 	const hasReading = char !== reading
-	const selectedFont = useReadLocalStorage<TSupportFont>("selectedFont") ?? "inter";
+	const selectedFont = useReadLocalStorage<TSupportFont>("selectedFont") ?? DEFAULT_SETTINGS.fontFamily
 
 	// TODO: làm hiệu ứng cho chữ cái, on-hover
 	const CharContent = (
 		<div className={clsx(
 			"relative grid p-1 text-center transition-all border-2 border-black cursor-pointer hover:border-orange-800 rounded-lg sm:rounded-3xl hover:bg-orange-300 bg-slate-300 aspect-square",
-			fonts[selectedFont].className
+			fonts[selectedFont]?.className
 		)}>
 			{standaloneChar
 				? <StandaloneChar char={formattedChar} />

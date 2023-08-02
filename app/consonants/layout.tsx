@@ -8,7 +8,7 @@ export default function ConsonantsLayout({
 	settings: React.ReactNode
 }) {
 	return (
-		<div className="w-full px-3 py-20 md:py-28 max-w-7xl md:px-6">
+		<div className="w-full px-3 py-20 mx-auto md:py-28 max-w-7xl md:px-6">
 			{children}
 			{details}
 			{settings}

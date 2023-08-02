@@ -1,9 +1,21 @@
 import { TSupportFont } from "@/app/fonts"
+import { TWordCase } from "@/types";
 
 /**
  * Temp number, this will be configurable via Settings page
  */
-export const COUNT_DOWN_NUMBER = 15
+
+type TDefaultSettings = {
+	countDownNumber: number,
+	fontFamily: TSupportFont,
+	wordCase: TWordCase,
+}
+
+export const DEFAULT_SETTINGS: TDefaultSettings = {
+	countDownNumber: 15,
+	fontFamily: "inter",
+	wordCase: "capitalize",
+}
 
 export const CAT_SEPARATOR = "+";
 
@@ -73,15 +85,21 @@ export const mainMenuItems = [
 	urls.random,
 ]
 
-export const fontsList: Array<{ family: TSupportFont, name: string}> = [
-	{ family: "dancing" , name: "Dancing Script"},
-	{ family: "inter" , name: "Inter"},
-	{ family: "pacifico" , name: "Pacifico"},
-   { family: "varela_round", name: "Varela Round" },
-   { family: "ysabeau" , name: "Ysabeau"},
-   { family: "space_grotesk" , name: "Space Grotesk"},
-   { family: "great_vibes" , name: "Great Vibes"},
-   { family: "alegreya_Sans_SC" , name: "Alegreya Sans SC"},
-   { family: "patrick_Hand" , name: "Patrick Hand"},
-   { family: "mynerve" , name: "Mynerve"},
+export const fontsList: Array<{ family: TSupportFont, name: string }> = [
+	{ family: "dancing", name: "Dancing Script" },
+	{ family: "inter", name: "Inter" },
+	{ family: "pacifico", name: "Pacifico" },
+	{ family: "varela_round", name: "Varela Round" },
+	{ family: "ysabeau", name: "Ysabeau" },
+	{ family: "space_grotesk", name: "Space Grotesk" },
+	{ family: "great_vibes", name: "Great Vibes" },
+	{ family: "alegreya_Sans_SC", name: "Alegreya Sans SC" },
+	{ family: "patrick_Hand", name: "Patrick Hand" },
+	{ family: "mynerve", name: "Mynerve" },
 ]
+
+/**
+ * Some dummy data
+ */
+
+export const sampleImg = "https://images.unsplash.com/photo-1690860131818-6794aa1e0ff7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1871&q=80"

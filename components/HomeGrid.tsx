@@ -1,14 +1,14 @@
 "use client"
 
 import { TSupportFont, fonts } from "@/app/fonts"
-import { homeDestinations } from "@/data/settings"
+import { DEFAULT_SETTINGS, homeDestinations } from "@/data/settings"
 import clsx from "clsx"
 import Link from "next/link";
 import { useReadLocalStorage } from "usehooks-ts";
 
 //TODO: Fix design of HomeGrid
 export default function HomeGrid() {
-	const selectedFont = useReadLocalStorage<TSupportFont>("selectedFont") ?? "inter";
+	const selectedFont = useReadLocalStorage<TSupportFont>("selectedFont") ?? DEFAULT_SETTINGS.fontFamily
 	return (
 		<div className="grid max-w-3xl grid-cols-2 gap-4 mx-auto lg:gap-8">
 			{
@@ -16,7 +16,7 @@ export default function HomeGrid() {
 					<Link key={url} prefetch href={url} className="text-base font-bold text-center uppercase sm:text-lg md:text-2xl lg:text-4xl">
 						<div className={clsx(
 							"grid p-6 transition-all border-2 rounded-lg cursor-pointer md:border-4 place-content-center aspect-square hover:bg-indigo-200 hover:border-indigo-400 leading-loose bg-slate-100",
-							fonts[selectedFont].className
+							fonts[selectedFont]?.className
 						)}>
 							{title}
 						</div>

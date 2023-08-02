@@ -6,6 +6,8 @@ import { WORD_CATEGORY } from './../data/index';
 import { ALPHABETS_EXTENDED, TWordCategory, TWordDataItem, WORDS } from "@/data"
 import { TWordCase } from "@/types"
 
+export const cloneObj = <T>(obj:T): T => JSON.parse(JSON.stringify(obj)) as T;
+
 export const uppercaseFirstLetter = (str: string): string =>
 	str.charAt(0).toUpperCase() + str.slice(1)
 

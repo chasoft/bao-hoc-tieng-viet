@@ -19,9 +19,6 @@ export default function RandomCategoryPage({ params: { categories } }: { params:
 	}
 
 	return (
-		<RandomWord
-			initWord={generateRandomWord(validCategories)}
-			categories={validCategories}
-		/>
+		<RandomWord initWord={generateRandomWord(validCategories)} />
 	)
 }
