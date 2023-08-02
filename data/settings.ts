@@ -1,5 +1,12 @@
 import { TSupportFont } from "@/app/fonts"
 
+/**
+ * Temp number, this will be configurable via Settings page
+ */
+export const COUNT_DOWN_NUMBER = 15
+
+export const CAT_SEPARATOR = "+";
+
 export const urls = {
 	home: {
 		url: "/",
@@ -29,12 +36,19 @@ export const urls = {
 	random: {
 		url: "/random",
 		desc: "",
-		title: "Chữ ngẫu nhiên"
+		title: "Chữ ngẫu nhiên",
+		details: (categories: string[]) => `/random/${categories.join(CAT_SEPARATOR)}`
 	},
 	stories: {
 		url: "/stories",
 		desc: "",
 		title: "Truyện ngắn"
+	},
+	char: {
+		url: "/char",
+		desc: "",
+		title: "Chữ cái",
+		details: (char: string) => `/char/${char}`
 	},
 }
 

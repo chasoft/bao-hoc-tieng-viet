@@ -14,7 +14,7 @@ export default function CountDownTimer({ value, callback }: CountDownTimerProps)
 
 	const [count, { startCountdown, stopCountdown, resetCountdown }] =
 		useCountdown({
-			countStart: 20,
+			countStart: value,
 			intervalMs: 1000,
 		})
 
@@ -31,11 +31,12 @@ export default function CountDownTimer({ value, callback }: CountDownTimerProps)
 			startCountdown()
 			callback && callback()
 		}
-	}, [count, resetCountdown, router, startCountdown])
+	}, [callback, count, resetCountdown, router, startCountdown])
 
 	return (
-		<div className="fixed right-4 top-14 sm:top-[68px]">
-			<span className="text-2xl font-bold text-blue-900">{count}</span>
+		<div className="fixed right-2 top-14 sm:top-[68px]">
+			<span className="font-bold text-white aspect-square badge badge-primary badge-lg">
+				{count}</span>
 		</div>
 	)
 }

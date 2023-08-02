@@ -1,8 +1,9 @@
+import { WORD_CATEGORY } from './../data/index';
 /**
  * Utils functions
  */
 
-import { ALPHABETS_EXTENDED, WORDS } from "@/data"
+import { ALPHABETS_EXTENDED, TWordCategory, TWordDataItem, WORDS } from "@/data"
 import { TWordCase } from "@/types"
 
 export const uppercaseFirstLetter = (str: string): string =>
@@ -11,7 +12,10 @@ export const uppercaseFirstLetter = (str: string): string =>
 export const uppercaseFirstLetterEachWord = (str: string): string =>
 	str.split(" ").map(uppercaseFirstLetter).join(" ")
 
-export const generateRandomWord = () => WORDS[Math.floor(Math.random() * WORDS.length)]
+export const generateRandomWord = (categories: TWordCategory[]) => {
+	// TODO: return random word based on "categories"
+	return WORDS[Math.floor(Math.random() * WORDS.length)]
+}
 
 export const findCharData = (char: string,) =>
 	ALPHABETS_EXTENDED.find(letter => letter.char === decodeURIComponent(char))
@@ -32,3 +36,14 @@ export const randomInt = (max: number) => Math.floor(Math.random() * max)
 export const randomRgbColor = () => `rgb(${randomInt(256)},${randomInt(256)},${randomInt(256)})`
 export const getStringArrayCharLength = (arr: Array<string>): number =>
 	arr.reduce((acc, cur) => acc + cur.length, 0)
+
+export const getWordCategoryList = (data: TWordDataItem[]): TWordCategory[] => {
+	// TODO: implement this function to get all word's categories
+	return []
+}
+
+export const validCategoryFilter = (rawCategories: string[]): TWordCategory[] => {
+	// TODO: >>> WORD_CATEGORY
+	return rawCategories as TWordCategory[] 
+}
+
