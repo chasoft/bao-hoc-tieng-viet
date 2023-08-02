@@ -22,7 +22,7 @@ export default function RootLayout({ children, settings, modal }: RootLayoutProp
       <body className={inter.className}>
         <div className="drawer">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-          <div className="bg-red-300 drawer-content">
+          <div className="drawer-content">
             {/* Content of the Site goes here */}
             <TopMenu />
             <div className="flex flex-col items-center justify-between min-h-screen">

@@ -164,7 +164,7 @@ function SettingsButton() {
 
 export default function TopMenu() {
 	return (
-		<nav className="fixed top-0 left-0 right-0 z-10 flex items-center overflow-hidden bg-white border-b-2 border-black">
+		<nav className="fixed top-0 left-0 right-0 z-10 flex items-center bg-white border-b-2 border-black">
 			<MenuButton />
 			<Toolbar />
 			<div className="ml-auto">
