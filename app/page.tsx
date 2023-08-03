@@ -1,9 +1,9 @@
-import HomeGrid from '@/components/HomeGrid';
+import HomeGrid from "./HomeGrid"
 
 export const metadata = {
-  title: 'Bảo học chữ cái tiếng Việt',
+  title: 'Bảo Bảo học tiếng Việt',
   description:
-    'An Web-app to help Bảo to learn Vietnamese characters.',
+    'Tình yêu của ba dành cho Bảo Bảo. Công cụ học tiếng Việt và hơn nữa... dành cho con trai Bảo Bảo',
   metadataBase: new URL('https://sáng.vn'),
 }
 

@@ -1,5 +1,6 @@
+import { urls } from "@/data/settings"
 import { redirect } from "next/navigation"
 
 export default function CharRoute() {
-	redirect('/')
+	redirect(urls.home.url)
 }

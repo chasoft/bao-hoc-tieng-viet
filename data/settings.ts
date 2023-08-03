@@ -1,7 +1,9 @@
 import { TSupportFont } from "@/app/fonts"
-import { TWordCase } from "@/types";
+import { TWordCase } from "@/types"
 
-export const CAT_SEPARATOR = "+";
+export const CAT_SEPARATOR = "+"
+export const STRING_SPACE = " "
+export const STRING_EMPTY = ""
 
 export const urls = {
 	home: {
@@ -71,7 +73,6 @@ export const fontsList: Array<{ family: TSupportFont, name: string }> = [
 	{ family: "ysabeau", name: "Ysabeau" },
 	{ family: "space_grotesk", name: "Space Grotesk" },
 	{ family: "great_vibes", name: "Great Vibes" },
-	{ family: "alegreya_Sans_SC", name: "Alegreya Sans SC" },
 	{ family: "patrick_Hand", name: "Patrick Hand" },
 	{ family: "mynerve", name: "Mynerve" },
 ]
@@ -89,8 +90,8 @@ export const WORD_HIGHLIGHT = {
 }
 
 export const characterSplitterMode = {
-	[WORD_HIGHLIGHT.COMPOUND]: "T Á CH CH Ữ",
-	[WORD_HIGHLIGHT.CHAR]: "T Á C H C H Ữ",
+	[WORD_HIGHLIGHT.COMPOUND]: "T-Á-CH CH-Ữ",
+	[WORD_HIGHLIGHT.CHAR]: "T-Á-C-H C-H-Ữ",
 	[WORD_HIGHLIGHT.NONE]: "TÁCH CHỮ",
 }
 

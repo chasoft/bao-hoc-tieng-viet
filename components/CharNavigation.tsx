@@ -1,6 +1,7 @@
 "use client"
 
 import { ALPHABETS } from "@/data"
+import { urls } from "@/data/settings"
 import Link from "next/link"
 
 export default function CharNavigation() {
@@ -8,7 +9,7 @@ export default function CharNavigation() {
 		<div className="flex flex-wrap justify-center gap-1">
 			{ALPHABETS.map((letter) => (
 				<div key={letter.char} className="aspect-square">
-					<Link href={`/char/${letter.char}`} className="p-1 text-[2rem] rounded-full aspect-square hover:bg-gray-200">
+					<Link href={urls.char.details(letter.char)} className="p-1 text-[2rem] rounded-full aspect-square hover:bg-gray-200">
 						{letter.char.toUpperCase()}
 					</Link>
 				</div>

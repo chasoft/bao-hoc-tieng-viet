@@ -3,6 +3,7 @@
 import { TChar } from "@/data"
 import Link from "next/link"
 import Char from "./Char"
+import { urls } from "@/data/settings"
 
 type CharListProps = {
 	list: Array<TChar>,
@@ -13,7 +14,7 @@ export default function CharList({ list, hasCompoundChar }: CharListProps) {
 	return (
 		<>
 			{list.map((letter, index) => (
-				<Link prefetch key={letter.char} href={`/char/${letter.char}`}>
+				<Link prefetch key={letter.char} href={urls.char.details(letter.char)}>
 					<Char
 						value={letter}
 						standaloneChar={false}

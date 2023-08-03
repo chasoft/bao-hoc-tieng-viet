@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { IconBxsFaceMask } from "./Icons";
-import { mainMenuItems, urls } from "@/data/settings";
+import { STRING_EMPTY, mainMenuItems, urls } from "@/data/settings";
 import { usePathname } from "next/navigation";
 
 export default function MainMenuContent() {
@@ -13,7 +13,7 @@ export default function MainMenuContent() {
 				{mainMenuItems.map(({ title, url }) => (
 					<li
 						key={url}
-						className={pathname === url ? "bg-slate-300" : ""}
+						className={pathname === url ? "bg-slate-300" : STRING_EMPTY}
 					>
 						<Link
 							href={url}
@@ -27,7 +27,9 @@ export default function MainMenuContent() {
 			</ul>
 			<div className="flex justify-end p-4">
 				<div className="tooltip" data-tip="Giới thiệu">
-					<IconBxsFaceMask className="w-8 h-8 transition-all cursor-pointer hover:text-blue-500 hover:scale-125" />
+					<IconBxsFaceMask
+						className="w-8 h-8 transition-all cursor-pointer hover:text-blue-500 hover:scale-125"
+					/>
 				</div>
 			</div>
 		</div>

@@ -7,8 +7,7 @@ export const pacifico = Pacifico({ subsets: ['vietnamese'], weight: "400" })
 export const varela_round = Varela_Round({ subsets: ['vietnamese'], weight: "400" })
 export const ysabeau = Ysabeau({ subsets: ['vietnamese'] })
 export const space_grotesk = Space_Grotesk({ subsets: ['vietnamese'] })
-export const great_vibes = Great_Vibes({ subsets: ['vietnamese'],weight: "400" })
-export const alegreya_Sans_SC = Alegreya_Sans_SC({ subsets: ['vietnamese'], weight: "400" })
+export const great_vibes = Great_Vibes({ subsets: ['vietnamese'], weight: "400" })
 export const patrick_Hand = Patrick_Hand({ subsets: ['vietnamese'], weight: "400" })
 export const mynerve = Mynerve({ subsets: ['vietnamese'], weight: "400" })
 
@@ -20,19 +19,17 @@ export type TSupportFont =
 	"ysabeau" |
 	"space_grotesk" |
 	"great_vibes" |
-	"alegreya_Sans_SC" |
 	"patrick_Hand" |
 	"mynerve"
 
 export const fonts: Record<TSupportFont, NextFont> = {
 	dancing,
-   inter,
-   pacifico,
-   varela_round,
-   ysabeau,
+	inter,
+	pacifico,
+	varela_round,
+	ysabeau,
 	space_grotesk,
 	great_vibes,
-	alegreya_Sans_SC,
 	patrick_Hand,
 	mynerve
 }

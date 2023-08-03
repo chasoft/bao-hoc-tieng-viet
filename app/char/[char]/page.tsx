@@ -10,9 +10,11 @@ export default function CharPage({ params: { char } }: { params: { char: string 
 	}
 
 	return (
-		<div className="flex flex-col gap-6 w-full max-w-[70vw] sm:max-w-[50vw] md:max-w-[45vw] lg:max-w-[40vw] xl:max-w-[35vw] pt-28">
-			<Char value={charData} />
-			<CharNavigation />
+		<div className="grid w-full h-full place-content-center">
+			<div className="flex flex-col gap-6 w-full max-w-[70vw] sm:max-w-[50vw] md:max-w-[45vw] lg:max-w-[40vw] xl:max-w-[35vw] pt-28">
+				<Char value={charData} />
+				<CharNavigation />
+			</div>
 		</div>
 	)
 }

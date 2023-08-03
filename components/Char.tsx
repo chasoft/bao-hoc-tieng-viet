@@ -5,7 +5,7 @@ import clsx from "clsx"
 import { TChar } from "@/data"
 import { TWordCase } from "@/types"
 import { caseFunctions, swapCaseFunctions } from "@/utils"
-import { DEFAULT_SETTINGS } from "@/data/settings"
+import { DEFAULT_SETTINGS, STRING_EMPTY } from "@/data/settings"
 import { TSupportFont, fonts } from "@/app/fonts"
 import { useReadLocalStorage } from "usehooks-ts"
 
@@ -18,8 +18,10 @@ function StandaloneChar({ char }: { char: string }) {
 }
 
 function GridItemChar({ char }: { char: string }) {
-	const wordBold = useReadLocalStorage(DEFAULT_SETTINGS.wordBold.name) ?? DEFAULT_SETTINGS.wordBold.value
-	const wordItalic = useReadLocalStorage(DEFAULT_SETTINGS.wordItalic.name) ?? DEFAULT_SETTINGS.wordItalic.value
+	const wordBold = useReadLocalStorage(DEFAULT_SETTINGS.wordBold.name)
+		?? DEFAULT_SETTINGS.wordBold.value
+	const wordItalic = useReadLocalStorage(DEFAULT_SETTINGS.wordItalic.name)
+		?? DEFAULT_SETTINGS.wordItalic.value
 	return (
 		<div className={clsx(
 			{ "text-[25vw] sm:text-[28vw] ": char.length === 1 },
@@ -50,17 +52,17 @@ export default function Char({
 }: CharProps) {
 	const caseIndex = useReadLocalStorage<TWordCase>(DEFAULT_SETTINGS.wordCase.name)
 		?? DEFAULT_SETTINGS.wordCase.value
-	const formattedChar = caseFunctions[caseIndex](char)
-	const swapFormattedSChar = swapCaseFunctions[caseIndex](char)
-	const hasReading = char !== reading
 	const selectedFont = useReadLocalStorage<TSupportFont>(DEFAULT_SETTINGS.fontFamily.name)
 		?? DEFAULT_SETTINGS.fontFamily.value
 
-	// TODO: làm hiệu ứng cho chữ cái, on-hover
+	const formattedChar = caseFunctions[caseIndex](char)
+	const swapFormattedSChar = swapCaseFunctions[caseIndex](char)
+	const hasReading = char !== reading
+
 	const CharContent = (
 		<div className={clsx(
 			"relative grid p-1 text-center transition-all border-2 border-black cursor-pointer hover:border-orange-800 rounded-lg sm:rounded-3xl hover:bg-orange-300 bg-slate-300 aspect-square",
-			fonts[selectedFont]?.className
+			fonts[selectedFont].className
 		)}>
 			{standaloneChar
 				? <StandaloneChar char={formattedChar} />
@@ -77,7 +79,7 @@ export default function Char({
 					"ml-auto",
 					{ "md:text-3xl": reading.length > 5 }
 				)}>
-					{hasReading ? reading : ""}
+					{hasReading ? reading : STRING_EMPTY}
 				</div>
 			</div>
 		</div >

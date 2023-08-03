@@ -4,9 +4,8 @@ import Link from "next/link"
 import React from "react"
 import clsx from "clsx"
 import { useReadLocalStorage } from "usehooks-ts"
-import { caseFunctions, getStringArrayCharLength, randomRgbColor } from "@/utils"
-import { COMPOUND_VOWELS, WORD_COMPOSITION } from "@/data"
-import { DEFAULT_SETTINGS, WORD_HIGHLIGHT } from "@/data/settings"
+import { caseFunctions, extractCompoundChars, randomRgbColor } from "@/utils"
+import { DEFAULT_SETTINGS, STRING_EMPTY, STRING_SPACE, WORD_HIGHLIGHT, urls } from "@/data/settings"
 import { TSupportFont, fonts } from "@/app/fonts"
 import { TWordCase } from "@/types"
 
@@ -34,48 +33,23 @@ function Text({ value, caseIndex }: { value: string, caseIndex?: TWordCase }) {
 	)
 }
 
-function extractCompoundChars(rawStr: string): string[] {
-	const strArr = rawStr.split(" ")
-	const extractedCompoundChars: Array<string> = []
-
-	strArr.forEach((str, idx) => {
-		COMPOUND_VOWELS.map(({ char }) => char).every(i => {
-			if (str.startsWith(i)) {
-				extractedCompoundChars.push(i)
-				return false
-			}
-			return true
-		})
-
-		WORD_COMPOSITION.forEach((COMPOUND) => {
-			if (getStringArrayCharLength(extractedCompoundChars) >= str.length) return
-
-			COMPOUND.every(i => {
-				if (str.slice(getStringArrayCharLength(extractedCompoundChars)).startsWith(i)) {
-					extractedCompoundChars.push(i)
-					return false
-				}
-				return true
-			})
-		})
-
-		if (idx < strArr.length - 1) {
-			extractedCompoundChars.push(" ")
-		}
-	})
-
-	return extractedCompoundChars
-}
-
 type WordProps = {
 	word: string
 	splitterMode: number
-	updateElementCounts: (n: number) => void
+	separatedElements: string[]
+	setSeparatedElements: (els: string[]) => void
 	currentIndex: number,
 }
 
-export default function Word({ word, splitterMode, updateElementCounts, currentIndex }: WordProps) {
-	const caseIndex = useReadLocalStorage<TWordCase>("wordCaseToolbarIcons") ?? "capitalize"
+export default function Word({
+	word,
+	splitterMode,
+	separatedElements,
+	setSeparatedElements,
+	currentIndex
+}: WordProps) {
+	const caseIndex = useReadLocalStorage<TWordCase>(DEFAULT_SETTINGS.wordCase.name)
+		?? DEFAULT_SETTINGS.wordCase.value
 
 	const colorPalete = React.useMemo<string[]>(() =>
 		Array.from(Array(6), () => randomRgbColor()
@@ -83,20 +57,34 @@ export default function Word({ word, splitterMode, updateElementCounts, currentI
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		), [word])
 
+	React.useEffect(() => {
+		switch (splitterMode) {
+			case WORD_HIGHLIGHT.COMPOUND:
+				setSeparatedElements(extractCompoundChars(word))
+				break;
+			case WORD_HIGHLIGHT.CHAR:
+				setSeparatedElements(word.split(STRING_EMPTY))
+				break;
+			case WORD_HIGHLIGHT.COMPOUND:
+				setSeparatedElements(word.split(STRING_SPACE))
+				break;
+			default:
+				break;
+		}
+	}, [setSeparatedElements, splitterMode, word])
+
 	if (splitterMode === WORD_HIGHLIGHT.COMPOUND) {
-		const els = extractCompoundChars(word)
-		updateElementCounts(els.length)
 		return (
 			<div className="flex justify-center">
-				{extractCompoundChars(word).map((el, idx) =>
+				{separatedElements.map((el, idx) =>
 					<Link
 						prefetch
 						key={idx}
-						href={`/char/${el}`}
+						href={urls.char.details(el)}
 						style={{ color: colorPalete[idx] }}
 						className={clsx(
-							{ "hover:underline": els[idx] !== " " },
-							{ "underline": currentIndex === idx },
+							{ "hover:underline": separatedElements[idx] !== STRING_SPACE },
+							{ "underline underline-offset-8": currentIndex === idx && separatedElements[idx] !== STRING_SPACE },
 						)}
 					>
 						{caseIndex === "lowercase" && <Text value={el} caseIndex="lowercase" />}
@@ -110,19 +98,17 @@ export default function Word({ word, splitterMode, updateElementCounts, currentI
 	}
 
 	if (splitterMode === WORD_HIGHLIGHT.CHAR) {
-		const els = word.split("")
-		updateElementCounts(els.length)
 		return (
 			<div className="flex justify-center">
-				{els.map((letter, idx) =>
+				{separatedElements.map((letter, idx) =>
 					<Link
 						prefetch
 						key={idx}
-						href={`/char/${letter}`}
+						href={urls.char.details(letter)}
 						style={{ color: colorPalete[idx] }}
 						className={clsx(
-							{ "hover:underline": els[idx] !== " " },
-							{ "underline": currentIndex === idx && els[idx] !== " " },
+							{ "hover:underline": separatedElements[idx] !== STRING_SPACE },
+							{ "underline": currentIndex === idx && separatedElements[idx] !== STRING_SPACE },
 						)}
 					>
 						<Text value={letter} />
@@ -133,19 +119,17 @@ export default function Word({ word, splitterMode, updateElementCounts, currentI
 	}
 
 	if (splitterMode === WORD_HIGHLIGHT.NONE) {
-		const els = word.split(" ")
-		updateElementCounts(els.length)
 		return (
 			<div className="flex justify-center">
-				{els.map((letter, idx) =>
+				{separatedElements.map((letter, idx) =>
 					<Link
 						prefetch
 						key={idx}
-						href={`/char/${letter}`}
+						href={urls.char.details(letter)}
 						style={{ color: colorPalete[idx] }}
 						className={clsx(
-							{ "hover:underline": els[idx] !== " " },
-							{ "underline": currentIndex === idx && els[idx] !== " " },
+							{ "hover:underline": separatedElements[idx] !== STRING_SPACE },
+							{ "underline": currentIndex === idx && separatedElements[idx] !== STRING_SPACE },
 						)}
 					>
 						<Text value={letter} />

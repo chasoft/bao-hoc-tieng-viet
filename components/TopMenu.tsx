@@ -21,7 +21,10 @@ const wordCaseToolbarIcons: Record<TWordCase, { icon: any, tooltip: string }> = 
  * Like Radio Components
  */
 function WordCaseButtons() {
-	const [caseIndex, setCaseIndex] = useLocalStorage<TWordCase>("wordCaseToolbarIcons", "uppercase");
+	const [caseIndex, setCaseIndex] = useLocalStorage<TWordCase>(
+		DEFAULT_SETTINGS.wordCase.name,
+		DEFAULT_SETTINGS.wordCase.value
+	);
 	const pathname = usePathname();
 	return (
 		<div className="flex items-center border-r-[1px] border-gray-200">
@@ -29,7 +32,7 @@ function WordCaseButtons() {
 				<div
 					key={key}
 					className={clsx(
-						"grid place-content-center cursor-pointer h-12 sm:h-16 aspect-square hover:text-blue-800 hover:bg-blue-200 active:bg-blue-100 active:text-blue-500 transition-all",
+						"grid place-content-center cursor-pointer h-12 sm:h-16 aspect-square hover:text-blue-700 hover:bg-blue-200 active:bg-blue-300 active:text-blue-800 transition-all active:scale-90",
 						{ "bg-blue-100": caseIndex == key },
 						{ "hidden": key === "capitalize" && !pathname.startsWith(urls.random.url) }
 					)}
@@ -66,14 +69,17 @@ function WordStyleButtons() {
 		"I": { value: wordItalic, action: () => setWordItalic(v => !v) },
 	}
 
+	const wordStyleIcons = Object.entries(wordStyleToolbarIcons)
+
 	return (
 		<div className="flex items-center border-r-[1px] border-gray-200">
-			{Object.entries(wordStyleToolbarIcons).map(([key, btnData]) => (
+			{wordStyleIcons.map(([key, btnData], idx) => (
 				<div
+					title={wordStyleToolbarIcons[key].tooltip}
 					key={key}
 					className={clsx(
-						"grid place-content-center cursor-pointer h-12 sm:h-16 aspect-square hover:text-blue-800 hover:bg-blue-200 active:bg-slate-400 active:text-blue-500 transition-all",
-						{ "bg-slate-400": wordStyleState[key].value }
+						"grid place-content-center cursor-pointer h-12 sm:h-16 aspect-square hover:text-blue-700 hover:bg-blue-300 active:bg-blue-400 active:text-blue-800 transition-all active:scale-90",
+						{ "bg-blue-200": wordStyleState[key].value }
 					)}
 					onClick={() => { wordStyleState[key].action() }}
 				>
@@ -107,24 +113,21 @@ function FontButton() {
 		<div className="dropdown dropdown-end">
 			<label tabIndex={0}>
 				<button
-					title="Quick Font Family selector"
+					title="Chọn kiểu chữ hiển thị"
 					type="button"
-					className="grid h-12 text-black transition-all bg-transparent border-0 place-content-center sm:h-16 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100 active:text-blue-500"
+					className="grid h-12 text-black transition-all bg-transparent border-0 place-content-center sm:h-16 hover:text-blue-700 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-300 active:text-blue-800 active:scale-90"
 				>
 					<IconFontFamily className="w-7 h-7" />
 				</button>
 			</label>
 			<div tabIndex={0} className="p-0 z-20 border-2 border-black shadow w-72 sm:w-96 md:w-[30rem] lg:w-[35rem] dropdown-content menu bg-base-100">
-				<div className="p-3 mb-0 text-xl bg-slate-200">
-					Chọn phông chữ
-				</div>
 				<ul>
 					{fontsList.map(font => (
 						<li
 							key={font.family}
 							className={clsx(
-								"w-full overflow-hidden text-xl sm:text-2xl md:text-3xl lg:text-4xl",
-								{ "bg-blue-400": selectedFont == font.family }
+								"w-full overflow-hidden text-xl sm:text-2xl md:text-3xl lg:text-4xl hover:text-blue-700 hover:bg-blue-300 active:bg-blue-400 active:text-blue-800",
+								{ "bg-blue-200": selectedFont == font.family }
 							)}
 							onClick={() => setSelectedFontsetOpen(font.family)}
 						>
@@ -151,9 +154,9 @@ function SplitterModeButton() {
 		<div className="dropdown dropdown-end">
 			<label tabIndex={0}>
 				<button
-					title="Splitter mode for Separate characters"
+					title="Cách phân tách các chữ cái"
 					type="button"
-					className="grid h-12 text-black transition-all bg-transparent border-0 place-content-center sm:h-16 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100 active:text-blue-500"
+					className="grid h-12 text-black transition-all bg-transparent border-0 place-content-center sm:h-16 hover:text-blue-700 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 aspect-square active:bg-blue-300 active:text-blue-800 active:scale-90"
 				>
 					<IconSplitCellsHorizontal className="w-7 h-7" />
 				</button>
@@ -164,8 +167,8 @@ function SplitterModeButton() {
 						<li
 							key={mode}
 							className={clsx(
-								"w-full overflow-hidden text-xl sm:text-2xl md:text-3xl lg:text-4xl",
-								{ "bg-blue-400": Number(mode) === splitterMode }
+								"w-full overflow-hidden text-xl sm:text-2xl hover:text-blue-700 hover:bg-blue-300 active:bg-blue-400 active:text-blue-800 transition-all",
+								{ "bg-blue-200": Number(mode) === splitterMode }
 							)}
 							onClick={() => setSplitterMode(Number(mode))}
 						>
@@ -199,9 +202,9 @@ function SettingsButton() {
 	return (
 		<Link href={urls.settings.url} prefetch>
 			<button
-				title="Settings"
+				title="Thiết lập cấu hình"
 				type="button"
-				className="block h-12 text-black bg-transparent border-0 sm:h-16 sm:px-4 hover:no-underline hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100"
+				className="block h-12 text-black transition-all bg-transparent border-0 sm:h-16 sm:px-4 hover:no-underline hover:text-blue-700 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-300 active:scale-90"
 			>
 				<IconSettings className="w-7 h-7" />
 			</button>
@@ -217,6 +220,7 @@ export default function TopMenu() {
 			<div className="ml-auto">
 				<div className="flex items-center">
 					<FontButton />
+					<SplitterModeButton />
 					<SettingsButton />
 				</div>
 			</div>

@@ -2,14 +2,15 @@
 
 import React from "react"
 import clsx from "clsx"
-import { CAT_SEPARATOR, DEFAULT_SETTINGS, urls } from "@/data/settings"
+import { useReadLocalStorage } from "usehooks-ts"
+import { CAT_SEPARATOR, DEFAULT_SETTINGS, STRING_SPACE, urls } from "@/data/settings"
 import { generateRandomWord, validCategoryFilter } from "@/utils"
 import { IconCheck, IconHandPointUp, IconSkipNext } from "./Icons"
 import { TWord, TWordCategory, WORD_CATEGORY } from "@/data"
 import { useParams, useRouter } from "next/navigation"
 import CountDownTimer from "./CountDownTimer"
 import Word from "./Word"
-import { useLocalStorage, useReadLocalStorage } from "usehooks-ts"
+import AppliedSettingsInformationPanel from "./AppliedSettingsInformationPanel"
 
 type CategoryListContentProps = {
 	selectedCategories: selectedCategoriesType
@@ -18,7 +19,7 @@ type CategoryListContentProps = {
 
 function CategoryListContent({ selectedCategories, onClickCheckbox }: CategoryListContentProps) {
 	return (
-		<ul tabIndex={0} className="dropdown-content z-20 border-2 border-black p-0 menu bg-base-100 w-[99vw] sm:max-w-sm max-h-[80vh] md:max-h-[82vh] overflow-y-auto flex-nowrap">
+		<ul tabIndex={0} className="dropdown-content z-20 border-2 border-black p-0 menu bg-base-100 w-[99vw] sm:max-w-sm max-h-[80svh] overflow-y-auto flex-nowrap">
 			{(Object.entries(WORD_CATEGORY) as [TWordCategory, { title: string, desc: string }][])
 				.map(([key, { title, desc }]) => {
 					return (
@@ -71,10 +72,12 @@ type RandomWordProps = {
 type selectedCategoriesType = Partial<Record<TWordCategory, boolean>>
 
 export default function RandomWord({ initWord, className }: RandomWordProps) {
-	const router = useRouter()
 	const { categories } = useParams();
+	const router = useRouter()
 	const validCategories = validCategoryFilter(
-		typeof categories === "string" ? decodeURIComponent(categories).split(CAT_SEPARATOR) : []
+		typeof categories === "string"
+			? decodeURIComponent(categories).split(CAT_SEPARATOR)
+			: []
 	)
 	const [randomWord, setRandomWord] = React.useState(initWord)
 	const [showApplyCategoryButton, setShowApplyCategoryButton] = React.useState(false)
@@ -86,21 +89,32 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 			}, {})
 		)
 
-	const splitterMode = useReadLocalStorage<number>(DEFAULT_SETTINGS.characterSplitterMode.name) ?? DEFAULT_SETTINGS.characterSplitterMode.value
+	const splitterMode = useReadLocalStorage<number>(
+		DEFAULT_SETTINGS.characterSplitterMode.name
+	) ?? DEFAULT_SETTINGS.characterSplitterMode.value
 
-	const [totalWordElements, setTotalWordElements] = React.useState(0)
-	const [highlightElementIndex, setHighlightElementIndex] = React.useState(0)
+	const [separatedElements, setSeparatedElements] = React.useState<string[]>([])
+	const [highlightElementIndex, setHighlightElementIndex] = React.useState(-1)
 
 	const nextHighlightElementIndex = React.useCallback(() => {
-		if (highlightElementIndex >= totalWordElements - 1) {
+		if (highlightElementIndex >= separatedElements.length - 1) {
 			setHighlightElementIndex(-1)
+			return;
+		}
+		if (separatedElements[highlightElementIndex + 1] === STRING_SPACE) {
+			setHighlightElementIndex(highlightElementIndex + 2)
 		} else {
 			setHighlightElementIndex(highlightElementIndex + 1)
 		}
-	}, [highlightElementIndex, totalWordElements])
+	}, [separatedElements, highlightElementIndex])
 
-	const newRandomWord = () => setRandomWord(generateRandomWord(validCategories))
-	const numberOfWords = randomWord.text.split(" ").length
+	const newRandomWord = React.useCallback(
+		() => setRandomWord(generateRandomWord(validCategories)),
+		[validCategories]
+	)
+
+	// TODO: remove this implementation by using container query
+	const numberOfWords = randomWord.text.split(STRING_SPACE).length
 
 	const applyButtonClicked = () => {
 		const cats = Object
@@ -123,20 +137,32 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 		setShowApplyCategoryButton(true)
 	}, [])
 
+	React.useEffect(() => {
+		setHighlightElementIndex(-1)
+	}, [randomWord.text])
+
 	return (
 		<div className="grid place-content-center mt-14">
+
+			<AppliedSettingsInformationPanel
+				className="fixed mt-4 top-16 left-4"
+			/>
+
 			<div
-				className="fixed left-2 bottom-20 lg:hidden"
+				className="fixed left-4 bottom-20 lg:hidden"
 				onClick={nextHighlightElementIndex}
 			>
-				<span className="grid p-10 font-bold transition-all rounded-full cursor-pointer bg-slate-300 active:bg-slate-500 hover:bg-slate-400 active:rotate-12 aspect-square place-content-center">
+				<span className="relative grid p-6 font-bold transition-all rounded-full cursor-pointer bg-slate-300 active:bg-slate-500 hover:bg-slate-400 active:rotate-12 aspect-square place-content-center">
 					<IconHandPointUp className="w-10 h-10" />
+					<span className="absolute bottom-0 -right-3">{`${highlightElementIndex + 1}/${separatedElements.length}`}</span>
 				</span>
 			</div>
+
 			<CountDownTimer
 				value={DEFAULT_SETTINGS.countDownNumber.value}
 				callback={newRandomWord}
 			/>
+
 			<div className={clsx(
 				className,
 				{ "text-[28vw] lg:text-[25vw]": numberOfWords === 1 },
@@ -145,10 +171,12 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 				<Word
 					word={randomWord.text}
 					splitterMode={splitterMode}
-					updateElementCounts={setTotalWordElements}
+					separatedElements={separatedElements}
+					setSeparatedElements={setSeparatedElements}
 					currentIndex={highlightElementIndex}
 				/>
 			</div>
+
 			<div className="fixed bottom-0 left-0 right-0 flex justify-between bg-white border-2 border-t-black">
 				<div className="dropdown dropdown-top">
 					<label tabIndex={0}>
