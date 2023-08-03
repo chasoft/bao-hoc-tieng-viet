@@ -29,7 +29,7 @@ function WordCaseButtons() {
 				<div
 					key={key}
 					className={clsx(
-						"grid place-content-center cursor-pointer h-12 sm:h-16 aspect-square hover:text-blue-800 hover:bg-blue-200 active:bg-blue-100",
+						"grid place-content-center cursor-pointer h-12 sm:h-16 aspect-square hover:text-blue-800 hover:bg-blue-200 active:bg-blue-100 active:text-blue-500 transition-all",
 						{ "bg-blue-100": caseIndex == key },
 						{ "hidden": key === "capitalize" && !pathname.startsWith(urls.random.url) }
 					)}
@@ -66,7 +66,7 @@ function WordStyleButtons() {
 				<div
 					key={key}
 					className={clsx(
-						"grid place-content-center cursor-pointer h-12 sm:h-16 aspect-square hover:text-blue-800 hover:bg-blue-200 active:bg-slate-400",
+						"grid place-content-center cursor-pointer h-12 sm:h-16 aspect-square hover:text-blue-800 hover:bg-blue-200 active:bg-slate-400 active:text-blue-500 transition-all",
 						{ "bg-slate-400": wordStyleState[key].value }
 					)}
 					onClick={() => { wordStyleState[key].action() }}
@@ -102,7 +102,7 @@ function FontButton() {
 				<button
 					title="Quick Font Family selector"
 					type="button"
-					className="grid h-12 text-black bg-transparent border-0 place-content-center sm:h-16 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100"
+					className="grid h-12 text-black transition-all bg-transparent border-0 place-content-center sm:h-16 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100 active:text-blue-500"
 				>
 					<IconFontFamily className="w-7 h-7" />
 				</button>
@@ -134,6 +134,49 @@ function FontButton() {
 		</div>
 	)
 }
+
+// function Character Splitter() {
+// 	const [selectedFont, setSelectedFontsetOpen] = useLocalStorage(
+// 		"selectedFont", DEFAULT_SETTINGS.fontFamily
+// 	);
+// 	return (
+// 		<div className="dropdown dropdown-end">
+// 			<label tabIndex={0}>
+// 				<button
+// 					title="Splitter mode for Separate characters"
+// 					type="button"
+// 					className="grid h-12 text-black transition-all bg-transparent border-0 place-content-center sm:h-16 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100 active:text-blue-500"
+// 				>
+// 					<IconSplitCellsHorizontal className="w-7 h-7" />
+// 				</button>
+// 			</label>
+// 			<div tabIndex={0} className="p-0 z-20 border-2 border-black shadow w-72 sm:w-96 md:w-[30rem] lg:w-[35rem] dropdown-content menu bg-base-100">
+// 				<div className="p-3 mb-0 text-xl bg-slate-200">
+// 					Chọn cơ chế split chữ
+// 				</div>
+// 				<ul>
+// 					{characterSpliterMode.map(font => (
+// 						<li
+// 							key={font.family}
+// 							className={clsx(
+// 								"w-full overflow-hidden text-xl sm:text-2xl md:text-3xl lg:text-4xl",
+// 								{ "bg-blue-400": selectedFont == font.family }
+// 							)}
+// 							onClick={() => setSelectedFontsetOpen(font.family)}
+// 						>
+// 							<a className={clsx(
+// 								"rounded-none sm:py-3",
+// 								fonts[font.family].className
+// 							)}>
+// 								Chọn Kiểu Chữ {font.name}
+// 							</a>
+// 						</li>
+// 					))}
+// 				</ul>
+// 			</div>
+// 		</div>
+// 	)
+// }
 
 /**
  * Drawers is site-wide scope.

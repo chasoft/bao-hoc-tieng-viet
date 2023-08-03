@@ -8,7 +8,7 @@ export default function RandomLayout({
 	settings: React.ReactNode
 }) {
 	return (
-		<div className="w-full px-3 overflow-hidden py-28 md:px-6">
+		<div className="w-full px-3 py-20 overflow-hidden md:py-28 md:px-6">
 			{children}
 			{details}
 			{settings}

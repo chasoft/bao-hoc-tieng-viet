@@ -98,6 +98,24 @@ export const fontsList: Array<{ family: TSupportFont, name: string }> = [
 	{ family: "mynerve", name: "Mynerve" },
 ]
 
+
+/**
+ * mode 0: highlighting compound vowels and consonants
+ * mode 1: highlighting each character in the word
+ * mode 2: no highlighting
+*/
+export const WORD_HIGHLIGHT = {
+	COMPOUND: 0,
+	CHAR: 1,
+	NONE: 2,
+}
+
+export const characterSpliterMode = {
+	[WORD_HIGHLIGHT.COMPOUND]: "T Á CH CH Ữ",
+	[WORD_HIGHLIGHT.CHAR]: "T Á C H C H Ữ",
+	[WORD_HIGHLIGHT.NONE]: "TÁCH CHỮ",
+}
+
 /**
  * Some dummy data
  */

@@ -4,7 +4,7 @@ import React from "react"
 import clsx from "clsx"
 import { CAT_SEPARATOR, DEFAULT_SETTINGS, urls } from "@/data/settings"
 import { generateRandomWord, validCategoryFilter } from "@/utils"
-import { IconCheck, IconSkipNext } from "./Icons"
+import { IconCheck, IconHandPointUp, IconSkipNext } from "./Icons"
 import { TWord, TWordCategory, WORD_CATEGORY } from "@/data"
 import { useParams, useRouter } from "next/navigation"
 import CountDownTimer from "./CountDownTimer"
@@ -89,18 +89,10 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 	const [highlightElementIndex, setHighlightElementIndex] = React.useState(0)
 
 	const nextHighlightElementIndex = React.useCallback(() => {
-		if (highlightElementIndex === totalWordElements - 1) {
-			setHighlightElementIndex(0)
+		if (highlightElementIndex >= totalWordElements - 1) {
+			setHighlightElementIndex(-1)
 		} else {
 			setHighlightElementIndex(highlightElementIndex + 1)
-		}
-	}, [highlightElementIndex, totalWordElements])
-
-	const prevHighlightElementIndex = React.useCallback(() => {
-		if (highlightElementIndex === 0) {
-			setHighlightElementIndex(totalWordElements - 1)
-		} else {
-			setHighlightElementIndex(highlightElementIndex - 1)
 		}
 	}, [highlightElementIndex, totalWordElements])
 
@@ -131,11 +123,11 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 	return (
 		<div className="grid place-content-center mt-14">
 			<div
-				className="fixed left-2 top-14 sm:top-[68px]"
+				className="fixed left-2 bottom-20 lg:hidden"
 				onClick={nextHighlightElementIndex}
 			>
-				<span className="py-6 font-bold bg-red-200 aspect-square">
-					Next
+				<span className="grid p-10 font-bold transition-all rounded-full cursor-pointer bg-slate-300 active:bg-slate-500 hover:bg-slate-400 active:rotate-12 aspect-square place-content-center">
+					<IconHandPointUp className="w-10 h-10" />
 				</span>
 			</div>
 			<CountDownTimer
@@ -179,7 +171,7 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 				<div className="flex-1 hidden opacity-0 sm:block"></div>
 				<div
 					onClick={newRandomWord}
-					className="flex w-[135px] items-center gap-1 px-4 py-4 text-lg border-0 border-l-2 border-black cursor-pointer hover:bg-slate-300 bg-slate-100 active:bg-slate-200"
+					className="flex w-[135px] items-center gap-1 px-4 py-4 text-lg border-0 border-l-2 border-black cursor-pointer hover:bg-slate-300 bg-slate-100 active:bg-slate-200 active:pl-5 pl-4 transition-all"
 				>
 					Từ khác <IconSkipNext className="w-6 h-6" />
 				</div>

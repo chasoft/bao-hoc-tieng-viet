@@ -5,7 +5,7 @@ import React from "react"
 import clsx from "clsx"
 import { caseFunctions, getStringArrayCharLength, randomRgbColor } from "@/utils"
 import { COMPOUND_VOWELS, WORD_COMPOSITION } from "@/data"
-import { DEFAULT_SETTINGS, displaySettings } from "@/data/settings"
+import { DEFAULT_SETTINGS, WORD_HIGHLIGHT, displaySettings } from "@/data/settings"
 import { TSupportFont, fonts } from "@/app/fonts"
 import { TWordCase } from "@/types"
 import { useReadLocalStorage } from "usehooks-ts"
@@ -29,17 +29,6 @@ function Text({ value, caseIndex }: { value: string, caseIndex?: TWordCase }) {
 				: value}
 		</span>
 	)
-}
-
-/**
- * mode 0: highlighting compound vowels and consonants
- * mode 1: highlighting each character in the word
- * mode 2: no highlighting
-*/
-export const WORD_HIGHLIGHT = {
-	COMPOUND: 0,
-	CHAR: 1,
-	NONE: 2,
 }
 
 function extractCompoundChars(str: string): string[] {
@@ -78,6 +67,12 @@ export default function Word({ word, updateElementCounts, currentIndex }: WordPr
 	const [mode, setMode] = React.useState(Math.floor(Math.random() * 2))
 	const caseIndex = useReadLocalStorage<TWordCase>("wordCaseToolbarIcons") ?? "capitalize"
 
+	const colorPalete = React.useMemo<string[]>(() =>
+		Array.from(Array(6), () => randomRgbColor()
+			// only rebuild the color palette only if the word has changed
+			// eslint-disable-next-line react-hooks/exhaustive-deps
+		), [word])
+
 	if (mode === WORD_HIGHLIGHT.COMPOUND) {
 		const els = extractCompoundChars(word)
 		updateElementCounts(els.length)
@@ -88,9 +83,9 @@ export default function Word({ word, updateElementCounts, currentIndex }: WordPr
 						prefetch
 						key={idx}
 						href={`/char/${el}`}
-						style={{ color: randomRgbColor() }}
+						style={{ color: colorPalete[idx] }}
 						className={clsx(
-							"hover:underline",
+							{ "hover:underline": els[idx] !== " " },
 							{ "underline": currentIndex === idx },
 						)}
 					>
@@ -105,15 +100,20 @@ export default function Word({ word, updateElementCounts, currentIndex }: WordPr
 	}
 
 	if (mode === WORD_HIGHLIGHT.CHAR) {
+		const els = word.split("")
+		updateElementCounts(els.length)
 		return (
 			<div className="flex justify-center">
-				{word.split("").map((letter, idx) =>
+				{els.map((letter, idx) =>
 					<Link
 						prefetch
 						key={idx}
 						href={`/char/${letter}`}
-						style={{ color: randomRgbColor() }}
-						className="hover:underline"
+						style={{ color: colorPalete[idx] }}
+						className={clsx(
+							{ "hover:underline": els[idx] !== " " },
+							{ "underline": currentIndex === idx && els[idx] !== " " },
+						)}
 					>
 						<Text value={letter} />
 					</Link>
@@ -123,11 +123,24 @@ export default function Word({ word, updateElementCounts, currentIndex }: WordPr
 	}
 
 	if (mode === WORD_HIGHLIGHT.NONE) {
+		const els = word.split(" ")
+		updateElementCounts(els.length)
 		return (
-			<div>
-				<span style={{ color: randomRgbColor() }}>
-					<Text value={word} />
-				</span>
+			<div className="flex justify-center">
+				{els.map((letter, idx) =>
+					<Link
+						prefetch
+						key={idx}
+						href={`/char/${letter}`}
+						style={{ color: colorPalete[idx] }}
+						className={clsx(
+							{ "hover:underline": els[idx] !== " " },
+							{ "underline": currentIndex === idx && els[idx] !== " " },
+						)}
+					>
+						<Text value={letter} />
+					</Link>
+				)}
 			</div>
 		)
 	}

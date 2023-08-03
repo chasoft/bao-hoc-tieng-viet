@@ -121,44 +121,44 @@ export type TWord = { text: string, desc: string }
  * DATA
  */
 export type TWordCategory =
-	"adjective"|
+	"adjective" |
 	"adverb" |
-	"animal" | 
-	"capital" | 
-	"computer" | 
+	"animal" |
+	"capital" |
+	"computer" |
 	"country" |
-	"family" | 
+	"family" |
 	"in-the-sky" |
-	"kitchenware" | 
-	"learning-tools" | 
-	"machine" | 
+	"kitchenware" |
+	"learning-tools" |
+	"machine" |
 	"noun" |
-	"on-the-land" | 
+	"on-the-land" |
 	"relationship" |
-	"under-water" | 
+	"under-water" |
 	"verb" |
 	// Keep following item at the bottom of the list
 	"others";
 
 export const WORD_CATEGORY: Record<TWordCategory, { title: string, desc: string }> = {
 	"adjective": { title: "Tính từ", desc: "Tính chất của sự vật, sự việc" },
-	"adverb":{ title: "Trạng từ", desc: "" },
-	"animal":{ title: "Động vật", desc: "" },
-	"capital":{ title: "Thủ đô", desc: "" },
-	"computer":{ title: "Máy vi tính", desc: "" },
-	"country":{ title: "Quốc gia", desc: "" },
-	"family":{ title: "Gia đình", desc: "" },
-	"in-the-sky":{ title: "Trên bầu trời", desc: "" },
-	"kitchenware":{ title: "Đồ dùng nhà bếp", desc: "" },
-	"learning-tools":{ title: "Dụng cụ học tập", desc: "Công cụ học tập của bé" },
-	"machine":{ title: "Máy móc", desc: "Tên gọi của các loại máy móc" },
+	"adverb": { title: "Trạng từ", desc: "" },
+	"animal": { title: "Động vật", desc: "" },
+	"capital": { title: "Thủ đô", desc: "" },
+	"computer": { title: "Máy vi tính", desc: "" },
+	"country": { title: "Quốc gia", desc: "" },
+	"family": { title: "Gia đình", desc: "" },
+	"in-the-sky": { title: "Trên bầu trời", desc: "" },
+	"kitchenware": { title: "Đồ dùng nhà bếp", desc: "" },
+	"learning-tools": { title: "Dụng cụ học tập", desc: "Công cụ học tập của bé" },
+	"machine": { title: "Máy móc", desc: "Tên gọi của các loại máy móc" },
 	"noun": { title: "Danh từ", desc: "Tên gọi của các vật xung quanh em" },
-	"on-the-land":{ title: "Trên mặt đất", desc: "" },
-	"relationship":{ title: "Quan hệ", desc: "" },
-	"under-water":{ title: "Dưới mặt nước", desc: "" },
-	"verb":{ title: "Động từ", desc: "" },
+	"on-the-land": { title: "Trên mặt đất", desc: "" },
+	"relationship": { title: "Quan hệ", desc: "" },
+	"under-water": { title: "Dưới mặt nước", desc: "" },
+	"verb": { title: "Động từ", desc: "" },
 	// Keep following item at the bottom of the list
-	"others":{ title: "Không phân loại", desc: "Các từ không thuộc chủ đề nào" },
+	"others": { title: "Không phân loại", desc: "Các từ không thuộc chủ đề nào" },
 }
 
 export type TWordDataItem = {
@@ -170,9 +170,18 @@ export type TWordDataItem = {
 
 export const WORDS: Array<TWordDataItem> = [
 	{ text: "trái đất", desc: "", cat: [] },
-	{ text: "châu", desc: "", cat: [] },
-	{ text: "khó", desc: "", cat: [] },
-	{ text: "khế", desc: "", cat: [] },
+	{ text: "dễ thương", desc: "", cat: [] },
+	{ text: "cái bàn", desc: "", cat: [] },
+	{ text: "cái ghế", desc: "", cat: [] },
+	{ text: "con thỏ", desc: "", cat: [] },
+	{ text: "mẹ châu", desc: "", cat: [] },
+	{ text: "con trai", desc: "", cat: [] },
+	{ text: "con gái", desc: "", cat: [] },
+	{ text: "ba mẹ", desc: "", cat: [] },
+	{ text: "ông bà", desc: "", cat: [] },
+	{ text: "khó khăn", desc: "", cat: [] },
+	{ text: "khăn tay", desc: "", cat: [] },
+	{ text: "trái khế", desc: "", cat: [] },
 	{ text: "tủ đồ", desc: "", cat: [] },
 	{ text: "thỏ con", desc: "", cat: [] },
 	{ text: "mặt trăng", desc: "", cat: [] },
