@@ -1,22 +1,6 @@
 import { TSupportFont } from "@/app/fonts"
 import { TWordCase } from "@/types";
 
-/**
- * Temp number, this will be configurable via Settings page
- */
-
-type TDefaultSettings = {
-	countDownNumber: number,
-	fontFamily: TSupportFont,
-	wordCase: TWordCase,
-}
-
-export const DEFAULT_SETTINGS: TDefaultSettings = {
-	countDownNumber: 15,
-	fontFamily: "inter",
-	wordCase: "capitalize",
-}
-
 export const CAT_SEPARATOR = "+";
 
 export const urls = {
@@ -64,12 +48,6 @@ export const urls = {
 	},
 }
 
-export const displaySettings = {
-	"wordBold": true,
-	"wordItalic": false,
-	"wordCase": "uppercase",
-}
-
 export const homeDestinations = [
 	urls.alphabets,
 	urls.vowels,
@@ -110,14 +88,37 @@ export const WORD_HIGHLIGHT = {
 	NONE: 2,
 }
 
-export const characterSpliterMode = {
+export const characterSplitterMode = {
 	[WORD_HIGHLIGHT.COMPOUND]: "T Á CH CH Ữ",
 	[WORD_HIGHLIGHT.CHAR]: "T Á C H C H Ữ",
 	[WORD_HIGHLIGHT.NONE]: "TÁCH CHỮ",
 }
 
 /**
+ * These be configurable via Settings page
+ */
+
+type TDefaultSettings = {
+	countDownNumber: { name: string, value: number }
+	fontFamily: { name: string, value: TSupportFont }
+	wordCase: { name: string, value: TWordCase }
+	wordBold: { name: string, value: boolean }
+	wordItalic: { name: string, value: boolean }
+	characterSplitterMode: { name: string, value: number }
+}
+
+export const DEFAULT_SETTINGS: TDefaultSettings = {
+	countDownNumber: { name: "countDownNumber", value: 15 },
+	fontFamily: { name: "fontFamily", value: "inter" },
+	wordCase: { name: "wordCase", value: "capitalize" },
+	wordBold: { name: "wordBold", value: true },
+	wordItalic: { name: "wordItalic", value: false },
+	characterSplitterMode: { name: "characterSplitterMode", value: WORD_HIGHLIGHT.CHAR }
+} as const
+
+/**
  * Some dummy data
  */
 
 export const sampleImg = "https://images.unsplash.com/photo-1690860131818-6794aa1e0ff7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1871&q=80"
+

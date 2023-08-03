@@ -9,6 +9,7 @@ import { TWord, TWordCategory, WORD_CATEGORY } from "@/data"
 import { useParams, useRouter } from "next/navigation"
 import CountDownTimer from "./CountDownTimer"
 import Word from "./Word"
+import { useLocalStorage, useReadLocalStorage } from "usehooks-ts"
 
 type CategoryListContentProps = {
 	selectedCategories: selectedCategoriesType
@@ -85,6 +86,8 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 			}, {})
 		)
 
+	const splitterMode = useReadLocalStorage<number>(DEFAULT_SETTINGS.characterSplitterMode.name) ?? DEFAULT_SETTINGS.characterSplitterMode.value
+
 	const [totalWordElements, setTotalWordElements] = React.useState(0)
 	const [highlightElementIndex, setHighlightElementIndex] = React.useState(0)
 
@@ -131,7 +134,7 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 				</span>
 			</div>
 			<CountDownTimer
-				value={DEFAULT_SETTINGS.countDownNumber}
+				value={DEFAULT_SETTINGS.countDownNumber.value}
 				callback={newRandomWord}
 			/>
 			<div className={clsx(
@@ -141,6 +144,7 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 			)}>
 				<Word
 					word={randomWord.text}
+					splitterMode={splitterMode}
 					updateElementCounts={setTotalWordElements}
 					currentIndex={highlightElementIndex}
 				/>

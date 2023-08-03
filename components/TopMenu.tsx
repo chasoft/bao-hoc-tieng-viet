@@ -5,9 +5,9 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useLocalStorage } from "usehooks-ts"
 import { usePathname } from "next/navigation"
-import { DEFAULT_SETTINGS, displaySettings, fontsList, urls } from "@/data/settings"
+import { DEFAULT_SETTINGS, characterSplitterMode, fontsList, urls } from "@/data/settings"
 import { fonts } from "@/app/fonts"
-import { IconBold, IconFontFamily, IconItalic, IconLetterCaseCapitalize, IconLetterCaseLowercase, IconLetterCaseUppercase, IconMenu, IconSettings } from "./Icons"
+import { IconBold, IconFontFamily, IconItalic, IconLetterCaseCapitalize, IconLetterCaseLowercase, IconLetterCaseUppercase, IconMenu, IconSettings, IconSplitCellsHorizontal } from "./Icons"
 import { TWordCase } from "@/types"
 
 const wordCaseToolbarIcons: Record<TWordCase, { icon: any, tooltip: string }> = {
@@ -52,8 +52,14 @@ const wordStyleToolbarIcons: Record<string, { icon: any, tooltip: string }> = {
  * Like Check components
  */
 function WordStyleButtons() {
-	const [wordBold, setWordBold] = useLocalStorage<boolean>("wordBold", displaySettings.wordBold);
-	const [wordItalic, setWordItalic] = useLocalStorage<boolean>("wordItalic", displaySettings.wordItalic);
+	const [wordBold, setWordBold] = useLocalStorage<boolean>(
+		DEFAULT_SETTINGS.wordBold.name,
+		DEFAULT_SETTINGS.wordBold.value
+	);
+	const [wordItalic, setWordItalic] = useLocalStorage<boolean>(
+		DEFAULT_SETTINGS.wordItalic.name,
+		DEFAULT_SETTINGS.wordItalic.value
+	);
 
 	const wordStyleState: Record<string, { value: boolean, action: Function }> = {
 		"B": { value: wordBold, action: () => setWordBold(v => !v) },
@@ -94,7 +100,8 @@ function Toolbar() {
 
 function FontButton() {
 	const [selectedFont, setSelectedFontsetOpen] = useLocalStorage(
-		"selectedFont", DEFAULT_SETTINGS.fontFamily
+		DEFAULT_SETTINGS.fontFamily.name,
+		DEFAULT_SETTINGS.fontFamily.value
 	);
 	return (
 		<div className="dropdown dropdown-end">
@@ -135,48 +142,43 @@ function FontButton() {
 	)
 }
 
-// function Character Splitter() {
-// 	const [selectedFont, setSelectedFontsetOpen] = useLocalStorage(
-// 		"selectedFont", DEFAULT_SETTINGS.fontFamily
-// 	);
-// 	return (
-// 		<div className="dropdown dropdown-end">
-// 			<label tabIndex={0}>
-// 				<button
-// 					title="Splitter mode for Separate characters"
-// 					type="button"
-// 					className="grid h-12 text-black transition-all bg-transparent border-0 place-content-center sm:h-16 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100 active:text-blue-500"
-// 				>
-// 					<IconSplitCellsHorizontal className="w-7 h-7" />
-// 				</button>
-// 			</label>
-// 			<div tabIndex={0} className="p-0 z-20 border-2 border-black shadow w-72 sm:w-96 md:w-[30rem] lg:w-[35rem] dropdown-content menu bg-base-100">
-// 				<div className="p-3 mb-0 text-xl bg-slate-200">
-// 					Chọn cơ chế split chữ
-// 				</div>
-// 				<ul>
-// 					{characterSpliterMode.map(font => (
-// 						<li
-// 							key={font.family}
-// 							className={clsx(
-// 								"w-full overflow-hidden text-xl sm:text-2xl md:text-3xl lg:text-4xl",
-// 								{ "bg-blue-400": selectedFont == font.family }
-// 							)}
-// 							onClick={() => setSelectedFontsetOpen(font.family)}
-// 						>
-// 							<a className={clsx(
-// 								"rounded-none sm:py-3",
-// 								fonts[font.family].className
-// 							)}>
-// 								Chọn Kiểu Chữ {font.name}
-// 							</a>
-// 						</li>
-// 					))}
-// 				</ul>
-// 			</div>
-// 		</div>
-// 	)
-// }
+function SplitterModeButton() {
+	const [splitterMode, setSplitterMode] = useLocalStorage<number>(
+		DEFAULT_SETTINGS.characterSplitterMode.name,
+		DEFAULT_SETTINGS.characterSplitterMode.value
+	);
+	return (
+		<div className="dropdown dropdown-end">
+			<label tabIndex={0}>
+				<button
+					title="Splitter mode for Separate characters"
+					type="button"
+					className="grid h-12 text-black transition-all bg-transparent border-0 place-content-center sm:h-16 hover:text-blue-800 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 aspect-square active:bg-blue-100 active:text-blue-500"
+				>
+					<IconSplitCellsHorizontal className="w-7 h-7" />
+				</button>
+			</label>
+			<div tabIndex={0} className="p-0 z-20 border-2 border-black shadow w-72 sm:w-96 md:w-[30rem] lg:w-[35rem] dropdown-content menu bg-base-100">
+				<ul>
+					{Object.entries(characterSplitterMode).map(([mode, desc]) => (
+						<li
+							key={mode}
+							className={clsx(
+								"w-full overflow-hidden text-xl sm:text-2xl md:text-3xl lg:text-4xl",
+								{ "bg-blue-400": Number(mode) === splitterMode }
+							)}
+							onClick={() => setSplitterMode(Number(mode))}
+						>
+							<span>
+								{`Chọn kiểu tách chữ "${desc}"`}
+							</span>
+						</li>
+					))}
+				</ul>
+			</div>
+		</div>
+	)
+}
 
 /**
  * Drawers is site-wide scope.

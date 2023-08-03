@@ -5,7 +5,7 @@ import clsx from "clsx"
 import { TChar } from "@/data"
 import { TWordCase } from "@/types"
 import { caseFunctions, swapCaseFunctions } from "@/utils"
-import { DEFAULT_SETTINGS, displaySettings } from "@/data/settings"
+import { DEFAULT_SETTINGS } from "@/data/settings"
 import { TSupportFont, fonts } from "@/app/fonts"
 import { useReadLocalStorage } from "usehooks-ts"
 
@@ -18,8 +18,8 @@ function StandaloneChar({ char }: { char: string }) {
 }
 
 function GridItemChar({ char }: { char: string }) {
-	const wordBold = useReadLocalStorage("wordBold") ?? displaySettings.wordBold
-	const wordItalic = useReadLocalStorage("wordItalic") ?? displaySettings.wordItalic
+	const wordBold = useReadLocalStorage(DEFAULT_SETTINGS.wordBold.name) ?? DEFAULT_SETTINGS.wordBold.value
+	const wordItalic = useReadLocalStorage(DEFAULT_SETTINGS.wordItalic.name) ?? DEFAULT_SETTINGS.wordItalic.value
 	return (
 		<div className={clsx(
 			{ "text-[25vw] sm:text-[28vw] ": char.length === 1 },
@@ -48,11 +48,13 @@ export default function Char({
 	value: { char, reading },
 	standaloneChar = true
 }: CharProps) {
-	const caseIndex = useReadLocalStorage<TWordCase>("wordCaseToolbarIcons") ?? "capitalize"
+	const caseIndex = useReadLocalStorage<TWordCase>(DEFAULT_SETTINGS.wordCase.name)
+		?? DEFAULT_SETTINGS.wordCase.value
 	const formattedChar = caseFunctions[caseIndex](char)
 	const swapFormattedSChar = swapCaseFunctions[caseIndex](char)
 	const hasReading = char !== reading
-	const selectedFont = useReadLocalStorage<TSupportFont>("selectedFont") ?? DEFAULT_SETTINGS.fontFamily
+	const selectedFont = useReadLocalStorage<TSupportFont>(DEFAULT_SETTINGS.fontFamily.name)
+		?? DEFAULT_SETTINGS.fontFamily.value
 
 	// TODO: làm hiệu ứng cho chữ cái, on-hover
 	const CharContent = (

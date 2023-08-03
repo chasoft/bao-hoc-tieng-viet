@@ -3,17 +3,20 @@
 import Link from "next/link"
 import React from "react"
 import clsx from "clsx"
+import { useReadLocalStorage } from "usehooks-ts"
 import { caseFunctions, getStringArrayCharLength, randomRgbColor } from "@/utils"
 import { COMPOUND_VOWELS, WORD_COMPOSITION } from "@/data"
-import { DEFAULT_SETTINGS, WORD_HIGHLIGHT, displaySettings } from "@/data/settings"
+import { DEFAULT_SETTINGS, WORD_HIGHLIGHT } from "@/data/settings"
 import { TSupportFont, fonts } from "@/app/fonts"
 import { TWordCase } from "@/types"
-import { useReadLocalStorage } from "usehooks-ts"
 
 function Text({ value, caseIndex }: { value: string, caseIndex?: TWordCase }) {
-	const wordBold = useReadLocalStorage("wordBold") ?? displaySettings.wordBold
-	const wordItalic = useReadLocalStorage("wordItalic") ?? displaySettings.wordItalic
-	const selectedFont = useReadLocalStorage<TSupportFont>("selectedFont") ?? DEFAULT_SETTINGS.fontFamily
+	const wordBold = useReadLocalStorage(DEFAULT_SETTINGS.wordBold.name)
+		?? DEFAULT_SETTINGS.wordBold.value
+	const wordItalic = useReadLocalStorage(DEFAULT_SETTINGS.wordItalic.name)
+		?? DEFAULT_SETTINGS.wordItalic.value
+	const selectedFont = useReadLocalStorage<TSupportFont>(DEFAULT_SETTINGS.fontFamily.name)
+		?? DEFAULT_SETTINGS.fontFamily.value
 
 	return (
 		<span className={clsx(
@@ -31,27 +34,34 @@ function Text({ value, caseIndex }: { value: string, caseIndex?: TWordCase }) {
 	)
 }
 
-function extractCompoundChars(str: string): string[] {
+function extractCompoundChars(rawStr: string): string[] {
+	const strArr = rawStr.split(" ")
 	const extractedCompoundChars: Array<string> = []
 
-	COMPOUND_VOWELS.map(({ char }) => char).every(i => {
-		if (str.startsWith(i)) {
-			extractedCompoundChars.push(i)
-			return false
-		}
-		return true
-	})
-
-	WORD_COMPOSITION.forEach((COMPOUND) => {
-		if (getStringArrayCharLength(extractedCompoundChars) >= str.length) return
-
-		COMPOUND.every(i => {
-			if (str.slice(getStringArrayCharLength(extractedCompoundChars)).startsWith(i)) {
+	strArr.forEach((str, idx) => {
+		COMPOUND_VOWELS.map(({ char }) => char).every(i => {
+			if (str.startsWith(i)) {
 				extractedCompoundChars.push(i)
 				return false
 			}
 			return true
 		})
+
+		WORD_COMPOSITION.forEach((COMPOUND) => {
+			if (getStringArrayCharLength(extractedCompoundChars) >= str.length) return
+
+			COMPOUND.every(i => {
+				if (str.slice(getStringArrayCharLength(extractedCompoundChars)).startsWith(i)) {
+					extractedCompoundChars.push(i)
+					return false
+				}
+				return true
+			})
+		})
+
+		if (idx < strArr.length - 1) {
+			extractedCompoundChars.push(" ")
+		}
 	})
 
 	return extractedCompoundChars
@@ -59,12 +69,12 @@ function extractCompoundChars(str: string): string[] {
 
 type WordProps = {
 	word: string
+	splitterMode: number
 	updateElementCounts: (n: number) => void
 	currentIndex: number,
 }
 
-export default function Word({ word, updateElementCounts, currentIndex }: WordProps) {
-	const [mode, setMode] = React.useState(Math.floor(Math.random() * 2))
+export default function Word({ word, splitterMode, updateElementCounts, currentIndex }: WordProps) {
 	const caseIndex = useReadLocalStorage<TWordCase>("wordCaseToolbarIcons") ?? "capitalize"
 
 	const colorPalete = React.useMemo<string[]>(() =>
@@ -73,7 +83,7 @@ export default function Word({ word, updateElementCounts, currentIndex }: WordPr
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		), [word])
 
-	if (mode === WORD_HIGHLIGHT.COMPOUND) {
+	if (splitterMode === WORD_HIGHLIGHT.COMPOUND) {
 		const els = extractCompoundChars(word)
 		updateElementCounts(els.length)
 		return (
@@ -99,7 +109,7 @@ export default function Word({ word, updateElementCounts, currentIndex }: WordPr
 		)
 	}
 
-	if (mode === WORD_HIGHLIGHT.CHAR) {
+	if (splitterMode === WORD_HIGHLIGHT.CHAR) {
 		const els = word.split("")
 		updateElementCounts(els.length)
 		return (
@@ -122,7 +132,7 @@ export default function Word({ word, updateElementCounts, currentIndex }: WordPr
 		)
 	}
 
-	if (mode === WORD_HIGHLIGHT.NONE) {
+	if (splitterMode === WORD_HIGHLIGHT.NONE) {
 		const els = word.split(" ")
 		updateElementCounts(els.length)
 		return (
