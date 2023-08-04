@@ -78,7 +78,6 @@ export default function Word({
 			<div className="flex justify-center">
 				{separatedElements.map((el, idx) =>
 					<Link
-						prefetch
 						key={idx}
 						href={urls.char.details(el)}
 						style={{ color: colorPalete[idx] }}
@@ -102,7 +101,6 @@ export default function Word({
 			<div className="flex justify-center">
 				{separatedElements.map((letter, idx) =>
 					<Link
-						prefetch
 						key={idx}
 						href={urls.char.details(letter)}
 						style={{ color: colorPalete[idx] }}
@@ -123,7 +121,6 @@ export default function Word({
 			<div className="flex justify-center">
 				{separatedElements.map((letter, idx) =>
 					<Link
-						prefetch
 						key={idx}
 						href={urls.char.details(letter)}
 						style={{ color: colorPalete[idx] }}

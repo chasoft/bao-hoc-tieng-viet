@@ -50,7 +50,7 @@ function CategoryListContent({ selectedCategories, onClickCheckbox }: CategoryLi
 									<label className="cursor-pointer label">
 										<input
 											type="checkbox"
-											checked={selectedCategories[key]}
+											checked={selectedCategories[key] ?? false}
 											className="checkbox checkbox-sm"
 											onChange={() => { onClickCheckbox(key) }}
 										/>

@@ -8,6 +8,7 @@ import { caseFunctions, swapCaseFunctions } from "@/utils"
 import { DEFAULT_SETTINGS, STRING_EMPTY } from "@/data/settings"
 import { TSupportFont, fonts } from "@/app/fonts"
 import { useReadLocalStorage } from "usehooks-ts"
+import { useInit } from "@/hooks/useInit"
 
 function StandaloneChar({ char }: { char: string }) {
 	return (
@@ -17,11 +18,14 @@ function StandaloneChar({ char }: { char: string }) {
 	)
 }
 
-function GridItemChar({ char }: { char: string }) {
+function GridItemChar({ char, init }: { char: string, init: boolean }) {
 	const wordBold = useReadLocalStorage(DEFAULT_SETTINGS.wordBold.name)
 		?? DEFAULT_SETTINGS.wordBold.value
 	const wordItalic = useReadLocalStorage(DEFAULT_SETTINGS.wordItalic.name)
 		?? DEFAULT_SETTINGS.wordItalic.value
+
+	if (!init) return null
+
 	return (
 		<div className={clsx(
 			{ "text-[25vw] sm:text-[28vw] ": char.length === 1 },
@@ -50,6 +54,7 @@ export default function Char({
 	value: { char, reading },
 	standaloneChar = true
 }: CharProps) {
+	const init = useInit()
 	const caseIndex = useReadLocalStorage<TWordCase>(DEFAULT_SETTINGS.wordCase.name)
 		?? DEFAULT_SETTINGS.wordCase.value
 	const selectedFont = useReadLocalStorage<TSupportFont>(DEFAULT_SETTINGS.fontFamily.name)
@@ -66,7 +71,7 @@ export default function Char({
 		)}>
 			{standaloneChar
 				? <StandaloneChar char={formattedChar} />
-				: <GridItemChar char={formattedChar} />}
+				: <GridItemChar char={formattedChar} init={init} />}
 			<div className={clsx(
 				"absolute bottom-0 left-0 right-0 flex items-end px-2 pb-1 leading-none sm:pb-3 md:px-6 lg:px-3",
 				{ "text-4xl sm:text-5xl md:text-6xl lg:text-8xl": standaloneChar },
@@ -84,6 +89,8 @@ export default function Char({
 			</div>
 		</div >
 	)
+
+	if (!init) return null
 
 	if (standaloneChar) {
 		return (

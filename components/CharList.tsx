@@ -14,7 +14,7 @@ export default function CharList({ list, hasCompoundChar }: CharListProps) {
 	return (
 		<>
 			{list.map((letter, index) => (
-				<Link prefetch key={letter.char} href={urls.char.details(letter.char)}>
+				<Link key={letter.char} href={urls.char.details(letter.char)}>
 					<Char
 						value={letter}
 						standaloneChar={false}

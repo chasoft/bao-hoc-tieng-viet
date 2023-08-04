@@ -213,7 +213,7 @@ function MenuButton() {
 
 function SettingsButton() {
 	return (
-		<Link href={urls.settings.url} prefetch>
+		<Link href={urls.settings.url}>
 			<button
 				title="Thiết lập cấu hình"
 				type="button"

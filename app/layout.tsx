@@ -3,6 +3,7 @@ import { inter } from './fonts'
 import MainMenuContent from '@/components/MainMenuContent'
 import TopMenu from '@/components/TopMenu'
 import type { Metadata } from 'next'
+import DrawerToggle from './DrawerToggle'
 
 
 export const metadata: Metadata = {
@@ -21,7 +22,7 @@ export default function RootLayout({ children, settings, modal }: RootLayoutProp
     <html lang="vi">
       <body className={inter.className}>
         <div className="drawer">
-          <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+          <DrawerToggle />
           <main className="drawer-content">
             {/* Content of the Site goes here */}
             <TopMenu />

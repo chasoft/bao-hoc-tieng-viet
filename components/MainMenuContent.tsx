@@ -1,9 +1,9 @@
 "use client"
 
 import Link from "next/link";
-import { IconBxsFaceMask } from "./Icons";
-import { STRING_EMPTY, mainMenuItems, urls } from "@/data/settings";
 import { usePathname } from "next/navigation";
+import { IconBxsFaceMask, IconSettings } from "./Icons";
+import { STRING_EMPTY, mainMenuItems, urls } from "@/data/settings";
 
 export default function MainMenuContent() {
 	const pathname = usePathname()
@@ -17,18 +17,23 @@ export default function MainMenuContent() {
 					>
 						<Link
 							href={url}
-							prefetch={url !== urls.home.url}
-							className="py-4 transition-all rounded-none"
+							className="py-4 rounded-none"
 						>
 							{title}
 						</Link>
 					</li>
 				))}
 			</ul>
-			<div className="flex justify-end p-4">
+			<div className="flex justify-between p-2">
+				<Link
+					href={urls.settings.url}
+					className="flex items-center gap-2 px-2 py-1 cursor-pointer hover:text-blue-700"
+				>
+					<IconSettings className="w-7 h-7" /><span>Settings</span>
+				</Link>
 				<div className="tooltip" data-tip="Giới thiệu">
 					<IconBxsFaceMask
-						className="w-8 h-8 transition-all cursor-pointer hover:text-blue-500 hover:scale-125"
+						className="w-8 h-8 transition-all cursor-pointer hover:text-blue-700"
 					/>
 				</div>
 			</div>
