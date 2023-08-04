@@ -9,6 +9,7 @@ import { DEFAULT_SETTINGS, characterSplitterMode, fontsList, urls } from "@/data
 import { fonts } from "@/app/fonts"
 import { IconBold, IconFontFamily, IconItalic, IconLetterCaseCapitalize, IconLetterCaseLowercase, IconLetterCaseUppercase, IconMenu, IconSettings, IconSplitCellsHorizontal } from "./Icons"
 import { TWordCase } from "@/types"
+import { useInit } from "@/hooks/useInit"
 
 const wordCaseToolbarIcons: Record<TWordCase, { icon: any, tooltip: string }> = {
 	"lowercase": { icon: <IconLetterCaseLowercase className="w-7 h-7" />, tooltip: "chữ thường" },
@@ -21,11 +22,15 @@ const wordCaseToolbarIcons: Record<TWordCase, { icon: any, tooltip: string }> = 
  * Like Radio Components
  */
 function WordCaseButtons() {
+	const init = useInit()
 	const [caseIndex, setCaseIndex] = useLocalStorage<TWordCase>(
 		DEFAULT_SETTINGS.wordCase.name,
 		DEFAULT_SETTINGS.wordCase.value
 	);
 	const pathname = usePathname();
+
+	if (!init) return null //TODO: compose default template for SEO purpose
+
 	return (
 		<div className="flex items-center border-r-[1px] border-gray-200">
 			{Object.entries(wordCaseToolbarIcons).map(([key, icon]) => (
@@ -105,10 +110,14 @@ function Toolbar() {
 }
 
 function FontButton() {
+	const init = useInit()
 	const [selectedFont, setSelectedFontsetOpen] = useLocalStorage(
 		DEFAULT_SETTINGS.fontFamily.name,
 		DEFAULT_SETTINGS.fontFamily.value
 	);
+
+	if (!init) return null //TODO: compose default template for SEO purpose
+
 	return (
 		<div className="dropdown dropdown-end">
 			<label tabIndex={0}>
@@ -146,10 +155,14 @@ function FontButton() {
 }
 
 function SplitterModeButton() {
+	const init = useInit()
 	const [splitterMode, setSplitterMode] = useLocalStorage<number>(
 		DEFAULT_SETTINGS.characterSplitterMode.name,
 		DEFAULT_SETTINGS.characterSplitterMode.value
 	);
+
+	if (!init) return null //TODO: compose default template for SEO purpose
+
 	return (
 		<div className="dropdown dropdown-end">
 			<label tabIndex={0}>

@@ -109,7 +109,7 @@ type TDefaultSettings = {
 }
 
 export const DEFAULT_SETTINGS: TDefaultSettings = {
-	countDownNumber: { name: "countDownNumber", value: 15 },
+	countDownNumber: { name: "countDownNumber", value: 6000 },
 	fontFamily: { name: "fontFamily", value: "inter" },
 	wordCase: { name: "wordCase", value: "capitalize" },
 	wordBold: { name: "wordBold", value: true },

@@ -65,7 +65,7 @@ export default function Word({
 			case WORD_HIGHLIGHT.CHAR:
 				setSeparatedElements(word.split(STRING_EMPTY))
 				break;
-			case WORD_HIGHLIGHT.COMPOUND:
+			case WORD_HIGHLIGHT.NONE:
 				setSeparatedElements(word.split(STRING_SPACE))
 				break;
 			default:
@@ -107,8 +107,8 @@ export default function Word({
 						href={urls.char.details(letter)}
 						style={{ color: colorPalete[idx] }}
 						className={clsx(
-							{ "hover:underline": separatedElements[idx] !== STRING_SPACE },
-							{ "underline": currentIndex === idx && separatedElements[idx] !== STRING_SPACE },
+							{ "hover:underline hover:underline-offset-[0.25em]": separatedElements[idx] !== STRING_SPACE },
+							{ "underline underline-offset-[0.25em]": currentIndex === idx && separatedElements[idx] !== STRING_SPACE },
 						)}
 					>
 						<Text value={letter} />

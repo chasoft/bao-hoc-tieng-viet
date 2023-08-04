@@ -34,7 +34,7 @@ export default function CountDownTimer({ value, callback }: CountDownTimerProps)
 	}, [callback, count, resetCountdown, router, startCountdown])
 
 	return (
-		<div className="fixed right-2 top-14 sm:top-[68px]">
+		<div className="fixed right-2 top-14 sm:top-[74px]">
 			<span className="font-bold text-white aspect-square badge badge-primary badge-lg">
 				{count}</span>
 		</div>

@@ -1,5 +1,7 @@
 import { TSupportFont } from "@/app/fonts"
+import { TWord } from "@/data"
 import { CAT_SEPARATOR, DEFAULT_SETTINGS } from "@/data/settings"
+import { useInit } from "@/hooks/useInit"
 import { TWordCase } from "@/types"
 import { validCategoryFilter } from "@/utils"
 import clsx from "clsx"
@@ -7,10 +9,12 @@ import { useParams } from "next/navigation"
 import { useReadLocalStorage } from "usehooks-ts"
 
 type AppliedSettingsInformationPanelProps = {
+	word?: TWord
 	className?: string
 }
 
-export default function AppliedSettingsInformationPanel({ className }: AppliedSettingsInformationPanelProps) {
+export default function AppliedSettingsInformationPanel({ className, word }: AppliedSettingsInformationPanelProps) {
+	const init = useInit()
 	const { categories } = useParams();
 	const validCategories = validCategoryFilter(
 		typeof categories === "string"
@@ -38,13 +42,19 @@ export default function AppliedSettingsInformationPanel({ className }: AppliedSe
 	// TODO: Thêm breadcrumbs góc trên bên trái
 	// https://daisyui.com/components/breadcrumbs/
 
+	if (!init) return null //TODO: compose default template for SEO purpose
+
 	return (
-		<div className={clsx("text-slate-400", className)}>
+		<div className={clsx("text-slate-400 hidden md:block", className)}>
 			<span>Cấu hình đang áp dụng</span>
-			<ul className="hidden">
-				<li>dd</li>
-				<li>dd</li>
-				<li>dd</li>
+			<ul>
+				<li>{`Chủ đề đang xem: ${validCategories.join(", ")}`}</li>
+				<li>{`WordBold: ${wordBold}`}</li>
+				<li>{`WordItalic: ${wordItalic}`}</li>
+				<li>{`Kiểu chữ đang hiển thị: ${selectedFont}`}</li>
+				<li>{`${caseIndex}`}</li>
+				<li>{`Kiểu tách chữ cái: ${splitterMode}`}</li>
+				<li>{`Chữ đang hiển thị: ${word ? word.text : ""}`}</li>
 			</ul>
 		</div>
 	)

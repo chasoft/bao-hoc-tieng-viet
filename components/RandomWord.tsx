@@ -146,6 +146,7 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 
 			<AppliedSettingsInformationPanel
 				className="fixed mt-4 top-16 left-4"
+				word={randomWord}
 			/>
 
 			<div

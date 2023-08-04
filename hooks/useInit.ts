@@ -1,6 +1,6 @@
 import React from "react"
 
-function useInit() {
+export function useInit() {
 	const [init, setInit] = React.useState(false)
 
 	React.useEffect(() => {
