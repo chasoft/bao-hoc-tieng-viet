@@ -1,6 +1,6 @@
 import RandomWord from "@/components/RandomWord";
 import { CAT_SEPARATOR } from "@/data/settings";
-import { generateRandomWord, validCategoryFilter } from "@/utils";
+import { generateRandomWord, getWordsFromCategories, validCategoryFilter } from "@/utils";
 
 /**
  * [categories] supports multiple categories by separating them with + (plus)
@@ -19,6 +19,8 @@ export default function RandomCategoryPage({ params: { categories } }: { params:
 	}
 
 	return (
-		<RandomWord initWord={generateRandomWord(validCategories)} />
+		<RandomWord
+			initWord={generateRandomWord(getWordsFromCategories(validCategories))}
+		/>
 	)
 }

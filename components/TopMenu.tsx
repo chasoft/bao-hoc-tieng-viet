@@ -5,7 +5,7 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useLocalStorage } from "usehooks-ts"
 import { usePathname } from "next/navigation"
-import { DEFAULT_SETTINGS, characterSplitterMode, fontsList, urls } from "@/data/settings"
+import { DEFAULT_SETTINGS, splitModeDescription, fontsList, urls } from "@/data/settings"
 import { fonts } from "@/app/fonts"
 import { IconBold, IconFontFamily, IconItalic, IconLetterCaseCapitalize, IconLetterCaseLowercase, IconLetterCaseUppercase, IconMenu, IconSettings, IconSplitCellsHorizontal } from "./Icons"
 import { TWordCase } from "@/types"
@@ -60,6 +60,7 @@ const wordStyleToolbarIcons: Record<string, { icon: any, tooltip: string }> = {
  * Like Check components
  */
 function WordStyleButtons() {
+	const init = useInit()
 	const [wordBold, setWordBold] = useLocalStorage<boolean>(
 		DEFAULT_SETTINGS.wordBold.name,
 		DEFAULT_SETTINGS.wordBold.value
@@ -75,6 +76,9 @@ function WordStyleButtons() {
 	}
 
 	const wordStyleIcons = Object.entries(wordStyleToolbarIcons)
+
+
+	if (!init) return null
 
 	return (
 		<div className="flex items-center border-r-[1px] border-gray-200">
@@ -176,7 +180,7 @@ function SplitterModeButton() {
 			</label>
 			<div tabIndex={0} className="p-0 z-20 border-2 border-black shadow w-72 sm:w-96 md:w-[30rem] lg:w-[35rem] dropdown-content menu bg-base-100">
 				<ul>
-					{Object.entries(characterSplitterMode).map(([mode, desc]) => (
+					{Object.entries(splitModeDescription).map(([mode, desc]) => (
 						<li
 							key={mode}
 							className={clsx(

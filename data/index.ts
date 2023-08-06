@@ -1,3 +1,5 @@
+import { TWordCase } from "@/types"
+
 type TMark = "´" | "`" | "ˀ" | "~" | "."
 
 export const VOWELS = [
@@ -114,9 +116,6 @@ export const MARKS: Array<TMarkData> = [
 	{ char: ".", reading: "nặng" },
 ]
 
-export type TWord = { text: string, desc: string }
-
-
 /**
  * DATA
  */
@@ -136,11 +135,13 @@ export type TWordCategory =
 	"on-the-land" |
 	"relationship" |
 	"under-water" |
+	"universe" |
 	"verb" |
 	// Keep following item at the bottom of the list
 	"others";
 
 export const WORD_CATEGORY: Record<TWordCategory, { title: string, desc: string }> = {
+
 	"adjective": { title: "Tính từ", desc: "Tính chất của sự vật, sự việc" },
 	"adverb": { title: "Trạng từ", desc: "" },
 	"animal": { title: "Động vật", desc: "" },
@@ -156,35 +157,148 @@ export const WORD_CATEGORY: Record<TWordCategory, { title: string, desc: string 
 	"on-the-land": { title: "Trên mặt đất", desc: "" },
 	"relationship": { title: "Quan hệ", desc: "" },
 	"under-water": { title: "Dưới mặt nước", desc: "" },
+	"universe": { title: "Vũ trụ", desc: "" },
 	"verb": { title: "Động từ", desc: "" },
 	// Keep following item at the bottom of the list
 	"others": { title: "Không phân loại", desc: "Các từ không thuộc chủ đề nào" },
 }
 
-export type TWordDataItem = {
+export type TWord = {
 	text: string
 	desc: string
 	cat: TWordCategory[]
+	defaultWordCase?: TWordCase
 	sentence?: string[]
 }
 
-export const WORDS: Array<TWordDataItem> = [
-	{ text: "trái đất", desc: "", cat: [] },
-	{ text: "dễ thương", desc: "", cat: [] },
-	{ text: "cái bàn", desc: "", cat: [] },
-	{ text: "cái ghế", desc: "", cat: [] },
-	{ text: "con thỏ", desc: "", cat: [] },
-	{ text: "mẹ châu", desc: "", cat: [] },
-	{ text: "con trai", desc: "", cat: [] },
-	{ text: "con gái", desc: "", cat: [] },
-	{ text: "ba mẹ", desc: "", cat: [] },
-	{ text: "ông bà", desc: "", cat: [] },
-	{ text: "khó khăn", desc: "", cat: [] },
-	{ text: "khăn tay", desc: "", cat: [] },
-	{ text: "trái khế", desc: "", cat: [] },
-	{ text: "tủ đồ", desc: "", cat: [] },
-	{ text: "thỏ con", desc: "", cat: [] },
-	{ text: "mặt trăng", desc: "", cat: [] },
-	{ text: "khó khăn", desc: "", cat: [] },
-	{ text: "thắng cảnh", desc: "", cat: [] },
+export const ALL_WORDS: Array<TWord> = [
+	{ text: "trái đất", desc: "", cat: ["universe"] },
+	{ text: "mặt trăng", desc: "", cat: ["universe"] },
+	{ text: "mặt trời", desc: "", cat: ["universe"] },
+	{ text: "sao thủy", desc: "", cat: ["universe"] },
+	{ text: "sao hỏa", desc: "", cat: ["universe"] },
+	{ text: "sao kim", desc: "", cat: ["universe"] },
+	{ text: "sao mộc", desc: "", cat: ["universe"] },
+	{ text: "sao chổi", desc: "", cat: ["universe"] },
+	{ text: "ngôi sao", desc: "", cat: ["universe"] },
+	{ text: "thái dương hệ", desc: "", cat: ["universe"] },
+	{ text: "vũ trụ", desc: "", cat: ["universe"] },
+
+	{ text: "dễ thương", desc: "", cat: ["adjective"] },
+	{ text: "xinh đẹp", desc: "", cat: ["adjective"] },
+	{ text: "cao thấp", desc: "", cat: ["adjective"] },
+	{ text: "nhanh chậm", desc: "", cat: ["adjective"] },
+	{ text: "đẹp xấu", desc: "", cat: ["adjective"] },
+	{ text: "giỏi dở", desc: "", cat: ["adjective"] },
+	{ text: "thương yêu", desc: "", cat: ["adjective"] },
+
+	{ text: "cái bàn", desc: "", cat: ["learning-tools"] },
+	{ text: "cái ghế", desc: "", cat: ["learning-tools"] },
+	{ text: "cây viết", desc: "", cat: ["learning-tools"] },
+	{ text: "cây bút", desc: "", cat: ["learning-tools"] },
+	{ text: "cái đèn", desc: "", cat: ["learning-tools"] },
+	{ text: "cục tẩy", desc: "", cat: ["learning-tools"] },
+	{ text: "bút chì", desc: "", cat: ["learning-tools"] },
+	{ text: "cây thước", desc: "", cat: ["learning-tools"] },
+
+	{ text: "con thỏ", desc: "", cat: ["animal", "on-the-land"] },
+	{ text: "con chó", desc: "", cat: ["animal", "on-the-land"] },
+	{ text: "con heo", desc: "", cat: ["animal", "on-the-land"] },
+	{ text: "con gà", desc: "", cat: ["animal", "on-the-land"] },
+	{ text: "con vịt", desc: "", cat: ["animal", "on-the-land"] },
+	{ text: "con rắn", desc: "", cat: ["animal", "on-the-land"] },
+	{ text: "con sư tử", desc: "", cat: ["animal", "on-the-land"] },
+	{ text: "con rùa", desc: "", cat: ["animal", "on-the-land"] },
+	{ text: "con cá sấu", desc: "", cat: ["animal", "in-the-sky"] },
+	{ text: "con hà mã", desc: "", cat: ["animal", "under-water"] },
+	{ text: "con cá", desc: "", cat: ["animal", "under-water"] },
+	{ text: "cá mập", desc: "", cat: ["animal", "under-water"] },
+	{ text: "cá voi", desc: "", cat: ["animal", "under-water"] },
+	{ text: "con mực", desc: "", cat: ["animal", "under-water"] },
+	{ text: "con tôm", desc: "", cat: ["animal", "under-water"] },
+	{ text: "con khỉ", desc: "", cat: ["animal", "on-the-land"] },
+	{ text: "con tê giác", desc: "", cat: ["animal", "on-the-land"] },
+	{ text: "con voi", desc: "", cat: ["animal", "on-the-land"] },
+	{ text: "con đà điểu", desc: "", cat: ["animal", "on-the-land"] },
+
+	{ text: "ba mẹ", desc: "", cat: ["relationship", "family"] },
+	{ text: "ông bà", desc: "", cat: ["relationship", "family"] },
+	{ text: "ông nội", desc: "", cat: ["relationship", "family"] },
+	{ text: "ông ngoại", desc: "", cat: ["relationship", "family"] },
+	{ text: "bà nội", desc: "", cat: ["relationship", "family"] },
+	{ text: "bà ngoại", desc: "", cat: ["relationship", "family"] },
+	{ text: "cô chú", desc: "", cat: ["relationship"] },
+	{ text: "cô bác", desc: "", cat: ["relationship"] },
+	{ text: "chú thím", desc: "", cat: ["relationship"] },
+	{ text: "cậu mợ", desc: "", cat: ["relationship"] },
+	{ text: "dì dượng", desc: "", cat: ["relationship"] },
+
+	{ text: "xe cứu hỏa", desc: "", cat: ["machine"] },
+	{ text: "xe cần cẩu", desc: "", cat: ["machine"] },
+	{ text: "xe bán tải", desc: "", cat: ["machine"] },
+	{ text: "xe ô-tô/ xe hơi", desc: "", cat: ["machine"] },
+	{ text: "xe bồn", desc: "", cat: ["machine"] },
+	{ text: "xe rác", desc: "", cat: ["machine"] },
+	{ text: "xe tăng", desc: "", cat: ["machine"] },
+	{ text: "xe công-tai-nơ", desc: "", cat: ["machine"] },
+	{ text: "xe lu", desc: "", cat: ["machine"] },
+	{ text: "xe ủi", desc: "", cat: ["machine"] },
+	{ text: "xe múc", desc: "", cat: ["machine"] },
+	{ text: "xe quét đường", desc: "", cat: ["machine"] },
+
+	{ text: "con chuột", desc: "", cat: ["computer"] },
+	{ text: "bàn phím", desc: "", cat: ["computer"] },
+	{ text: "máy vi tính", desc: "", cat: ["computer"] },
+	{ text: "laptop", desc: "", cat: ["computer"] },
+	{ text: "tai nghe", desc: "", cat: ["computer"] },
+
+	{ text: "nước việt nam", desc: "", defaultWordCase: "capitalize", cat: ["country"] },
+	{ text: "nước thái lan", desc: "", defaultWordCase: "capitalize", cat: ["country"] },
+	{ text: "nước hoa kỳ", desc: "", defaultWordCase: "capitalize", cat: ["country"] },
+	{ text: "nước đức", desc: "", defaultWordCase: "capitalize", cat: ["country"] },
+	{ text: "nước pháp", desc: "", defaultWordCase: "capitalize", cat: ["country"] },
+	{ text: "nước anh", desc: "", defaultWordCase: "capitalize", cat: ["country"] },
+
+	{ text: "Hà Nội", desc: "Thủ đô của nước Việt Nam", defaultWordCase: "default", cat: ["capital"] },
+	{ text: "Bangkok", desc: "Thủ đô của nước Thái Lan", defaultWordCase: "default", cat: ["capital"] },
+	{ text: "Washington DC", desc: "Thủ đô của nước Hoa Kỳ", defaultWordCase: "default", cat: ["capital"] },
+	{ text: "Paris", desc: "Thủ đô của nước Pháp", defaultWordCase: "default", cat: ["capital"] },
+	{ text: "London", desc: "Thủ đô của nước Anh", defaultWordCase: "default", cat: ["capital"] },
+	{ text: "Berlin", desc: "Thủ đô của nước Đức", defaultWordCase: "default", cat: ["capital"] },
+
+	{ text: "chạy bộ", desc: "", cat: ["verb"] },
+	{ text: "nhảy dây", desc: "", cat: ["verb"] },
+	{ text: "đi bộ", desc: "", cat: ["verb"] },
+	{ text: "cầm nắm", desc: "", cat: ["verb"] },
+	{ text: "nói chuyện", desc: "", cat: ["verb"] },
+	{ text: "lắng nghe", desc: "", cat: ["verb"] },
+	{ text: "nhìn", desc: "", cat: ["verb"] },
+	{ text: "ăn cơm", desc: "", cat: ["verb"] },
+
+	{ text: "con chim", desc: "", cat: ["in-the-sky"] },
+	{ text: "chim hải âu", desc: "", cat: ["in-the-sky"] },
+	{ text: "chim bồ câu", desc: "", cat: ["in-the-sky"] },
+	{ text: "chim sẻ", desc: "", cat: ["in-the-sky"] },
+	{ text: "con dơi", desc: "", cat: ["in-the-sky"] },
+	{ text: "máy bay", desc: "", cat: ["in-the-sky"] },
+	{ text: "trực thăng", desc: "", cat: ["in-the-sky"] },
+	{ text: "hỏa tiễn", desc: "", cat: ["in-the-sky"] },
+	{ text: "tên lửa", desc: "", cat: ["in-the-sky"] },
+	{ text: "phi thuyền", desc: "", cat: ["in-the-sky"] },
+	{ text: "phi thuyền", desc: "", cat: ["in-the-sky"] },
+
+	{ text: "con dao", desc: "", cat: ["kitchenware"] },
+	{ text: "cái thớt", desc: "", cat: ["kitchenware"] },
+	{ text: "cái chảo", desc: "", cat: ["kitchenware"] },
+	{ text: "cái nồi", desc: "", cat: ["kitchenware"] },
+	{ text: "cái nắp", desc: "", cat: ["kitchenware"] },
+	{ text: "cái muỗng", desc: "", cat: ["kitchenware"] },
+	{ text: "đôi đũa", desc: "", cat: ["kitchenware"] },
+	{ text: "cái nĩa", desc: "", cat: ["kitchenware"] },
+	{ text: "cái chén", desc: "", cat: ["kitchenware"] },
+	{ text: "cái tô", desc: "", cat: ["kitchenware"] },
+	{ text: "cái ly", desc: "", cat: ["kitchenware"] },
+
+	{ text: "mẹ châu", desc: "", cat: ["others"] },
+	{ text: "ba anh", desc: "", cat: ["others"] },
 ]

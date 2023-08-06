@@ -83,16 +83,20 @@ export const fontsList: Array<{ family: TSupportFont, name: string }> = [
  * mode 1: highlighting each character in the word
  * mode 2: no highlighting
 */
-export const WORD_HIGHLIGHT = {
+export type TSplitMode = 0 | 1 | 2
+
+export const SPLIT_MODE: Record<string, TSplitMode> = {
 	COMPOUND: 0,
 	CHAR: 1,
 	NONE: 2,
 }
 
-export const characterSplitterMode = {
-	[WORD_HIGHLIGHT.COMPOUND]: "T-Á-CH CH-Ữ",
-	[WORD_HIGHLIGHT.CHAR]: "T-Á-C-H C-H-Ữ",
-	[WORD_HIGHLIGHT.NONE]: "TÁCH CHỮ",
+
+// TODO: Fix error here
+export const splitModeDescription: Record<TSplitMode, string> = {
+	[SPLIT_MODE.COMPOUND]: "T-Á-CH CH-Ữ",
+	[SPLIT_MODE.CHAR]: "T-Á-C-H C-H-Ữ",
+	[SPLIT_MODE.NONE]: "TÁCH CHỮ",
 }
 
 /**
@@ -114,7 +118,7 @@ export const DEFAULT_SETTINGS: TDefaultSettings = {
 	wordCase: { name: "wordCase", value: "capitalize" },
 	wordBold: { name: "wordBold", value: true },
 	wordItalic: { name: "wordItalic", value: false },
-	characterSplitterMode: { name: "characterSplitterMode", value: WORD_HIGHLIGHT.CHAR }
+	characterSplitterMode: { name: "characterSplitterMode", value: SPLIT_MODE.CHAR }
 } as const
 
 /**

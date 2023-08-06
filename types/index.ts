@@ -1,1 +1,1 @@
-export type TWordCase = "uppercase" | "lowercase" | "capitalize"
+export type TWordCase = "uppercase" | "lowercase" | "capitalize" | "default"

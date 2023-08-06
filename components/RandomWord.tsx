@@ -4,7 +4,7 @@ import React from "react"
 import clsx from "clsx"
 import { useReadLocalStorage } from "usehooks-ts"
 import { CAT_SEPARATOR, DEFAULT_SETTINGS, STRING_SPACE, urls } from "@/data/settings"
-import { generateRandomWord, validCategoryFilter } from "@/utils"
+import { generateRandomWord, getWordsFromCategories, validCategoryFilter } from "@/utils"
 import { IconCheck, IconHandPointUp, IconSkipNext } from "./Icons"
 import { TWord, TWordCategory, WORD_CATEGORY } from "@/data"
 import { useParams, useRouter } from "next/navigation"
@@ -108,9 +108,17 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 		}
 	}, [separatedElements, highlightElementIndex])
 
-	const newRandomWord = React.useCallback(
-		() => setRandomWord(generateRandomWord(validCategories)),
+	/**
+	 * Filtered words based on selected categories
+	 */
+	const wordList = React.useMemo(
+		() => getWordsFromCategories(validCategories),
 		[validCategories]
+	)
+
+	const newRandomWord = React.useCallback(
+		() => setRandomWord(generateRandomWord(wordList)),
+		[wordList]
 	)
 
 	// TODO: remove this implementation by using container query
@@ -145,7 +153,6 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 		<div className="grid place-content-center mt-14">
 
 			<AppliedSettingsInformationPanel
-				className="fixed mt-4 top-16 left-4"
 				word={randomWord}
 			/>
 
@@ -169,8 +176,12 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 				{ "text-[28vw] lg:text-[25vw]": numberOfWords === 1 },
 				{ "text-[18vw] xl:text-[16vw]": numberOfWords === 2 },
 			)}>
+				{
+					// TODO: Support new attribute -> defaultWordCase 
+				}
 				<Word
-					word={randomWord.text}
+					wordText={randomWord.text}
+					defaultWordCase={randomWord.defaultWordCase}
 					splitterMode={splitterMode}
 					separatedElements={separatedElements}
 					setSeparatedElements={setSeparatedElements}

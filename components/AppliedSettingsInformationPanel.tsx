@@ -1,5 +1,5 @@
 import { TSupportFont } from "@/app/fonts"
-import { TWord } from "@/data"
+import { TWord, TWordCategory } from "@/data"
 import { CAT_SEPARATOR, DEFAULT_SETTINGS } from "@/data/settings"
 import { useInit } from "@/hooks/useInit"
 import { TWordCase } from "@/types"
@@ -7,13 +7,13 @@ import { validCategoryFilter } from "@/utils"
 import clsx from "clsx"
 import { useParams } from "next/navigation"
 import { useReadLocalStorage } from "usehooks-ts"
+import { IconInfo } from "./Icons"
 
 type AppliedSettingsInformationPanelProps = {
 	word?: TWord
-	className?: string
 }
 
-export default function AppliedSettingsInformationPanel({ className, word }: AppliedSettingsInformationPanelProps) {
+export default function AppliedSettingsInformationPanel({ word }: AppliedSettingsInformationPanelProps) {
 	const init = useInit()
 	const { categories } = useParams();
 	const validCategories = validCategoryFilter(
@@ -22,9 +22,9 @@ export default function AppliedSettingsInformationPanel({ className, word }: App
 			: []
 	)
 
-	const wordBold = useReadLocalStorage(DEFAULT_SETTINGS.wordBold.name)
+	const wordBold = useReadLocalStorage<boolean>(DEFAULT_SETTINGS.wordBold.name)
 		?? DEFAULT_SETTINGS.wordBold.value
-	const wordItalic = useReadLocalStorage(DEFAULT_SETTINGS.wordItalic.name)
+	const wordItalic = useReadLocalStorage<boolean>(DEFAULT_SETTINGS.wordItalic.name)
 		?? DEFAULT_SETTINGS.wordItalic.value
 	const selectedFont = useReadLocalStorage<TSupportFont>(DEFAULT_SETTINGS.fontFamily.name)
 		?? DEFAULT_SETTINGS.fontFamily.value
@@ -34,27 +34,57 @@ export default function AppliedSettingsInformationPanel({ className, word }: App
 		DEFAULT_SETTINGS.characterSplitterMode.name
 	) ?? DEFAULT_SETTINGS.characterSplitterMode.value
 
-	/**
-	 * TODO: Tổng hợp tất cả các thông tin đang được áp dụng
-	 * Có thể làm thành 1 popup... và trigger bằng 1 icon (i) góc trên bên trái
-	 */
-
-	// TODO: Thêm breadcrumbs góc trên bên trái
-	// https://daisyui.com/components/breadcrumbs/
-
-	if (!init) return null //TODO: compose default template for SEO purpose
+	if (!init) return (
+		<Template data={{
+			validCategories: [],
+			wordBold: DEFAULT_SETTINGS.wordBold.value,
+			wordItalic: DEFAULT_SETTINGS.wordItalic.value,
+			selectedFont: DEFAULT_SETTINGS.fontFamily.value,
+			caseIndex: DEFAULT_SETTINGS.wordCase.value,
+			splitterMode: DEFAULT_SETTINGS.characterSplitterMode.value,
+			word
+		}} />
+	)
 
 	return (
-		<div className={clsx("text-slate-400 hidden md:block", className)}>
-			<span>Cấu hình đang áp dụng</span>
-			<ul>
-				<li>{`Chủ đề đang xem: ${validCategories.join(", ")}`}</li>
-				<li>{`WordBold: ${wordBold}`}</li>
-				<li>{`WordItalic: ${wordItalic}`}</li>
-				<li>{`Kiểu chữ đang hiển thị: ${selectedFont}`}</li>
-				<li>{`${caseIndex}`}</li>
-				<li>{`Kiểu tách chữ cái: ${splitterMode}`}</li>
-				<li>{`Chữ đang hiển thị: ${word ? word.text : ""}`}</li>
+		<Template data={{
+			validCategories,
+			wordBold,
+			wordItalic,
+			selectedFont,
+			caseIndex,
+			splitterMode,
+			word
+		}} />
+	)
+}
+
+type TemplateProps = {
+	data: {
+		validCategories: TWordCategory[]
+		wordBold: boolean
+		wordItalic: boolean
+		selectedFont: TSupportFont
+		caseIndex: TWordCase
+		splitterMode: number
+		word?: TWord
+	}
+}
+
+function Template({ data }: TemplateProps) {
+	return (
+		<div className="absolute dropdown dropdown-bottom top-14 sm:top-[74px] left-2 sm:left-4">
+			<label tabIndex={0}>
+				<IconInfo className="w-8 h-8 text-blue-700" />
+			</label>
+			<ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-lg w-60">
+				<li>{`Chủ đề đang xem: ${data.validCategories.join(", ")}`}</li>
+				<li>{`WordBold: ${data.wordBold}`}</li>
+				<li>{`WordItalic: ${data.wordItalic}`}</li>
+				<li>{`Kiểu chữ đang hiển thị: ${data.selectedFont}`}</li>
+				<li>{`${data.caseIndex}`}</li>
+				<li>{`Kiểu tách chữ cái: ${data.splitterMode}`}</li>
+				<li>{`Chữ đang hiển thị: ${data.word ? data.word.text : ""}`}</li>
 			</ul>
 		</div>
 	)

@@ -7,7 +7,7 @@ import Link from "next/link"
 
 export default function Error({ error, reset }: { error: Error, reset: () => void }) {
 	return (
-		<div className="flex flex-col gap-8 p-12 text-xl bg-red-300 rounded-xl">
+		<div className="flex flex-col gap-8 p-6 text-xl bg-red-300 md:p-12 rounded-xl">
 			<h1>{error.message}</h1>
 			<div className="flex flex-col gap-4">
 				<span>Các chủ đề đang có sẵn</span>
@@ -23,7 +23,7 @@ export default function Error({ error, reset }: { error: Error, reset: () => voi
 					))}
 				</div>
 			</div>
-			<div className="flex justify-end gap-4">
+			<div className="flex flex-wrap justify-end gap-4">
 				<button
 					onClick={() => reset()}
 					className="btn btn-outline"
