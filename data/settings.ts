@@ -79,24 +79,16 @@ export const fontsList: Array<{ family: TSupportFont, name: string }> = [
 
 
 /**
- * mode 0: highlighting compound vowels and consonants
- * mode 1: highlighting each character in the word
- * mode 2: no highlighting
+ * COMPOUND: highlighting compound vowels and consonants
+ * CHAR: highlighting each character in the word
+ * NONE: no highlighting
 */
-export type TSplitMode = 0 | 1 | 2
+export type TSplitMode = "COMPOUND" | "CHAR" | "NONE"
 
-export const SPLIT_MODE: Record<string, TSplitMode> = {
-	COMPOUND: 0,
-	CHAR: 1,
-	NONE: 2,
-}
-
-
-// TODO: Fix error here
 export const splitModeDescription: Record<TSplitMode, string> = {
-	[SPLIT_MODE.COMPOUND]: "T-Á-CH CH-Ữ",
-	[SPLIT_MODE.CHAR]: "T-Á-C-H C-H-Ữ",
-	[SPLIT_MODE.NONE]: "TÁCH CHỮ",
+	COMPOUND: "T-Á-CH CH-Ữ",
+	CHAR: "T-Á-C-H C-H-Ữ",
+	NONE: "TÁCH CHỮ",
 }
 
 /**
@@ -109,7 +101,7 @@ type TDefaultSettings = {
 	wordCase: { name: string, value: TWordCase }
 	wordBold: { name: string, value: boolean }
 	wordItalic: { name: string, value: boolean }
-	characterSplitterMode: { name: string, value: number }
+	splitMode: { name: string, value: TSplitMode }
 }
 
 export const DEFAULT_SETTINGS: TDefaultSettings = {
@@ -118,7 +110,7 @@ export const DEFAULT_SETTINGS: TDefaultSettings = {
 	wordCase: { name: "wordCase", value: "capitalize" },
 	wordBold: { name: "wordBold", value: true },
 	wordItalic: { name: "wordItalic", value: false },
-	characterSplitterMode: { name: "characterSplitterMode", value: SPLIT_MODE.CHAR }
+	splitMode: { name: "characterSplitMode", value: "CHAR" }
 } as const
 
 /**

@@ -5,7 +5,7 @@ import React from "react"
 import clsx from "clsx"
 import { useReadLocalStorage } from "usehooks-ts"
 import { convertWordCase, extractByCompoundChars, extractByWords, randomRgbColor } from "@/utils"
-import { DEFAULT_SETTINGS, STRING_EMPTY, STRING_SPACE, SPLIT_MODE, urls } from "@/data/settings"
+import { DEFAULT_SETTINGS, STRING_EMPTY, STRING_SPACE, urls, TSplitMode } from "@/data/settings"
 import { TSupportFont, fonts } from "@/app/fonts"
 import { TWordCase } from "@/types"
 
@@ -34,7 +34,7 @@ function Text({ value }: { value: string }) {
 type WordProps = {
 	wordText: string
 	defaultWordCase?: TWordCase
-	splitterMode: number
+	splitMode: TSplitMode
 	separatedElements: string[]
 	setSeparatedElements: (els: string[]) => void
 	currentIndex: number,
@@ -43,7 +43,7 @@ type WordProps = {
 export default function Word({
 	wordText,
 	defaultWordCase,
-	splitterMode,
+	splitMode,
 	separatedElements,
 	setSeparatedElements,
 	currentIndex
@@ -58,22 +58,22 @@ export default function Word({
 		), [wordText])
 
 	React.useEffect(() => {
-		switch (splitterMode) {
-			case SPLIT_MODE.COMPOUND:
+		switch (splitMode) {
+			case "COMPOUND":
 				setSeparatedElements(convertWordCase(extractByCompoundChars(wordText), defaultWordCase ?? wordCase))
 				break;
-			case SPLIT_MODE.CHAR:
+			case "CHAR":
 				setSeparatedElements(wordText.split(STRING_EMPTY))
 				break;
-			case SPLIT_MODE.NONE:
+			case "NONE":
 				setSeparatedElements(extractByWords(wordText))
 				break;
 			default:
 				break;
 		}
-	}, [wordCase, setSeparatedElements, splitterMode, wordText])
+	}, [wordCase, setSeparatedElements, splitMode, wordText])
 
-	if (splitterMode === SPLIT_MODE.COMPOUND) {
+	if (splitMode === "COMPOUND") {
 		return (
 			<div className="flex justify-center">
 				{separatedElements.map((el, idx) =>
@@ -93,7 +93,7 @@ export default function Word({
 		)
 	}
 
-	if (splitterMode === SPLIT_MODE.CHAR) {
+	if (splitMode === "CHAR") {
 		return (
 			<div className="flex justify-center">
 				{separatedElements.map((el, idx) =>
@@ -113,7 +113,7 @@ export default function Word({
 		)
 	}
 
-	if (splitterMode === SPLIT_MODE.NONE) {
+	if (splitMode === "NONE") {
 		return (
 			<div className="flex justify-center">
 				{separatedElements.map((el, idx) =>

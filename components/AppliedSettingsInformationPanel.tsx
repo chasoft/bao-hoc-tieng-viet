@@ -1,10 +1,9 @@
 import { TSupportFont } from "@/app/fonts"
 import { TWord, TWordCategory } from "@/data"
-import { CAT_SEPARATOR, DEFAULT_SETTINGS } from "@/data/settings"
+import { CAT_SEPARATOR, DEFAULT_SETTINGS, TSplitMode } from "@/data/settings"
 import { useInit } from "@/hooks/useInit"
 import { TWordCase } from "@/types"
 import { validCategoryFilter } from "@/utils"
-import clsx from "clsx"
 import { useParams } from "next/navigation"
 import { useReadLocalStorage } from "usehooks-ts"
 import { IconInfo } from "./Icons"
@@ -30,9 +29,9 @@ export default function AppliedSettingsInformationPanel({ word }: AppliedSetting
 		?? DEFAULT_SETTINGS.fontFamily.value
 	const caseIndex = useReadLocalStorage<TWordCase>(DEFAULT_SETTINGS.wordCase.name)
 		?? DEFAULT_SETTINGS.wordCase.value
-	const splitterMode = useReadLocalStorage<number>(
-		DEFAULT_SETTINGS.characterSplitterMode.name
-	) ?? DEFAULT_SETTINGS.characterSplitterMode.value
+	const splitterMode = useReadLocalStorage<TSplitMode>(
+		DEFAULT_SETTINGS.splitMode.name
+	) ?? DEFAULT_SETTINGS.splitMode.value
 
 	if (!init) return (
 		<Template data={{
@@ -41,7 +40,7 @@ export default function AppliedSettingsInformationPanel({ word }: AppliedSetting
 			wordItalic: DEFAULT_SETTINGS.wordItalic.value,
 			selectedFont: DEFAULT_SETTINGS.fontFamily.value,
 			caseIndex: DEFAULT_SETTINGS.wordCase.value,
-			splitterMode: DEFAULT_SETTINGS.characterSplitterMode.value,
+			splitterMode: DEFAULT_SETTINGS.splitMode.value,
 			word
 		}} />
 	)
@@ -66,7 +65,7 @@ type TemplateProps = {
 		wordItalic: boolean
 		selectedFont: TSupportFont
 		caseIndex: TWordCase
-		splitterMode: number
+		splitterMode: TSplitMode
 		word?: TWord
 	}
 }

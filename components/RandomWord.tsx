@@ -3,7 +3,7 @@
 import React from "react"
 import clsx from "clsx"
 import { useReadLocalStorage } from "usehooks-ts"
-import { CAT_SEPARATOR, DEFAULT_SETTINGS, STRING_SPACE, urls } from "@/data/settings"
+import { CAT_SEPARATOR, DEFAULT_SETTINGS, STRING_SPACE, TSplitMode, urls } from "@/data/settings"
 import { generateRandomWord, getWordsFromCategories, validCategoryFilter } from "@/utils"
 import { IconCheck, IconHandPointUp, IconSkipNext } from "./Icons"
 import { TWord, TWordCategory, WORD_CATEGORY } from "@/data"
@@ -89,9 +89,9 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 			}, {})
 		)
 
-	const splitterMode = useReadLocalStorage<number>(
-		DEFAULT_SETTINGS.characterSplitterMode.name
-	) ?? DEFAULT_SETTINGS.characterSplitterMode.value
+	const splitterMode = useReadLocalStorage<TSplitMode>(
+		DEFAULT_SETTINGS.splitMode.name
+	) ?? DEFAULT_SETTINGS.splitMode.value
 
 	const [separatedElements, setSeparatedElements] = React.useState<string[]>([])
 	const [highlightElementIndex, setHighlightElementIndex] = React.useState(-1)
@@ -182,7 +182,7 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 				<Word
 					wordText={randomWord.text}
 					defaultWordCase={randomWord.defaultWordCase}
-					splitterMode={splitterMode}
+					splitMode={splitterMode}
 					separatedElements={separatedElements}
 					setSeparatedElements={setSeparatedElements}
 					currentIndex={highlightElementIndex}

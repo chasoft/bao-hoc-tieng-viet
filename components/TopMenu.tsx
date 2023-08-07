@@ -5,13 +5,13 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useLocalStorage } from "usehooks-ts"
 import { usePathname } from "next/navigation"
-import { DEFAULT_SETTINGS, splitModeDescription, fontsList, urls } from "@/data/settings"
+import { DEFAULT_SETTINGS, splitModeDescription, fontsList, urls, TSplitMode } from "@/data/settings"
 import { fonts } from "@/app/fonts"
 import { IconBold, IconFontFamily, IconItalic, IconLetterCaseCapitalize, IconLetterCaseLowercase, IconLetterCaseUppercase, IconMenu, IconSettings, IconSplitCellsHorizontal } from "./Icons"
 import { TWordCase } from "@/types"
 import { useInit } from "@/hooks/useInit"
 
-const wordCaseToolbarIcons: Record<TWordCase, { icon: any, tooltip: string }> = {
+const wordCaseToolbarIcons: Partial<Record<TWordCase, { icon: React.ReactElement, tooltip: string }>> = {
 	"lowercase": { icon: <IconLetterCaseLowercase className="w-7 h-7" />, tooltip: "chữ thường" },
 	"uppercase": { icon: <IconLetterCaseUppercase className="w-7 h-7" />, tooltip: "CHỮ HOA" },
 	"capitalize": { icon: <IconLetterCaseCapitalize className="w-7 h-7" />, tooltip: "Viết Hoa Đầu Chữ" },
@@ -160,9 +160,9 @@ function FontButton() {
 
 function SplitterModeButton() {
 	const init = useInit()
-	const [splitterMode, setSplitterMode] = useLocalStorage<number>(
-		DEFAULT_SETTINGS.characterSplitterMode.name,
-		DEFAULT_SETTINGS.characterSplitterMode.value
+	const [splitterMode, setSplitterMode] = useLocalStorage<TSplitMode>(
+		DEFAULT_SETTINGS.splitMode.name,
+		DEFAULT_SETTINGS.splitMode.value
 	);
 
 	if (!init) return null //TODO: compose default template for SEO purpose
@@ -185,9 +185,9 @@ function SplitterModeButton() {
 							key={mode}
 							className={clsx(
 								"w-full overflow-hidden text-xl sm:text-2xl hover:text-blue-700 hover:bg-blue-300 active:bg-blue-400 active:text-blue-800 transition-all",
-								{ "bg-blue-200": Number(mode) === splitterMode }
+								{ "bg-blue-200": mode === splitterMode }
 							)}
-							onClick={() => setSplitterMode(Number(mode))}
+							onClick={() => setSplitterMode(mode as TSplitMode)}
 						>
 							<span>
 								{`Chọn kiểu tách chữ "${desc}"`}
