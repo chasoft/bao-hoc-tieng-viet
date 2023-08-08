@@ -39,9 +39,9 @@ export const COMPOUND_VOWELS: Array<TChar> = [
 
 export const CONSONANTS = [
 	"a", "á", "à", "ả", "ã", "ạ", "ă", "ắ", "ằ", "ẳ", "ẵ", "ặ", "â", "ấ", "ầ", "ẩ", "ẫ", "ậ",
-	"e", "é", "è", "ẻ", "ẽ", "ẹ", "ế", "ề", "ể", "ễ", "ệ",
+	"e", "é", "è", "ẻ", "ẽ", "ẹ", "ê", "ế", "ề", "ể", "ễ", "ệ",
 	"i", "í", "í", "ỉ", "ĩ", "ị",
-	"o", "ó", "ò", "ỏ", "õ", "ọ", "ố", "ồ", "ổ", "ỗ", "ộ", "ơ", "ớ", "ờ", "ở", "ỡ", "ợ",
+	"o", "ó", "ò", "ỏ", "õ", "ọ", "ô", "ố", "ồ", "ổ", "ỗ", "ộ", "ơ", "ớ", "ờ", "ở", "ỡ", "ợ",
 	"u", "ú", "ù", "ủ", "ũ", "ụ", "ư", "ứ", "ừ", "ử", "ữ", "ự",
 ]
 
@@ -100,7 +100,10 @@ export const ALPHABETS_EXTENDED: Array<TChar> = [
 export const WORD_COMPOSITION = [
 	VOWELS,
 	CONSONANTS,
+	COMPOUND_VOWELS.map(({ char }) => char),
+	VOWELS,
 	COMPOUND_CONSONANTS,
+	CONSONANTS,
 	CONSONANTS,
 	COMPOUND_VOWELS.map(({ char }) => char),
 	VOWELS

@@ -25,7 +25,7 @@ export const generateRandomWord = (words: TWord[]): TWord =>
 	words[Math.floor(Math.random() * words.length)]
 
 export const findCharData = (char: string,) =>
-	ALPHABETS_EXTENDED.find(letter => letter.char === decodeURIComponent(char))
+	ALPHABETS_EXTENDED.find(letter => letter.char === decodeURIComponent(char).toLowerCase())
 
 export const caseFunctions: Record<TWordCase, Function> = {
 	"lowercase": (str: string) => str.toLowerCase(),
