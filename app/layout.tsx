@@ -4,6 +4,7 @@ import MainMenuContent from '@/components/MainMenuContent'
 import TopMenu from '@/components/TopMenu'
 import type { Metadata } from 'next'
 import DrawerToggle from './DrawerToggle'
+import clsx from 'clsx'
 
 
 export const metadata: Metadata = {
@@ -20,10 +21,10 @@ type RootLayoutProps = {
 export default function RootLayout({ children, settings, modal }: RootLayoutProps) {
   return (
     <html lang="vi">
-      <body className={inter.className}>
-        <div className="drawer">
+      <body className={clsx("h-full", inter.className)}>
+        <div className="h-full drawer">
           <DrawerToggle />
-          <main className="drawer-content">
+          <main className="h-full drawer-content">
             {/* Content of the Site goes here */}
             <TopMenu />
             {children}

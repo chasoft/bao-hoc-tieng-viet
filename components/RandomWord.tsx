@@ -11,6 +11,7 @@ import { useParams, useRouter } from "next/navigation"
 import CountDownTimer from "./CountDownTimer"
 import Word from "./Word"
 import AppliedSettingsInformationPanel from "./AppliedSettingsInformationPanel"
+import TextResize from "./TextResize"
 
 type CategoryListContentProps = {
 	selectedCategories: selectedCategoriesType
@@ -121,9 +122,6 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 		[wordList]
 	)
 
-	// TODO: remove this implementation by using container query
-	const numberOfWords = randomWord.text.split(STRING_SPACE).length
-
 	const applyButtonClicked = () => {
 		const cats = Object
 			.entries(selectedCategories)
@@ -147,10 +145,10 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 
 	React.useEffect(() => {
 		setHighlightElementIndex(-1)
-	}, [randomWord.text])
+	}, [randomWord?.text])
 
 	return (
-		<div className="grid place-content-center mt-14">
+		<div className="flex justify-center h-full align-middle">
 
 			<AppliedSettingsInformationPanel
 				word={randomWord}
@@ -171,14 +169,7 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 				callback={newRandomWord}
 			/>
 
-			<div className={clsx(
-				className,
-				{ "text-[28vw] lg:text-[25vw]": numberOfWords === 1 },
-				{ "text-[18vw] xl:text-[16vw]": numberOfWords === 2 },
-			)}>
-				{
-					// TODO: Support new attribute -> defaultWordCase 
-				}
+			<TextResize updateKey={randomWord.text} >
 				<Word
 					wordText={randomWord.text}
 					defaultWordCase={randomWord.defaultWordCase}
@@ -187,7 +178,7 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 					setSeparatedElements={setSeparatedElements}
 					currentIndex={highlightElementIndex}
 				/>
-			</div>
+			</TextResize>
 
 			<div className="fixed bottom-0 left-0 right-0 flex justify-between bg-white border-2 border-t-black">
 				<div className="dropdown dropdown-top">

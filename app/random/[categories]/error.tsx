@@ -8,7 +8,9 @@ import Link from "next/link"
 export default function Error({ error, reset }: { error: Error, reset: () => void }) {
 	return (
 		<div className="flex flex-col gap-8 p-6 text-xl bg-red-300 md:p-12 rounded-xl">
-			<h1>{error.message}</h1>
+			<div className="p-4 bg-red-200 rounded-lg">
+				<h1>{error.message}</h1>
+			</div>
 			<div className="flex flex-col gap-4">
 				<span>Các chủ đề đang có sẵn</span>
 				<div className="flex flex-wrap gap-3 md:gap-6">
@@ -34,7 +36,7 @@ export default function Error({ error, reset }: { error: Error, reset: () => voi
 					className="btn btn-neutral"
 					href={urls.random.url}
 				>
-					Về lại trang Chữ Ngẫu Nhiên
+					Quay về trang Chủ Đề
 				</Link>
 			</div>
 		</div >

@@ -58,20 +58,25 @@ export default function Word({
 		), [wordText])
 
 	React.useEffect(() => {
+		if (defaultWordCase === "default") {
+			// splitMode, when wordCase is default, is `CHAR` 
+			setSeparatedElements(convertWordCase(wordText.split(STRING_EMPTY), "default"))
+			return
+		}
 		switch (splitMode) {
 			case "COMPOUND":
 				setSeparatedElements(convertWordCase(extractByCompoundChars(wordText), defaultWordCase ?? wordCase))
 				break;
 			case "CHAR":
-				setSeparatedElements(wordText.split(STRING_EMPTY))
+				setSeparatedElements(convertWordCase(wordText.split(STRING_EMPTY), defaultWordCase ?? wordCase))
 				break;
 			case "NONE":
-				setSeparatedElements(extractByWords(wordText))
+				setSeparatedElements(convertWordCase(extractByWords(wordText), defaultWordCase ?? wordCase))
 				break;
 			default:
 				break;
 		}
-	}, [wordCase, setSeparatedElements, splitMode, wordText])
+	}, [wordCase, setSeparatedElements, splitMode, wordText, defaultWordCase])
 
 	if (splitMode === "COMPOUND") {
 		return (
@@ -132,4 +137,21 @@ export default function Word({
 			</div>
 		)
 	}
+
+	return (
+		<div className="flex justify-center">
+			{separatedElements.map((el, idx) =>
+				<div
+					key={idx}
+					style={{ color: colorPalete[idx] }}
+					className={clsx(
+						{ "hover:underline": separatedElements[idx] !== STRING_SPACE },
+						{ "underline": currentIndex === idx && separatedElements[idx] !== STRING_SPACE },
+					)}
+				>
+					<Text value={el} />
+				</div>
+			)}
+		</div>
+	)
 }

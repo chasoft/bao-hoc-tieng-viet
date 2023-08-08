@@ -18,9 +18,15 @@ export default function RandomCategoryPage({ params: { categories } }: { params:
 		throw new Error(`Tất cả chủ đề "${requestCategories.toString()}" đều không tồn tại.`)
 	}
 
+	const wordList = getWordsFromCategories(validCategories)
+
+	if (wordList.length === 0) {
+		throw new Error(`Chưa có dữ liệu cho chủ đề "${requestCategories.toString()}".`)
+	}
+
 	return (
 		<RandomWord
-			initWord={generateRandomWord(getWordsFromCategories(validCategories))}
+			initWord={generateRandomWord(wordList)}
 		/>
 	)
 }
