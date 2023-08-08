@@ -169,7 +169,7 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 				callback={newRandomWord}
 			/>
 
-			<TextResize updateKey={randomWord.text} >
+			<TextResize>
 				<Word
 					wordText={randomWord.text}
 					defaultWordCase={randomWord.defaultWordCase}
