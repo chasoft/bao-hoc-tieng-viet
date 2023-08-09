@@ -1,7 +1,7 @@
 export default function LearnMathsPage() {
 	return (
 		<div>
-			LearnMathsPage
+			LearnMathsPage!!!
 		</div>
 	)
 }
