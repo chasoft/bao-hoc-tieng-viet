@@ -27,9 +27,11 @@ export default function TextResize({ children }: TextResizeProps) {
 				"--random-word-font-size", sizeRatio + "em"
 			);
 
+			const paddingTop = Math.floor((max_height - height * sizeRatio) / 4);
+
 			(entries[0].target as HTMLDivElement).style.setProperty(
 				"--resize-layer-padding-top",
-				Math.floor((max_height - height * sizeRatio) / 4) + "px"
+				(paddingTop > 100 ? paddingTop : 0) + "px"
 			);
 		})
 		elObserver.observe(targetEl)

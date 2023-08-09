@@ -9,17 +9,20 @@ export const urls = {
 	home: {
 		url: "/",
 		desc: "",
-		title: "Trang chủ"
+		title: "Trang chủ",
+		level: 1
 	},
 	settings: {
 		url: "/settings",
 		desc: "",
-		title: "Cấu hình"
+		title: "Cấu hình",
+		level: 1,
 	},
 	alphabets: {
 		url: "/alphabets",
 		desc: "",
-		title: "Bảng chữ cái"
+		title: "Bảng chữ cái",
+		level: 1
 	},
 	consonants: {
 		url: "/consonants",
@@ -48,6 +51,33 @@ export const urls = {
 		title: "Chữ cái",
 		details: (char: string) => `/char/${char}`
 	},
+	maths: {
+		url: "/maths",
+		desc: "",
+		title: "Toán học",
+		details: {
+			learn: {
+				url: "/maths/learn",
+				desc: "",
+				title: "Học toán",
+				details: {
+					section: (section: string) => `/maths/learn/${section}`,
+					lesson: (section: string, lesson: string) => `/maths/learn/${section}/${lesson}`,
+				}
+			},
+			tricks: {
+				url: "/maths/learn/tricks",
+				desc: "",
+				title: "Thủ thuật",
+				details: (lesson: string) => `/maths/learn/tricks/${lesson}`
+			},
+			test: {
+				url: "/maths/test",
+				desc: "",
+				title: "Kiểm tra"
+			}
+		}
+	},
 }
 
 export const homeDestinations = [
@@ -63,6 +93,10 @@ export const mainMenuItems = [
 	urls.vowels,
 	urls.consonants,
 	urls.random,
+	urls.maths,
+	urls.maths.details.learn,
+	urls.maths.details.test,
+	urls.maths.details.tricks,
 ]
 
 export const fontsList: Array<{ family: TSupportFont, name: string }> = [
@@ -114,6 +148,8 @@ export const DEFAULT_SETTINGS: TDefaultSettings = {
 	splitMode: { name: "characterSplitMode", value: "CHAR" },
 	countdownTimer: { name: "countdownTimer", value: 30 }
 } as const
+
+export const timerValues = [10, 20, 30, 40, 50, 60, 120, 200]
 
 /**
  * Some dummy data

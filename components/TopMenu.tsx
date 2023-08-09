@@ -5,7 +5,7 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useLocalStorage } from "usehooks-ts"
 import { usePathname } from "next/navigation"
-import { DEFAULT_SETTINGS, splitModeDescription, fontsList, urls, TSplitMode } from "@/data/settings"
+import { DEFAULT_SETTINGS, splitModeDescription, fontsList, urls, TSplitMode, timerValues } from "@/data/settings"
 import { fonts } from "@/app/fonts"
 import { IconBold, IconFontFamily, IconItalic, IconLetterCaseCapitalize, IconLetterCaseLowercase, IconLetterCaseUppercase, IconMenu, IconSettings, IconSplitCellsHorizontal, IconThreeDots } from "./Icons"
 import { TWordCase } from "@/types"
@@ -241,6 +241,11 @@ function TopMenuRightPopup({ className }: { className?: string }) {
 		DEFAULT_SETTINGS.fontFamily.value
 	);
 
+	const [timer, setTimer] = useLocalStorage(
+		DEFAULT_SETTINGS.countdownTimer.name,
+		DEFAULT_SETTINGS.countdownTimer.value
+	)
+
 	const closePopup = () => {
 		console.log("closePopup")
 		ref.current && ref.current.blur()
@@ -301,6 +306,29 @@ function TopMenuRightPopup({ className }: { className?: string }) {
 							</span>
 						</li>
 					))}
+					<li
+						className="p-2 text-xl text-white bg-black cursor-default"
+						onClick={closePopup}
+					>
+						Thời gian đếm ngược
+					</li>
+					<li className="grid active:bg-white">
+						<div className="grid grid-rows-2 gap-4">
+							{timerValues.map(t => (
+								<div
+									key={t}
+									className={clsx(
+										"grid place-content-center border-[1px] border-black aspect-square hover:bg-blue-200 active:bg-blue-300 cursor-pointer",
+										{ "bg-blue-300": t === timer }
+									)}
+									onClick={() => setTimer(t)}
+								>
+									{`${t} giây`}
+								</div>
+							))}
+						</div>
+					</li>
+
 				</ul>
 			</div>
 		</div>

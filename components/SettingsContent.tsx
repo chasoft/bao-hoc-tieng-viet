@@ -1,10 +1,8 @@
 "use client"
 
-import { DEFAULT_SETTINGS } from "@/data/settings"
+import { DEFAULT_SETTINGS, timerValues } from "@/data/settings"
 import clsx from "clsx"
 import { useLocalStorage } from "usehooks-ts"
-
-const timerValues = [10, 20, 30, 40, 50, 60, 120, 200]
 
 export default function SettingsContent() {
 	const [timer, setTimer] = useLocalStorage(
