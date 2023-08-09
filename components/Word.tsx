@@ -19,7 +19,7 @@ function Text({ value }: { value: string }) {
 
 	return (
 		<span className={clsx(
-			"whitespace-break-spaces",
+			"whitespace-break-spaces leading-none",
 			{ "font-bold": wordBold },
 			{ "italic": wordItalic },
 			fonts[selectedFont].className,

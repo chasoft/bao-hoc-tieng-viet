@@ -7,7 +7,7 @@ import { useLocalStorage } from "usehooks-ts"
 import { usePathname } from "next/navigation"
 import { DEFAULT_SETTINGS, splitModeDescription, fontsList, urls, TSplitMode } from "@/data/settings"
 import { fonts } from "@/app/fonts"
-import { IconBold, IconFontFamily, IconItalic, IconLetterCaseCapitalize, IconLetterCaseLowercase, IconLetterCaseUppercase, IconMenu, IconSettings, IconSplitCellsHorizontal } from "./Icons"
+import { IconBold, IconFontFamily, IconItalic, IconLetterCaseCapitalize, IconLetterCaseLowercase, IconLetterCaseUppercase, IconMenu, IconSettings, IconSplitCellsHorizontal, IconThreeDots } from "./Icons"
 import { TWordCase } from "@/types"
 import { useInit } from "@/hooks/useInit"
 
@@ -99,21 +99,21 @@ function WordStyleButtons() {
 	)
 }
 
-function Toolbar() {
+function TopMenuLeft() {
 	const pathname = usePathname()
 
 	// Not show the Toolbar at [homepage, settings] 
 	if (pathname == urls.home.url || pathname == urls.settings.url) return null
 
 	return (
-		<div className="flex items-center pr-2 sm:pr-4">
+		<>
 			<WordCaseButtons />
 			<WordStyleButtons />
-		</div>
+		</>
 	)
 }
 
-function FontButton() {
+function FontButton({ className }: { className?: string }) {
 	const init = useInit()
 	const [selectedFont, setSelectedFontsetOpen] = useLocalStorage(
 		DEFAULT_SETTINGS.fontFamily.name,
@@ -123,7 +123,7 @@ function FontButton() {
 	if (!init) return null //TODO: compose default template for SEO purpose
 
 	return (
-		<div className="dropdown dropdown-end">
+		<div className={clsx("dropdown dropdown-end", className)}>
 			<label tabIndex={0}>
 				<button
 					title="Chọn kiểu chữ hiển thị"
@@ -158,7 +158,7 @@ function FontButton() {
 	)
 }
 
-function SplitterModeButton() {
+function SplitterModeButton({ className }: { className?: string }) {
 	const init = useInit()
 	const [splitterMode, setSplitterMode] = useLocalStorage<TSplitMode>(
 		DEFAULT_SETTINGS.splitMode.name,
@@ -168,7 +168,7 @@ function SplitterModeButton() {
 	if (!init) return null //TODO: compose default template for SEO purpose
 
 	return (
-		<div className="dropdown dropdown-end">
+		<div className={clsx("dropdown dropdown-end", className)}>
 			<label tabIndex={0}>
 				<button
 					title="Cách phân tách các chữ cái"
@@ -204,7 +204,7 @@ function SplitterModeButton() {
  * Drawers is site-wide scope.
  * To know about the structure, take a look at RootLayout.
  */
-function MenuButton() {
+function DrawerButton() {
 	return (
 		<label
 			htmlFor="my-drawer"
@@ -215,9 +215,9 @@ function MenuButton() {
 	)
 }
 
-function SettingsButton() {
+function SettingsButton({ className }: { className?: string }) {
 	return (
-		<Link href={urls.settings.url}>
+		<Link href={urls.settings.url} className={clsx(className)}>
 			<button
 				title="Thiết lập cấu hình"
 				type="button"
@@ -229,17 +229,104 @@ function SettingsButton() {
 	)
 }
 
+function TopMenuRightPopup({ className }: { className?: string }) {
+	const init = useInit()
+	const ref = React.useRef<HTMLLabelElement>(null)
+	const [splitterMode, setSplitterMode] = useLocalStorage<TSplitMode>(
+		DEFAULT_SETTINGS.splitMode.name,
+		DEFAULT_SETTINGS.splitMode.value
+	);
+	const [selectedFont, setSelectedFontsetOpen] = useLocalStorage(
+		DEFAULT_SETTINGS.fontFamily.name,
+		DEFAULT_SETTINGS.fontFamily.value
+	);
+
+	const closePopup = () => {
+		console.log("closePopup")
+		ref.current && ref.current.blur()
+	}
+
+	if (!init) return null //TODO: compose default template for SEO purpose
+
+	return (
+		<div className={clsx("dropdown dropdown-end", className)}>
+			<label ref={ref} tabIndex={0}>
+				<button
+					title="Hiện các thiết lập ẩn"
+					type="button"
+					className="grid h-12 text-black transition-all bg-transparent border-0 place-content-center sm:h-16 hover:text-blue-700 hover:bg-blue-200 focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 aspect-square active:bg-blue-300 active:text-blue-800 active:scale-90"
+				>
+					<IconThreeDots className="w-7 h-7" />
+				</button>
+			</label>
+			<div tabIndex={0} className="p-0 z-20 border-2 border-black shadow w-72 sm:w-96 md:w-[30rem] lg:w-[35rem] dropdown-content menu bg-base-100">
+				<ul className="flex flex-col overflow-y-auto flex-nowrap max-h-[80svh]">
+					<li
+						className="p-2 text-xl text-white bg-black cursor-default"
+						onClick={closePopup}
+					>
+						Chọn kiểu chữ hiển thị
+					</li>
+					{fontsList.map(font => (
+						<li
+							key={font.family}
+							className={clsx(
+								"w-full overflow-hidden text-xl sm:text-2xl md:text-3xl lg:text-4xl hover:text-blue-700 hover:bg-blue-300 active:bg-blue-400 active:text-blue-800",
+								{ "bg-blue-200": selectedFont == font.family }
+							)}
+							onClick={() => setSelectedFontsetOpen(font.family)}
+						>
+							<a className={clsx(
+								"rounded-none sm:py-3",
+								fonts[font.family].className
+							)}>
+								Chọn Kiểu Chữ {font.name}
+							</a>
+						</li>
+					))}
+					<li className="p-2 text-xl text-white bg-black cursor-default">
+						Phân tách chữ cái
+					</li>
+					{Object.entries(splitModeDescription).map(([mode, desc]) => (
+						<li
+							key={mode}
+							className={clsx(
+								"w-full overflow-hidden text-xl sm:text-2xl hover:text-blue-700 hover:bg-blue-300 active:bg-blue-400 active:text-blue-800 transition-all",
+								{ "bg-blue-200": mode === splitterMode }
+							)}
+							onClick={() => setSplitterMode(mode as TSplitMode)}
+						>
+							<span>
+								{`Chọn kiểu tách chữ "${desc}"`}
+							</span>
+						</li>
+					))}
+				</ul>
+			</div>
+		</div>
+	)
+}
+
+function TopMenuRight() {
+	return (
+		<div className="flex items-center">
+			<FontButton className="hidden sm:block" />
+			<SplitterModeButton className="hidden sm:block" />
+			<SettingsButton className="hidden sm:block" />
+			<TopMenuRightPopup className="sm:hidden" />
+		</div>
+	)
+}
+
 export default function TopMenu() {
 	return (
 		<nav className="fixed top-0 left-0 right-0 z-30 flex items-center h-[50px] bg-white border-b-2 border-black sm:h-[66px]">
-			<MenuButton />
-			<Toolbar />
+			<DrawerButton />
+			<div className="flex items-center pr-2 sm:pr-4">
+				<TopMenuLeft />
+			</div>
 			<div className="ml-auto">
-				<div className="flex items-center">
-					<FontButton />
-					<SplitterModeButton />
-					<SettingsButton />
-				</div>
+				<TopMenuRight />
 			</div>
 		</nav>
 	)

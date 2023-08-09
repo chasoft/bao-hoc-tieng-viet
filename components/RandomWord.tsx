@@ -94,6 +94,11 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 		DEFAULT_SETTINGS.splitMode.name
 	) ?? DEFAULT_SETTINGS.splitMode.value
 
+	const timerValue = useReadLocalStorage<number>(
+		DEFAULT_SETTINGS.countdownTimer.name
+	) ?? DEFAULT_SETTINGS.countdownTimer.value
+
+
 	const [separatedElements, setSeparatedElements] = React.useState<string[]>([])
 	const [highlightElementIndex, setHighlightElementIndex] = React.useState(-1)
 
@@ -165,7 +170,7 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 			</div>
 
 			<CountDownTimer
-				value={DEFAULT_SETTINGS.countDownNumber.value}
+				value={timerValue}
 				callback={newRandomWord}
 			/>
 
@@ -184,7 +189,7 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 				<div className="dropdown dropdown-top">
 					<label tabIndex={0}>
 						<div
-							className="flex w-[135px] justify-center items-center gap-2 px-6 py-4 text-lg border-0 border-r-2 border-black cursor-pointer hover:bg-slate-300 bg-slate-100 active:bg-slate-200"
+							className="flex w-[135px] justify-center items-center gap-2 px-6 py-4 text-lg cursor-pointer hover:bg-blue-200 hover:text-blue-700 text-black active:bg-blue-300 transition-all border-r-2 border-black"
 						>
 							Chủ đề
 						</div>
@@ -206,7 +211,7 @@ export default function RandomWord({ initWord, className }: RandomWordProps) {
 				<div className="flex-1 hidden opacity-0 sm:block"></div>
 				<div
 					onClick={newRandomWord}
-					className="flex w-[135px] items-center gap-1 px-4 py-4 text-lg border-0 border-l-2 border-black cursor-pointer hover:bg-slate-300 bg-slate-100 active:bg-slate-200 active:pl-5 pl-4 transition-all"
+					className="flex w-[135px] border-l-2 border-black items-center gap-1 px-4 py-4 text-lg text-black cursor-pointer hover:bg-blue-200 hover:text-blue-700  active:bg-blue-300 active:pl-5 pl-4 transition-all"
 				>
 					Từ khác <IconSkipNext className="w-6 h-6" />
 				</div>

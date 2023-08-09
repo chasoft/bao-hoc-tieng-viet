@@ -1,4 +1,4 @@
-import { ALL_WORDS, COMPOUND_VOWELS, WORD_CATEGORY, WORD_COMPOSITION } from './../data/index';
+import { WORDS_ALL, COMPOUND_VOWELS, WORD_CATEGORY, WORD_COMPOSITION } from './../data/index';
 /**
  * Utils functions
  */
@@ -17,7 +17,7 @@ export const uppercaseFirstLetterEachWord = (str: string): string => {
 }
 
 export const getWordsFromCategories = (categories: TWordCategory[]): TWord[] =>
-	ALL_WORDS.filter(
+	WORDS_ALL.filter(
 		word => categories.some(requestedCat => word.cat.includes(requestedCat))
 	)
 

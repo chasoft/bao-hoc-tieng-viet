@@ -1,4 +1,5 @@
 import { TWordCase } from "@/types"
+import { TSplitMode } from "./settings"
 
 type TMark = "´" | "`" | "ˀ" | "~" | "."
 
@@ -43,6 +44,7 @@ export const CONSONANTS = [
 	"i", "í", "í", "ỉ", "ĩ", "ị",
 	"o", "ó", "ò", "ỏ", "õ", "ọ", "ô", "ố", "ồ", "ổ", "ỗ", "ộ", "ơ", "ớ", "ờ", "ở", "ỡ", "ợ",
 	"u", "ú", "ù", "ủ", "ũ", "ụ", "ư", "ứ", "ừ", "ử", "ữ", "ự",
+	"y", "ý", "ỳ", "ỷ", "ỹ", "ỵ",
 ]
 
 export const COMPOUND_CONSONANTS = [
@@ -56,6 +58,7 @@ export const COMPOUND_CONSONANTS = [
 export type TChar = {
 	char: string,
 	reading: string,
+	sentences?: string[],
 }
 
 export const ALPHABETS: Array<TChar> = [
@@ -123,6 +126,9 @@ export const MARKS: Array<TMarkData> = [
  * DATA
  */
 export type TWordCategory =
+	"alphabet" |
+	"âm" |
+	"vần" |
 	"adjective" |
 	"adverb" |
 	"animal" |
@@ -145,6 +151,9 @@ export type TWordCategory =
 
 export const WORD_CATEGORY: Record<TWordCategory, { title: string, desc: string }> = {
 
+	"alphabet": { title: "Bảng chữ cái", desc: "29 chữ cái trong bảng chữ cái tiếng Việt" },
+	"âm": { title: "Âm", desc: "Các âm trong tiếng Việt (sách Chân Trời Sáng Tạo)" },
+	"vần": { title: "Vần", desc: "Các vấn trong tiếng Việt (sách Chân Trời Sáng Tạo)" },
 	"adjective": { title: "Tính từ", desc: "Tính chất của sự vật, sự việc" },
 	"adverb": { title: "Trạng từ", desc: "" },
 	"animal": { title: "Động vật", desc: "" },
@@ -171,10 +180,52 @@ export type TWord = {
 	desc: string
 	cat: TWordCategory[]
 	defaultWordCase?: TWordCase
+	defaultSplitMode?: TSplitMode
 	sentence?: string[]
 }
 
-export const ALL_WORDS: Array<TWord> = [
+export const WORDS_AM: Array<TWord> = [
+	...COMPOUND_VOWELS.map(item => ({
+		text: item.char,
+		desc: item.reading,
+		cat: ["âm"],
+		sentence: item.sentences ?? [],
+		defaultSplitMode: "NONE"
+	})) as TWord[],
+
+	{ text: "a", desc: "", cat: ["âm"] },
+	{ text: "ă", desc: "", cat: ["âm"] },
+	{ text: "â", desc: "", cat: ["âm"] },
+	{ text: "b", desc: "", cat: ["âm"] },
+	{ text: "c", desc: "", cat: ["âm"] },
+	{ text: "o", desc: "", cat: ["âm"] },
+	{ text: "ơ", desc: "", cat: ["âm"] },
+	{ text: "ô", desc: "", cat: ["âm"] },
+	{ text: "v", desc: "", cat: ["âm"] },
+	{ text: "e", desc: "", cat: ["âm"] },
+	{ text: "ê", desc: "", cat: ["âm"] },
+	{ text: "d", desc: "", cat: ["âm"] },
+	{ text: "đ", desc: "", cat: ["âm"] },
+	{ text: "i", desc: "", cat: ["âm"] },
+	{ text: "k", desc: "", cat: ["âm"] },
+	{ text: "l", desc: "", cat: ["âm"] },
+	{ text: "h", desc: "", cat: ["âm"] },
+	{ text: "n", desc: "", cat: ["âm"] },
+	{ text: "m", desc: "", cat: ["âm"] },
+	{ text: "u", desc: "", cat: ["âm"] },
+	{ text: "ư", desc: "", cat: ["âm"] },
+	{ text: "g", desc: "", cat: ["âm"] },
+	{ text: "t", desc: "", cat: ["âm"] },
+	{ text: "r", desc: "", cat: ["âm"] },
+	{ text: "p", desc: "", cat: ["âm"] },
+	{ text: "", desc: "", cat: ["âm"] },
+	{ text: "s", desc: "", cat: ["âm"] },
+	{ text: "x", desc: "", cat: ["âm"] },
+	{ text: "q", desc: "", cat: ["âm"] },
+	{ text: "y", desc: "", cat: ["âm"] },
+]
+
+export const WORDS_ALL: Array<TWord> = [
 	{ text: "trái đất", desc: "", cat: ["universe"] },
 	{ text: "mặt trăng", desc: "", cat: ["universe"] },
 	{ text: "mặt trời", desc: "", cat: ["universe"] },
@@ -303,4 +354,12 @@ export const ALL_WORDS: Array<TWord> = [
 
 	{ text: "mẹ châu", desc: "", cat: ["others"] },
 	{ text: "ba anh", desc: "", cat: ["others"] },
+
+	...ALPHABETS.map(item => ({
+		text: item.char,
+		desc: item.reading,
+		cat: ["alphabet"]
+	})) as TWord[],
+
+	...WORDS_AM,
 ]

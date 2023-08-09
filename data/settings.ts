@@ -102,15 +102,17 @@ type TDefaultSettings = {
 	wordBold: { name: string, value: boolean }
 	wordItalic: { name: string, value: boolean }
 	splitMode: { name: string, value: TSplitMode }
+	countdownTimer: { name: string, value: number }
 }
 
 export const DEFAULT_SETTINGS: TDefaultSettings = {
 	countDownNumber: { name: "countDownNumber", value: 6000 },
-	fontFamily: { name: "fontFamily", value: "inter" },
+	fontFamily: { name: "fontFamily", value: "patrick_Hand" },
 	wordCase: { name: "wordCase", value: "capitalize" },
 	wordBold: { name: "wordBold", value: true },
 	wordItalic: { name: "wordItalic", value: false },
-	splitMode: { name: "characterSplitMode", value: "CHAR" }
+	splitMode: { name: "characterSplitMode", value: "CHAR" },
+	countdownTimer: { name: "countdownTimer", value: 30 }
 } as const
 
 /**
