@@ -1,4 +1,4 @@
-import RandomWord from "@/components/RandomWord";
+import { RandomWord } from "@/components/RandomWord";
 import { CAT_SEPARATOR } from "@/data/settings";
 import { generateRandomWord, getWordsFromCategories, validCategoryFilter } from "@/utils";
 

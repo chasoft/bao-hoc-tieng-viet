@@ -2,8 +2,8 @@
 
 import { TChar } from "@/data"
 import Link from "next/link"
-import Char from "./Char"
 import { urls } from "@/data/settings"
+import { Char } from "./Char"
 
 type CharListProps = {
 	list: Array<TChar>,

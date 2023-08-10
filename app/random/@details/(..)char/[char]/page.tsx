@@ -1,4 +1,4 @@
-import Char from "@/components/Char"
+import { Char } from "@/components/Char"
 import Modal from "@/components/Modal"
 import { ALPHABETS_EXTENDED } from "@/data"
 

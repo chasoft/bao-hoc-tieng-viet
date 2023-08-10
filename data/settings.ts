@@ -70,11 +70,9 @@ export const fontsList: Array<{ family: TSupportFont, name: string }> = [
 	{ family: "inter", name: "Inter" },
 	{ family: "pacifico", name: "Pacifico" },
 	{ family: "varela_round", name: "Varela Round" },
-	{ family: "ysabeau", name: "Ysabeau" },
 	{ family: "space_grotesk", name: "Space Grotesk" },
 	{ family: "great_vibes", name: "Great Vibes" },
 	{ family: "patrick_Hand", name: "Patrick Hand" },
-	{ family: "mynerve", name: "Mynerve" },
 ]
 
 

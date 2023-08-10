@@ -9,40 +9,8 @@ import { DEFAULT_SETTINGS, STRING_EMPTY } from "@/data/settings"
 import { TSupportFont, fonts } from "@/app/fonts"
 import { useReadLocalStorage } from "usehooks-ts"
 import { useInit } from "@/hooks/useInit"
-
-function StandaloneChar({ char }: { char: string }) {
-	return (
-		<div className="font-bold text-blue-900 text-[35vw] sm:text[50vw] md:text-[18rem] lg:text-[24rem]   leading-none grid place-content-center xl:text-[22rem] drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,1)]">
-			{char}
-		</div>
-	)
-}
-
-function GridItemChar({ char, init }: { char: string, init: boolean }) {
-	const wordBold = useReadLocalStorage(DEFAULT_SETTINGS.wordBold.name)
-		?? DEFAULT_SETTINGS.wordBold.value
-	const wordItalic = useReadLocalStorage(DEFAULT_SETTINGS.wordItalic.name)
-		?? DEFAULT_SETTINGS.wordItalic.value
-
-	if (!init) return null
-
-	return (
-		<div className={clsx(
-			{ "text-[25vw] sm:text-[28vw] ": char.length === 1 },
-			{ "text-[25vw] sm:text-[28vw] ": char.length === 2 },
-			{ "text-[20vw] sm:text-[20vw] ": char.length === 3 },
-			{ "text-[20vw] sm:text-[20vw] ": char.length === 3 },
-			{ "font-bold": wordBold },
-			{ "italic": wordItalic },
-			"md:text-[6.5rem] lg:text-[6rem] text-blue-900 w-full text-center overflow-hidden leading-none",
-			"grid place-content-center pb-6",
-			{ "col-span-2": char.length > 2 },
-			"drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,1)]"
-		)}>
-			{char}
-		</div>
-	)
-}
+import { StandaloneChar } from "./StandaloneChar"
+import { GridItemChar } from "./GridItemChar"
 
 type CharProps = {
 	value: TChar,
@@ -50,7 +18,7 @@ type CharProps = {
 	standaloneChar?: boolean,
 }
 
-export default function Char({
+export function Char({
 	value: { char, reading },
 	standaloneChar = true
 }: CharProps) {

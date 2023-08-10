@@ -1,4 +1,4 @@
-import Char from "@/components/Char"
+import { Char } from "@/components/Char"
 import CharNavigation from "@/components/CharNavigation"
 import { findCharData } from "@/utils"
 

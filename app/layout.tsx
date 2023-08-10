@@ -1,10 +1,10 @@
 import './globals.css'
 import { inter } from './fonts'
 import MainMenuContent from '@/components/MainMenuContent'
-import TopMenu from '@/components/TopMenu'
 import type { Metadata } from 'next'
 import DrawerToggle from './DrawerToggle'
 import clsx from 'clsx'
+import { TopMenu } from '@/components/TopMenu'
 
 
 export const metadata: Metadata = {
